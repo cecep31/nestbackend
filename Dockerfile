@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json ./
 
 # Install dependencies using npm
-RUN npm i
+RUN npm i --production
 
 # Copy the rest of the application code
 COPY . .
@@ -27,8 +27,7 @@ WORKDIR /app
 
 # Copy only the necessary files from the base stage
 COPY --from=base /app/package.json ./package.json
-RUN npm i --production
-RUN npm cache clean --force
+COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/dist ./dist
 COPY --from=base /app/generated ./generated
 
