@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json ./
 
 # Install dependencies using npm
-RUN npm install 
+RUN npm i 
 
 # Copy the rest of the application code
 COPY . .
@@ -27,13 +27,12 @@ WORKDIR /app
 
 # Copy only the necessary files from the base stage
 COPY --from=base /app/package.json ./package.json
-RUN npm install --only=production
+RUN npm i --production
 COPY --from=base /app/dist ./dist
 COPY --from=base /app/generated ./generated
 
 # Expose the application port
 EXPOSE 3001
-
 
 # Set the command to start the application
 CMD ["node", "dist/main.js"]
