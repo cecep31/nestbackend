@@ -29,6 +29,7 @@ WORKDIR /app
 COPY --from=base /app/package.json ./package.json
 RUN npm install --only=production
 COPY --from=base /app/dist ./dist
+COPY --from=base /app/generated ./generated
 
 # Expose the application port
 EXPOSE 3001
