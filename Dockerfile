@@ -3,16 +3,12 @@ FROM node:22-alpine AS builder
 
 WORKDIR /usr/src/app
 
-# Install build dependencies
-RUN apk add --no-cache python3 make g++
-
 # Copy package files
 COPY package*.json ./
 COPY prisma ./prisma/
 
 # Install dependencies
-RUN npm ci --only=production && \
-    npm cache clean --force
+RUN npm install
 
 # Copy source code
 COPY . .
