@@ -1,48 +1,39 @@
-# Build stage
-FROM node:22-alpine AS builder
+# Use the official Node.js image as the base image
+FROM node:22-alpine AS base
 
-WORKDIR /usr/src/app
+# Set the working directory inside the container
+WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
-COPY prisma ./prisma/
+# Copy package.json to the working directory
+COPY package.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies using npm
+RUN npm install 
 
-# Copy source code
+# Copy the rest of the application code
 COPY . .
 
-# Generate Prisma client and build the application
-RUN npx prisma generate && \
-    npm run build && \
-    npm prune --production
+# Generate Prisma client
+RUN npx prisma generate
 
-# Runtime stage
+# Build the NestJS application
+RUN npm run build
+
+# Use a smaller image for the final stage
 FROM node:22-alpine
 
-WORKDIR /usr/src/app
+# Set the working directory
+WORKDIR /app
 
-# Create non-root user and set permissions
-RUN addgroup -S appgroup && \
-    adduser -S appuser -G appgroup && \
-    chown -R appuser:appgroup /usr/src/app
-
-# Copy necessary files from builder
-COPY --from=builder --chown=appuser:appgroup /usr/src/app/node_modules ./node_modules
-COPY --from=builder --chown=appuser:appgroup /usr/src/app/package*.json ./
-COPY --from=builder --chown=appuser:appgroup /usr/src/app/dist ./dist
-COPY --from=builder --chown=appuser:appgroup /usr/src/app/prisma ./prisma
-
-# Set environment variables
-ENV NODE_ENV=production
-ENV PORT=3001
+# Copy only the necessary files from the base stage
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/package.json ./package.json
+COPY --from=base /app/dist ./dist
+COPY --from=base /app/generated ./generated
 
 # Expose the application port
-EXPOSE $PORT
+EXPOSE 3001
 
-# Set the user
-USER appuser
 
-# Start the application
+# Set the command to start the application
 CMD ["node", "dist/main.js"]
