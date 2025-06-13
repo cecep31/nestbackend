@@ -49,7 +49,7 @@
     "socket.io": "^4.8.1",
     "upgrade": "^1.1.0",
     "winston": "^3.17.0",
-    "zod": "^3.25.63"
+    "zod": "^3.25.64"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",

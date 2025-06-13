@@ -1,6 +1,14 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto, ResetPasswordDto } from './schemas/user.schema';
-import { hash } from "bcrypt";
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
+import {
+  CreateUserDto,
+  UpdateUserDto,
+  ResetPasswordDto,
+} from './schemas/user.schema';
+import { hash } from 'bcrypt';
 import { PrismaService } from '../../db/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { UserRepository } from './users.repository';
@@ -10,7 +18,7 @@ export class UsersService {
   constructor(
     private prisma: PrismaService,
     private userReposistory: UserRepository,
-  ) { }
+  ) {}
 
   async hashPassword(password: string) {
     return await hash(password, 14);
@@ -47,6 +55,32 @@ export class UsersService {
       }
       throw error;
     }
+  }
+
+  async getUserProfile(id: string) {
+    const user = await this.prisma.users.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        image: true,
+        created_at: true,
+        updated_at: true,
+        deleted_at: true,
+        first_name: true,
+        last_name: true,
+        password: false,
+        is_super_admin: true,
+        profile: true,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    // Return the cached user data instead of making another DB query
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
@@ -87,7 +121,7 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
-    
+
     // Return the cached user data instead of making another DB query
     return user;
   }
@@ -98,7 +132,9 @@ export class UsersService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
-    const hashedPassword = await this.hashPassword(resetPasswordDto.newPassword);
+    const hashedPassword = await this.hashPassword(
+      resetPasswordDto.newPassword,
+    );
     return await this.prisma.users.update({
       where: { id },
       data: { password: hashedPassword },
@@ -130,10 +166,7 @@ export class UsersService {
   async findByEmailOrUsername(usernameOrEmail: string) {
     return await this.prisma.users.findFirst({
       where: {
-        OR: [
-          { email: usernameOrEmail },
-          { username: usernameOrEmail },
-        ],
+        OR: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
       },
       select: {
         id: true,
