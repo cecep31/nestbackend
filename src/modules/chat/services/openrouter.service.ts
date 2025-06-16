@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
 import OpenAI from 'openai';
@@ -26,21 +26,23 @@ export class OpenRouterService {
   private readonly logger = new Logger(OpenRouterService.name);
   private readonly config: OpenRouterConfig;
 
-  constructor(
-    @Inject(ConfigService)
-    private readonly configService: ConfigService,
-  ) {
+  constructor(private readonly configService: ConfigService) {
     this.config = this.configService.get<OpenRouterConfig>('openrouter', {
       apiKey: this.configService.get<string>('openrouter.apiKey') || '',
-      baseUrl: this.configService.get<string>('openrouter.baseUrl') || 'https://openrouter.ai/api/v1',
-      defaultModel: this.configService.get<string>('openrouter.defaultModel') || 'openai/gpt-3.5-turbo',
+      baseUrl:
+        this.configService.get<string>('openrouter.baseUrl') ||
+        'https://openrouter.ai/api/v1',
+      defaultModel:
+        this.configService.get<string>('openrouter.defaultModel') ||
+        'openai/gpt-3.5-turbo',
       maxTokens: this.configService.get<number>('openrouter.maxTokens') || 4000,
-      temperature: this.configService.get<number>('openrouter.temperature') || 0.7,
+      temperature:
+        this.configService.get<number>('openrouter.temperature') || 0.7,
     });
-    
+
     this.client = new OpenAI({
-      apiKey: this.config.apiKey,
       baseURL: this.config.baseUrl,
+      apiKey: this.config.apiKey,
       defaultHeaders: {
         'HTTP-Referer': 'https://pilput.me', // Optional. Site URL for rankings on openrouter.ai.
         'X-Title': 'pilput', // Optional. Site title for rankings on openrouter.ai.
