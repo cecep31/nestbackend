@@ -31,12 +31,13 @@ export class OpenRouterService {
     private readonly configService: ConfigService,
   ) {
     this.config = this.configService.get<OpenRouterConfig>('openrouter', {
-      apiKey: '',
-      baseUrl: 'https://openrouter.ai/api/v1',
-      defaultModel: 'openai/gpt-3.5-turbo',
-      maxTokens: 4000,
-      temperature: 0.7,
+      apiKey: this.configService.get<string>('openrouter.apiKey') || '',
+      baseUrl: this.configService.get<string>('openrouter.baseUrl') || 'https://openrouter.ai/api/v1',
+      defaultModel: this.configService.get<string>('openrouter.defaultModel') || 'openai/gpt-3.5-turbo',
+      maxTokens: this.configService.get<number>('openrouter.maxTokens') || 4000,
+      temperature: this.configService.get<number>('openrouter.temperature') || 0.7,
     });
+    
     this.client = new OpenAI({
       apiKey: this.config.apiKey,
       baseURL: this.config.baseUrl,
