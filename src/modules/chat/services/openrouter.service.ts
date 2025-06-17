@@ -1,12 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
+import OpenAI from 'openai';
 import {
-  OpenRouterMessage,
-  OpenRouterResponse,
-  OpenRouterRequest,
-  OpenRouterErrorResponse,
-} from '../interfaces/openrouter.types';
+  OpenAIMessage,
+  OpenAIResponse,
+} from '../interfaces/openai.types';
 
 interface OpenRouterConfig {
   apiKey: string;
@@ -20,44 +19,29 @@ interface OpenRouterConfig {
 export class OpenRouterService {
   private readonly logger = new Logger(OpenRouterService.name);
   private readonly config: OpenRouterConfig;
+  private readonly openai: OpenAI;
 
   constructor(private readonly configService: ConfigService) {
-    this.config = this.configService.get<OpenRouterConfig>('openrouter', {
+    this.config = {
       apiKey: this.configService.get<string>('openrouter.apiKey') || '',
-      baseUrl:
-        this.configService.get<string>('openrouter.baseUrl') ||
-        'https://openrouter.ai/api/v1',
-      defaultModel:
-        this.configService.get<string>('openrouter.defaultModel') ||
-        'openai/gpt-3.5-turbo',
+      baseUrl: this.configService.get<string>('openrouter.baseUrl') || 'https://openrouter.ai/api/v1',
+      defaultModel: this.configService.get<string>('openrouter.defaultModel') || 'openai/gpt-3.5-turbo',
       maxTokens: this.configService.get<number>('openrouter.maxTokens') || 4000,
-      temperature:
-        this.configService.get<number>('openrouter.temperature') || 0.7,
+      temperature: this.configService.get<number>('openrouter.temperature') || 0.7,
+    };
+
+    this.openai = new OpenAI({
+      apiKey: this.config.apiKey,
+      baseURL: this.config.baseUrl,
+      defaultHeaders: {
+        'HTTP-Referer': 'https://pilput.me',
+        'X-Title': 'pilput',
+      },
     });
   }
 
-  private getHeaders(): Record<string, string> {
-    return {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.config.apiKey}`,
-      'HTTP-Referer': 'https://pilput.me', // Optional. Site URL for rankings on openrouter.ai.
-      'X-Title': 'pilput', // Optional. Site title for rankings on openrouter.ai.
-    };
-  }
-
-  private async handleApiError(response: Response): Promise<never> {
-    let errorMessage = 'Unknown error';
-    try {
-      const errorData: OpenRouterErrorResponse = await response.json();
-      errorMessage = errorData.error?.message || `HTTP ${response.status}`;
-    } catch {
-      errorMessage = `HTTP ${response.status}: ${response.statusText}`;
-    }
-    throw new Error(`API error: ${errorMessage}`);
-  }
-
   createChatCompletionStream(
-    messages: OpenRouterMessage[],
+    messages: OpenAIMessage[],
     options: {
       model?: string;
       temperature?: number;
@@ -70,59 +54,24 @@ export class OpenRouterService {
       maxTokens = this.config.maxTokens,
     } = options;
 
-    const requestBody: OpenRouterRequest = {
-      model,
-      messages,
-      temperature,
-      max_tokens: maxTokens,
-      stream: true,
-    };
-
     return new Observable<string>((observer) => {
       (async () => {
         try {
-          const response = await fetch(`${this.config.baseUrl}/chat/completions`, {
-            method: 'POST',
-            headers: this.getHeaders(),
-            body: JSON.stringify(requestBody),
+          const stream = await this.openai.chat.completions.create({
+            model,
+            messages: messages.map(msg => ({
+              role: msg.role,
+              content: msg.content,
+            })),
+            temperature,
+            max_tokens: maxTokens,
+            stream: true,
           });
 
-          if (!response.ok) {
-            await this.handleApiError(response);
-          }
-
-          const reader = response.body?.getReader();
-          if (!reader) {
-            throw new Error('Failed to get response stream reader');
-          }
-
-          const decoder = new TextDecoder();
-          let buffer = '';
-
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-
-            buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split('\n');
-            buffer = lines.pop() || '';
-
-            for (const line of lines) {
-              const trimmedLine = line.trim();
-              if (trimmedLine === '' || trimmedLine === 'data: [DONE]') continue;
-
-              if (trimmedLine.startsWith('data: ')) {
-                try {
-                  const jsonStr = trimmedLine.slice(6);
-                  const chunk = JSON.parse(jsonStr);
-                  const content = chunk.choices?.[0]?.delta?.content;
-                  if (content) {
-                    observer.next(content);
-                  }
-                } catch (parseError) {
-                  this.logger.warn('Failed to parse streaming chunk:', parseError);
-                }
-              }
+          for await (const chunk of stream) {
+            const content = chunk.choices[0]?.delta?.content;
+            if (content) {
+              observer.next(content);
             }
           }
 
@@ -136,46 +85,57 @@ export class OpenRouterService {
   }
 
   async createChatCompletion(
-    messages: OpenRouterMessage[],
+    messages: OpenAIMessage[],
     options: {
       model?: string;
       temperature?: number;
       maxTokens?: number;
     } = {},
-  ): Promise<OpenRouterResponse> {
+  ): Promise<OpenAIResponse> {
     const {
       model = this.config.defaultModel,
       temperature = this.config.temperature,
       maxTokens = this.config.maxTokens,
     } = options;
 
-    const requestBody: OpenRouterRequest = {
-      model,
-      messages,
-      temperature,
-      max_tokens: maxTokens,
-      stream: false,
-    };
-
     try {
-      const response = await fetch(`${this.config.baseUrl}/chat/completions`, {
-        method: 'POST',
-        headers: this.getHeaders(),
-        body: JSON.stringify(requestBody),
+      const completion = await this.openai.chat.completions.create({
+        model,
+        messages: messages.map(msg => ({
+          role: msg.role,
+          content: msg.content,
+        })),
+        temperature,
+        max_tokens: maxTokens,
+        stream: false,
       });
 
-      if (!response.ok) {
-        await this.handleApiError(response);
-      }
+      // Transform OpenAI response to match our interface
+      const response: OpenAIResponse = {
+        id: completion.id,
+        model: completion.model,
+        choices: completion.choices.map(choice => ({
+          message: {
+            role: choice.message.role,
+            content: choice.message.content || '',
+          },
+          finish_reason: choice.finish_reason || '',
+          index: choice.index,
+        })),
+        usage: {
+          prompt_tokens: completion.usage?.prompt_tokens || 0,
+          completion_tokens: completion.usage?.completion_tokens || 0,
+          total_tokens: completion.usage?.total_tokens || 0,
+        },
+      };
 
-      const completion: OpenRouterResponse = await response.json();
-      return completion;
+      return response;
     } catch (error: any) {
       this.logger.error('Error calling chat completion endpoint:', error);
       if (error.message?.includes('API error:')) {
         throw error;
       }
-      throw new Error('Failed to get response from chat completion endpoint');
+      throw new Error('Failed to get response from OpenAI chat completion endpoint');
     }
   }
 }

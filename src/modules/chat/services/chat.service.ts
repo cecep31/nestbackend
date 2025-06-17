@@ -22,7 +22,7 @@ export class ChatService {
   ) {
     this.defaultModel =
       this.configService.get('openrouter.defaultModel') ||
-      'deepseek/deepseek-prover-v2:free';
+      'openai/gpt-3.5-turbo';
   }
 
   streamMessage(
