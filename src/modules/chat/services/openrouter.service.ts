@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
-import OpenAI from 'openai';
-import type { Stream } from 'openai/streaming';
 import {
   OpenRouterMessage,
   OpenRouterResponse,
+  OpenRouterRequest,
+  OpenRouterErrorResponse,
 } from '../interfaces/openrouter.types';
 
 interface OpenRouterConfig {
@@ -18,11 +18,6 @@ interface OpenRouterConfig {
 
 @Injectable()
 export class OpenRouterService {
-  private client: OpenAI;
-  /**
-   * Stream chat completion from OpenRouter as Observable<string> (each chunk is a partial message)
-   */
-
   private readonly logger = new Logger(OpenRouterService.name);
   private readonly config: OpenRouterConfig;
 
@@ -39,15 +34,26 @@ export class OpenRouterService {
       temperature:
         this.configService.get<number>('openrouter.temperature') || 0.7,
     });
+  }
 
-    this.client = new OpenAI({
-      baseURL: this.config.baseUrl,
-      apiKey: this.config.apiKey,
-      defaultHeaders: {
-        'HTTP-Referer': 'https://pilput.me', // Optional. Site URL for rankings on openrouter.ai.
-        'X-Title': 'pilput', // Optional. Site title for rankings on openrouter.ai.
-      },
-    });
+  private getHeaders(): Record<string, string> {
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.config.apiKey}`,
+      'HTTP-Referer': 'https://pilput.me', // Optional. Site URL for rankings on openrouter.ai.
+      'X-Title': 'pilput', // Optional. Site title for rankings on openrouter.ai.
+    };
+  }
+
+  private async handleApiError(response: Response): Promise<never> {
+    let errorMessage = 'Unknown error';
+    try {
+      const errorData: OpenRouterErrorResponse = await response.json();
+      errorMessage = errorData.error?.message || `HTTP ${response.status}`;
+    } catch {
+      errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+    }
+    throw new Error(`API error: ${errorMessage}`);
   }
 
   createChatCompletionStream(
@@ -64,31 +70,65 @@ export class OpenRouterService {
       maxTokens = this.config.maxTokens,
     } = options;
 
-    const clientMessages = messages.map((msg) => ({
-      role: msg.role,
-      content: msg.content,
-    }));
+    const requestBody: OpenRouterRequest = {
+      model,
+      messages,
+      temperature,
+      max_tokens: maxTokens,
+      stream: true,
+    };
 
     return new Observable<string>((observer) => {
       (async () => {
         try {
-          const stream: Stream<OpenAI.Chat.Completions.ChatCompletionChunk> =
-            await this.client.chat.completions.create({
-              model,
-              messages: clientMessages,
-              temperature,
-              max_tokens: maxTokens,
-              stream: true,
-            });
+          const response = await fetch(`${this.config.baseUrl}/chat/completions`, {
+            method: 'POST',
+            headers: this.getHeaders(),
+            body: JSON.stringify(requestBody),
+          });
 
-          for await (const chunk of stream) {
-            const content = chunk.choices?.[0]?.delta?.content;
-            if (content) {
-              observer.next(content);
+          if (!response.ok) {
+            await this.handleApiError(response);
+          }
+
+          const reader = response.body?.getReader();
+          if (!reader) {
+            throw new Error('Failed to get response stream reader');
+          }
+
+          const decoder = new TextDecoder();
+          let buffer = '';
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            buffer = lines.pop() || '';
+
+            for (const line of lines) {
+              const trimmedLine = line.trim();
+              if (trimmedLine === '' || trimmedLine === 'data: [DONE]') continue;
+
+              if (trimmedLine.startsWith('data: ')) {
+                try {
+                  const jsonStr = trimmedLine.slice(6);
+                  const chunk = JSON.parse(jsonStr);
+                  const content = chunk.choices?.[0]?.delta?.content;
+                  if (content) {
+                    observer.next(content);
+                  }
+                } catch (parseError) {
+                  this.logger.warn('Failed to parse streaming chunk:', parseError);
+                }
+              }
             }
           }
+
           observer.complete();
         } catch (err) {
+          this.logger.error('Error in streaming chat completion:', err);
           observer.error(err);
         }
       })();
@@ -109,24 +149,31 @@ export class OpenRouterService {
       maxTokens = this.config.maxTokens,
     } = options;
 
-    // Map to OpenAI-compatible message format
-    const clientMessages = messages.map((msg) => ({
-      role: msg.role,
-      content: msg.content,
-    }));
+    const requestBody: OpenRouterRequest = {
+      model,
+      messages,
+      temperature,
+      max_tokens: maxTokens,
+      stream: false,
+    };
 
     try {
-      const completion = await this.client.chat.completions.create({
-        model,
-        messages: clientMessages,
-        temperature,
-        max_tokens: maxTokens,
+      const response = await fetch(`${this.config.baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        body: JSON.stringify(requestBody),
       });
-      return completion as OpenRouterResponse;
+
+      if (!response.ok) {
+        await this.handleApiError(response);
+      }
+
+      const completion: OpenRouterResponse = await response.json();
+      return completion;
     } catch (error: any) {
       this.logger.error('Error calling chat completion endpoint:', error);
-      if (error.error) {
-        throw new Error(`API error: ${error.error.message || 'Unknown error'}`);
+      if (error.message?.includes('API error:')) {
+        throw error;
       }
       throw new Error('Failed to get response from chat completion endpoint');
     }
