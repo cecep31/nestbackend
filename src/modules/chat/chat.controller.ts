@@ -7,9 +7,10 @@ import {
   Delete,
   UseGuards,
   Req,
+  Res,
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 // Extend Express Request type to include user
@@ -25,9 +26,6 @@ import { SendMessageDto, sendMessageSchema } from './dto/send-message.dto';
 import { ConversationResponseDto } from './dto/conversation-response.dto';
 import { MessageResponseDto } from './dto/conversation-response.dto';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
-
-import { Sse } from '@nestjs/common';
-import { map } from 'rxjs/operators';
 @Controller({
   path: 'chat',
   version: '1',
@@ -90,18 +88,50 @@ export class ChatController {
     );
   }
 
-  @Sse('conversations/:id/messages/stream')
-  streamMessage(
+  @Post('conversations/:id/messages/stream')
+  @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 requests per minute for streaming messages
+  async streamMessage(
     @Req() req: RequestWithUser,
+    @Res() res: Response,
     @Param('id') conversationId: string,
     @Body(new ZodValidationPipe(sendMessageSchema)) sendMessageDto: SendMessageDto,
-  ) {
-    return this.chatService.streamMessage(
-      req.user.user_id,
-      conversationId,
-      sendMessageDto,
-    ).pipe(
-      map(chunk => ({ data: chunk }))
-    );
+  ): Promise<void> {
+    // Set headers for SSE-like streaming response
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Cache-Control');
+    
+    try {
+      const stream = this.chatService.streamMessage(
+        req.user.user_id,
+        conversationId,
+        sendMessageDto,
+      );
+
+      stream.subscribe({
+        next: (chunk: string) => {
+          // Format as SSE data like ChatGPT
+          res.write(`data: ${JSON.stringify({ content: chunk })}\n\n`);
+        },
+        error: (error: any) => {
+          console.error('Streaming error:', error);
+          res.write(`data: ${JSON.stringify({ error: 'Streaming failed' })}\n\n`);
+          res.write('data: [DONE]\n\n');
+          res.end();
+        },
+        complete: () => {
+          // Send completion signal like ChatGPT
+          res.write('data: [DONE]\n\n');
+          res.end();
+        },
+      });
+    } catch (error) {
+      console.error('Stream setup error:', error);
+      res.write(`data: ${JSON.stringify({ error: 'Failed to start streaming' })}\n\n`);
+      res.write('data: [DONE]\n\n');
+      res.end();
+    }
   }
 }

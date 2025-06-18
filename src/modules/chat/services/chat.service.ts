@@ -32,38 +32,85 @@ export class ChatService {
   ): Observable<string> {
     return new Observable<string>((observer) => {
       (async () => {
-        // Verify conversation exists and belongs to user
-        const conversation = await this.prisma.chat_conversations.findUnique({
-          where: { id: conversationId, user_id: userId },
-        });
-        if (!conversation) {
-          observer.error(new NotFoundException('Conversation not found'));
-          return;
-        }
-        // Get previous messages for context
-        const previousMessages = await this.prisma.chat_messages.findMany({
-          where: { conversation_id: conversationId },
-          orderBy: { created_at: 'asc' },
-          take: 10,
-        });
-        const messages = [
-          ...previousMessages.map((msg) => ({
+        try {
+          // Verify conversation exists and belongs to user
+          const conversation = await this.prisma.chat_conversations.findUnique({
+            where: { id: conversationId, user_id: userId },
+          });
+          if (!conversation) {
+            observer.error(new NotFoundException('Conversation not found'));
+            return;
+          }
+
+          // Save user message to database first
+          await this.prisma.chat_messages.create({
+            data: {
+              conversation_id: conversationId,
+              user_id: userId,
+              role: 'user',
+              content: sendMessageDto.content,
+            },
+          });
+
+          // Get previous messages for context (including the just-saved user message)
+          const previousMessages = await this.prisma.chat_messages.findMany({
+            where: { conversation_id: conversationId },
+            orderBy: { created_at: 'asc' },
+            take: 10,
+          });
+
+          const messages = previousMessages.map((msg) => ({
             role: msg.role as 'user' | 'assistant',
             content: msg.content,
-          })),
-          { role: 'user' as const, content: sendMessageDto.content },
-        ];
-        // Stream from OpenRouterService
-        this.openRouterService
-          .createChatCompletionStream(messages, {
-            model: sendMessageDto.model,
-            temperature: sendMessageDto.temperature,
-          })
-          .subscribe({
-            next: (chunk) => observer.next(chunk),
-            error: (err) => observer.error(err),
-            complete: () => observer.complete(),
-          });
+          }));
+
+          let assistantResponse = '';
+
+          // Stream from OpenRouterService
+          this.openRouterService
+            .createChatCompletionStream(messages, {
+              model: sendMessageDto.model,
+              temperature: sendMessageDto.temperature,
+            })
+            .subscribe({
+              next: (chunk) => {
+                assistantResponse += chunk;
+                observer.next(chunk);
+              },
+              error: (err) => {
+                this.logger.error('Streaming error:', err);
+                observer.error(err);
+              },
+              complete: async () => {
+                try {
+                  // Save the complete assistant response to database
+                  await this.prisma.chat_messages.create({
+                    data: {
+                      conversation_id: conversationId,
+                      user_id: userId,
+                      role: 'assistant',
+                      content: assistantResponse,
+                      model: sendMessageDto.model || this.defaultModel,
+                    },
+                  });
+
+                  // Update conversation's updated_at timestamp
+                  await this.prisma.chat_conversations.update({
+                    where: { id: conversationId },
+                    data: { updated_at: new Date() },
+                  });
+
+                  observer.complete();
+                } catch (saveError) {
+                  this.logger.error('Error saving assistant response:', saveError);
+                  observer.error(saveError);
+                }
+              },
+            });
+        } catch (error) {
+          this.logger.error('Error in streamMessage:', error);
+          observer.error(error);
+        }
       })();
     });
   }
