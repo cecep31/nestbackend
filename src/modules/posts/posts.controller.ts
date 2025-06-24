@@ -9,10 +9,13 @@ import {
   Query,
   Request,
   UseGuards,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { SuperAdminGuard } from '../auth/guards/superadmin.guard';
 import { CreatePostDto, CreatePostSchema } from './dto/create-post.dto';
+import { LikePostDto, LikePostSchema } from './dto/like-post.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 
@@ -21,7 +24,7 @@ import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
   path: 'posts',
 })
 export class PostsController {
-  constructor(private postsService: PostsService) {}
+  constructor(private postsService: PostsService) { }
 
   @Get()
   async findAll(
@@ -81,7 +84,9 @@ export class PostsController {
   }
 
   @Get(':id')
-  async post(@Param('id') id: string) {
+  async post(
+    @Param('id') id: string,
+  ) {
     const post = await this.postsService.findById(id);
     if (!post) {
       return {
@@ -130,6 +135,55 @@ export class PostsController {
       success: true,
       message: 'Successfully updated post',
       data: await this.postsService.updatePublishPost(id, published),
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('like')
+  async likePost(
+    @Body(new ZodValidationPipe(LikePostSchema)) likePostDto: LikePostDto,
+    @Request() req,
+  ) {
+    return {
+      success: true,
+      message: 'Successfully liked post',
+      data: await this.postsService.likePost(likePostDto, req.user.user_id),
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('like/:id')
+  @HttpCode(HttpStatus.OK)
+  async unlikePost(
+    @Param('id') id: string,
+    @Request() req,
+  ) {
+    return {
+      success: true,
+      message: 'Successfully unliked post',
+      data: await this.postsService.unlikePost(id, req.user.user_id),
+    };
+  }
+
+  @Get(':id/likes')
+  async getPostLikes(@Param('id') id: string) {
+    return {
+      success: true,
+      message: 'Successfully fetched post likes',
+      data: await this.postsService.getPostLikes(id),
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id/liked')
+  async checkUserLiked(
+    @Param('id') id: string,
+    @Request() req,
+  ) {
+    return {
+      success: true,
+      message: 'Successfully checked if user liked post',
+      data: await this.postsService.checkUserLiked(id, req.user.user_id),
     };
   }
 }
