@@ -9,6 +9,8 @@ export const CreatePostSchema = z.object({
   image: z.string().optional(),
 });
 
+export type CreatePostDtoType = z.infer<typeof CreatePostSchema>;
+
 export class CreatePostDto {
   @ApiProperty({
     description: 'Post title',
