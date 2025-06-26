@@ -139,11 +139,6 @@ export class ChatService {
       },
     });
 
-    // Get AI response
-    const aiResponse = await this.getAiResponse(userId, conversation.id, [
-      { role: 'user', content: message },
-    ]);
-
     return this.formatConversationResponse(conversation, [
       {
         ...userMessage,
@@ -153,7 +148,6 @@ export class ChatService {
         total_tokens: null,
         conversation_id: conversation.id,
       },
-      aiResponse,
     ]);
   }
 
