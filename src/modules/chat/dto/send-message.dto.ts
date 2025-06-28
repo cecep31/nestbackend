@@ -4,16 +4,21 @@ import { z } from 'zod';
 const FREE_MODELS = [
   // DeepSeek models
   'deepseek/deepseek-r1-0528-qwen3-8b:free',
+  'deepseek/deepseek-r1:free',
   'deepseek/deepseek-v3-base:free',
-  
+  'deepseek/deepseek-chat-v3-0324:free',
+
   // Meta Llama models
   'meta-llama/llama-3.3-70b-instruct:free',
   'meta-llama/llama-4-maverick:free',
   'meta-llama/llama-4-scout:free',
 
   //mistral
-  'mistralai/mistral-small-3.2-24b-instruct:free'
-  
+  'mistralai/mistral-small-3.2-24b-instruct:free',
+
+  //qwen
+  'qwen/qwen3-32b:free'
+
   // Add other free models as needed
 ];
 
