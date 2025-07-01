@@ -1,26 +1,26 @@
-# Use the official Node.js image as the base image
-FROM node:22-alpine AS base
+# Use the official Bun image as the base image
+FROM oven/bun:1-alpine AS base
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json to the working directory
+# Copy package.json and bun.lockb to the working directory
 COPY package.json ./
 
 # Install dependencies using npm
-RUN npm i
+RUN bun install
 
 # Copy the rest of the application code
 COPY . .
 
 # Generate Prisma client
-RUN npx prisma generate
+RUN bunx prisma generate
 
 # Build the NestJS application
-RUN npm run build
+RUN bun run build
 
 # Use a smaller image for the final stage
-FROM node:22-alpine
+FROM oven/bun:1-alpine
 
 # Set the working directory
 WORKDIR /app
@@ -30,12 +30,12 @@ COPY --from=base /app/package.json ./package.json
 COPY --from=base /app/dist ./dist
 COPY --from=base /app/generated ./generated
 
-# install dependecy
-RUN npm i --production 
-RUN npm cache clean --force
+# Install production dependencies only
+RUN bun install --production
+RUN bun pm cache rm
 
 # Expose the application port
 EXPOSE 3001
 
 # Set the command to start the application
-CMD ["node", "dist/main.js"]
+CMD ["bun", "dist/main.js"]
