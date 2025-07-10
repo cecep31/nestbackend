@@ -19,4 +19,11 @@ export default () => ({
     maxTokens: parseInt(process.env.OPENROUTER_MAX_TOKENS || '4000', 10),
     temperature: parseFloat(process.env.OPENROUTER_TEMPERATURE || '0.7'),
   },
+  resend: {
+    apiKey: process.env.RESEND_API_KEY || '',
+    fromEmail: process.env.RESEND_FROM_EMAIL || 'noreply@example.com',
+  },
+  app: {
+    baseUrl: process.env.APP_BASE_URL || 'http://localhost:3000',
+  },
 });

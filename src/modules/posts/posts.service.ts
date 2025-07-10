@@ -4,12 +4,14 @@ import { PrismaService } from '../../db/prisma.service';
 import { PostsRepository } from './posts.repository';
 import { CreatePostDto } from './dto/create-post.dto';
 import { LikePostDto } from './dto/like-post.dto';
+import { NotificationService } from '../../common/notifications/notification.service';
 
 @Injectable()
 export class PostsService {
   constructor(
     private prisma: PrismaService,
     private postsRepository: PostsRepository,
+    private notificationService: NotificationService,
   ) {}
 
   private truncateBody(body?: string, maxLength: number = 200): string {
@@ -120,6 +122,35 @@ export class PostsService {
         published: true,
       },
     });
+
+    // Send email notifications for new post
+    if (newpost.published && newpost.title && newpost.slug) {
+      // Get author information for the notification
+      const author = await this.prisma.users.findUnique({
+        where: { id: user_id },
+        select: { username: true, first_name: true, last_name: true },
+      });
+
+      const authorName = author?.username || 
+        `${author?.first_name || ''} ${author?.last_name || ''}`.trim() || 
+        'Unknown Author';
+
+      // Extract excerpt from post body (first 200 characters)
+      const postExcerpt = this.truncateBody(newpost.body || '', 200);
+
+      // Trigger notification asynchronously (don't wait for it to complete)
+      this.notificationService.notifyNewPost({
+        postId: newpost.id,
+        postTitle: newpost.title,
+        postSlug: newpost.slug,
+        authorName,
+        postExcerpt,
+      }).catch(error => {
+        // Log error but don't fail the post creation
+        console.error('Failed to send new post notification:', error);
+      });
+    }
+
     return newpost;
   }
   async updatePublishPost(post_id: string, published: boolean = true) {
