@@ -92,7 +92,7 @@ export class ZodValidationPipe<T = any> implements PipeTransform<T> {
   private formatZodError(error: ZodError): Record<string, string[]> {
     const formattedErrors: Record<string, string[]> = {};
     
-    error.errors.forEach((err) => {
+    error.issues.forEach((err) => {
       const path = err.path.join('.');
       const message = err.message;
       
