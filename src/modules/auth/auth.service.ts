@@ -140,4 +140,27 @@ export class AuthService {
   profile(user: any) {
     return this.userService.findOne(user.id);
   }
+
+  async register(username: string, email: string, password: string): Promise<any> {
+    const user = await this.userService.create({
+      username,
+      email,
+      password,
+    });
+
+    const payload = {
+      user_id: user.id,
+      email: user.email,
+      isSuperAdmin: user.is_super_admin,
+    };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+      },
+    };
+  }
 }

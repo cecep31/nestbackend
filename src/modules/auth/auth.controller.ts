@@ -12,10 +12,12 @@ import {
   HttpStatus,
   HttpCode,
   UnauthorizedException,
+  BadRequestException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { LoginDto, loginSchema } from './schemas/loogin-schema';
+import { RegisterDto, registerSchema } from './schemas/register-schema';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 @Controller({
@@ -24,6 +26,28 @@ import { AuthGuard } from '@nestjs/passport';
 })
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Post('register')
+  @HttpCode(HttpStatus.CREATED)
+  async register(@Body(new ZodValidationPipe(registerSchema)) registerDto: RegisterDto) {
+    try {
+      const data = await this.authService.register(
+        registerDto.username,
+        registerDto.email,
+        registerDto.password,
+      );
+      return {
+        data,
+        success: true,
+        message: 'User registered successfully',
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        success: false,
+        message: error.message || 'Registration failed',
+      });
+    }
+  }
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
