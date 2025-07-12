@@ -5,6 +5,8 @@ export const createUserSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   image: z.string().url().optional(),
+  first_name: z.string().min(3).max(50).optional(),
+  last_name: z.string().min(3).max(50).optional(),
 });
 
 export const updateUserSchema = createUserSchema.partial();

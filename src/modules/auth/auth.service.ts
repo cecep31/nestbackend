@@ -146,6 +146,8 @@ export class AuthService {
       username,
       email,
       password,
+      first_name : username,
+      last_name : "User"
     });
 
     const payload = {
