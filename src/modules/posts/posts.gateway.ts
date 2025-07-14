@@ -14,8 +14,8 @@ import { Logger, UseFilters } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { WsExceptionFilter } from '../../filters';
 
-@WebSocketGateway({ 
-  namespace: 'posts', 
+@WebSocketGateway({
+  namespace: 'ws/posts',
   cors: {
     origin: process.env.FRONTEND_URL || '*',
     methods: ['GET', 'POST'],
@@ -37,11 +37,11 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     private readonly postService: PostsService,
     private readonly authService: AuthService,
     private readonly userSocketMapService: UserSocketMapService,
-  ) {}
+  ) { }
 
   afterInit(server: Server) {
     this.logger.log('WebSocket PostsGateway initialized');
-    
+
     // Set up global error handler
     server.on('connection_error', (error) => {
       this.logger.error('WebSocket connection error:', error);
@@ -56,21 +56,26 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
   async handleConnection(client: Socket) {
     const connectionStart = Date.now();
-    
+
     try {
       // Get required connection parameters
       const token = this.extractToken(client.handshake.headers.authorization);
       const postId = String(client.handshake.query.post_id || '');
 
       // Validate required parameters
-      if (!token || !postId) {
+      if (!postId) {
         throw new WsException('Missing required connection parameters');
+      }
+
+      // Validate token
+      if (!token) {
+        throw new WsException('Missing authorization token');
       }
 
       // Verify token with timeout
       const authResult = await Promise.race([
         this.authService.verifyToken(token),
-        new Promise((_, reject) => 
+        new Promise((_, reject) =>
           setTimeout(() => reject(new Error('Authentication timeout')), this.connectionTimeout)
         )
       ]) as { user_id: string };
@@ -80,29 +85,29 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       }
 
       const { user_id } = authResult;
-      
+
       // Add user to room and set up socket
       this.userSocketMapService.addUserToRoom(user_id, postId, client);
       await client.join(postId);
-      
+
       // Load initial data
       const comments = await this.postService.getAllComments(postId);
       client.emit('newComment', comments);
-      
+
       this.logger.log(
         `Socket connected: ${client.id} for user ${user_id} in room ${postId} ` +
         `(${Date.now() - connectionStart}ms)`
       );
-      
+
     } catch (error) {
       this.logger.error(`Connection error for ${client.id}: ${error.message}`, error.stack);
-      
+
       // Send error to client before disconnecting
       client.emit('error', {
         status: 'error',
         message: error.message || 'Connection error',
       });
-      
+
       // Delay slightly to ensure error is sent before disconnecting
       setTimeout(() => {
         if (client.connected) {
@@ -116,14 +121,14 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     try {
       const userId = this.userSocketMapService.getUserIdBySocket(client);
       const postId = String(client.handshake.query.post_id || '');
-      
+
       if (userId && postId) {
         this.userSocketMapService.removeUserFromRoom(userId, postId);
         this.logger.log(`Socket disconnected: ${client.id} (user: ${userId}, room: ${postId})`);
       } else {
         this.logger.log(`Anonymous socket disconnected: ${client.id}`);
       }
-      
+
       // Clean up any remaining listeners
       client.removeAllListeners();
     } catch (error) {
@@ -138,17 +143,17 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       if (!userId) {
         throw new WsException('Unauthorized');
       }
-      
+
       const postId = client.handshake.query.post_id + '';
       const commentData = {
         ...payload,
         post_id: postId,
         created_by: userId,
       };
-      
+
       await this.postService.createComment(commentData);
       const comments = await this.postService.getAllComments(postId);
-      
+
       this.server.to(postId).emit('newComment', comments);
       return { status: 'success', data: comments };
     } catch (error) {
@@ -164,12 +169,12 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       if (!userId) {
         throw new WsException('Unauthorized');
       }
-      
-      client.to(payload.postId).emit('userTyping', { 
-        userId, 
-        isTyping: payload.isTyping 
+
+      client.to(payload.postId).emit('userTyping', {
+        userId,
+        isTyping: payload.isTyping
       });
-      
+
       return { status: 'success' };
     } catch (error) {
       this.logger.error(`Error handling typing event: ${error.message}`, error.stack);
@@ -184,25 +189,25 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       if (!userId) {
         throw new WsException('Unauthorized');
       }
-      
+
       // Get the post ID from the handshake
       const postId = client.handshake.query.post_id + '';
       if (!postId) {
         throw new WsException('Post ID is required');
       }
-      
+
       // In a real implementation, you would update the comment in the database
       // to mark it as read by this user. Since we don't have the actual implementation
       // of the PostsService, we'll just log the action and return success.
-      
+
       this.logger.log(`User ${userId} marked comment ${payload.commentId} as read`);
-      
+
       // Refresh the comments to get the latest state
       const comments = await this.postService.getAllComments(postId);
-      
+
       // Broadcast the updated comments to all clients
       this.server.to(postId).emit('newComment', comments);
-      
+
       return { status: 'success' };
     } catch (error) {
       this.logger.error(`Error marking comment as read: ${error.message}`, error.stack);
