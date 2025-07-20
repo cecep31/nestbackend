@@ -53,7 +53,7 @@ export class PostsController {
       success: true,
       message: 'Successfully fetched posts',
       data: postsData,
-      metadata,
+      meta: metadata,
     };
   }
 
@@ -106,7 +106,7 @@ export class PostsController {
       success: true,
       message: 'Successfully fetched posts',
       data: posts,
-      metadata,
+      meta: metadata,
     };
   }
 

@@ -22,7 +22,7 @@ export class PostsService {
   }
 
   async posts(params: { offset?: number; limit?: number }) {
-    const { offset, limit } = params;
+    const { offset = 0, limit = 10 } = params;
     const postsData = await this.postsRepository.findAll({
       where: {
         deleted_at: null,
@@ -52,6 +52,8 @@ export class PostsService {
       },
     });
     
+    const totalPages = Math.ceil(totalposts / limit);
+    
     return {
       postsData: postsData.map((post) => ({
         ...post,
@@ -59,7 +61,10 @@ export class PostsService {
         tags: post.tags.map((tagRelation) => tagRelation.tag),
       })),
       metadata: {
-        totalItems: totalposts,
+        total_items: totalposts,
+        offset: offset,
+        limit: limit,
+        total_pages: totalPages,
       },
     };
   }
@@ -70,8 +75,14 @@ export class PostsService {
       offset,
       limit,
     );
+    const totalItems = await this.postsRepository.getPostsByCreatorCount(user_id);
+    const totalPages = Math.ceil(totalItems / limit);
+    
     const metadata = {
-      totalItems: await this.postsRepository.getPostsByCreatorCount(user_id),
+      total_items: totalItems,
+      offset: offset,
+      limit: limit,
+      total_pages: totalPages,
     };
     return { posts, metadata };
   }
