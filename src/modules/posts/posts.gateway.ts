@@ -17,7 +17,7 @@ import { WsExceptionFilter } from '../../filters';
 @WebSocketGateway({
   namespace: 'ws/posts',
   cors: {
-    origin: process.env.FRONTEND_URL || '*',
+    origin: '*',
     methods: ['GET', 'POST'],
     credentials: true
   },
