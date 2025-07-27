@@ -100,7 +100,6 @@ export class PostsService {
   }
 
   createComment(data: any) {
-    data.created_at = new Date();
     return this.prisma.post_comments.create({ data });
   }
 

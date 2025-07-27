@@ -150,7 +150,6 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
         post_id: postId,
         created_by: userId,
       };
-
       await this.postService.createComment(commentData);
       const comments = await this.postService.getAllComments(postId);
 
