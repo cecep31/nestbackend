@@ -165,4 +165,8 @@ export class AuthService {
       },
     };
   }
+
+  async checkUsernameAvailability(username: string) {
+    return await this.userService.checkUsernameAvailability(username);
+  }
 }

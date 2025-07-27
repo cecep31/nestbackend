@@ -14,10 +14,12 @@ import {
   UnauthorizedException,
   BadRequestException,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { LoginDto, loginSchema } from './schemas/loogin-schema';
 import { RegisterDto, registerSchema } from './schemas/register-schema';
+import { CheckUsernameDto, checkUsernameSchema } from './schemas/check-username-schema';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 @Controller({
@@ -50,6 +52,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 attempts per minute
   @HttpCode(HttpStatus.OK)
   async signIn(@Body(new ZodValidationPipe(loginSchema)) loginDto: LoginDto) {
     const data = await this.authService.signIn(
@@ -65,7 +68,18 @@ export class AuthController {
     return {
       data,
       success: true,
-      message: 'success',
+      message: 'Login successful',
+    };
+  }
+
+  @Post('check-username')
+  @HttpCode(HttpStatus.OK)
+  async checkUsername(@Body(new ZodValidationPipe(checkUsernameSchema)) checkUsernameDto: CheckUsernameDto) {
+    const data = await this.authService.checkUsernameAvailability(checkUsernameDto.username);
+    return {
+      success: true,
+      message: 'Username availability checked',
+      data,
     };
   }
 
