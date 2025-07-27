@@ -59,7 +59,7 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
     try {
       // Get required connection parameters
-      const token = this.extractToken(client.handshake.headers.authorization);
+      const token = String(client.handshake.query.token || '');
       const postId = String(client.handshake.query.post_id || '');
 
       // Validate required parameters
