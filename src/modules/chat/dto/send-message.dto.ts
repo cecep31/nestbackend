@@ -18,7 +18,8 @@ const FREE_MODELS = [
   'mistralai/mistral-small-3.2-24b-instruct:free',
 
   //qwen
-  'qwen/qwen3-32b:free'
+  'qwen/qwen3-32b:free',
+  'qwen/qwen3-coder:free'
 
   // Add other free models as needed
 ];
