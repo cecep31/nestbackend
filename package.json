@@ -52,7 +52,7 @@
     "swagger-ui-express": "^5.0.1",
     "upgrade": "^1.1.0",
     "winston": "^3.17.0",
-    "zod": "^4.0.14"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
