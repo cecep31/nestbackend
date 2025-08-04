@@ -1,41 +1,34 @@
-# Use the official Node.js image as the base image
-FROM node:22-alpine AS base
+# Build stage
+FROM oven/bun:1-alpine AS builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json to the working directory
-COPY package.json ./
+# Copy package files for better caching
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 
-# Install dependencies using npm
-RUN npm i
-
-# Copy the rest of the application code
+# Copy source and build
 COPY . .
+RUN bunx prisma generate && bun run build
 
-# Generate Prisma client
-RUN npx prisma generate
+# Production stage
+FROM oven/bun:1-alpine
 
-# Build the NestJS application
-RUN npm run build
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && adduser -S nestjs -u 1001
 
-# Use a smaller image for the final stage
-FROM node:22-alpine
-
-# Set the working directory
 WORKDIR /app
 
-# Copy only the necessary files from the base stage
-COPY --from=base /app/package.json ./package.json
-COPY --from=base /app/dist ./dist
-COPY --from=base /app/generated ./generated
+# Install production dependencies
+COPY package.json ./
+RUN bun install --production --frozen-lockfile && \
+    rm -rf /tmp/* /var/cache/apk/*
 
-# install dependecy
-RUN npm i --production 
-RUN npm cache clean --force
+# Copy built application
+COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nestjs:nodejs /app/generated ./generated
 
-# Expose the application port
+USER nestjs
 EXPOSE 3001
 
-# Set the command to start the application
-CMD ["node", "dist/main.js"]
+CMD ["bun", "dist/main.js"]
