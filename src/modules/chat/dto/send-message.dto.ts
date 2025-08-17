@@ -10,13 +10,29 @@ const FREE_MODELS = [
   'deepseek/deepseek-chat-v3-0324:free',
 
   // Meta Llama
-  'meta-llama/llama-3.3-70b-instruct:free',
+  'meta-llama/llama-3-8b-instruct:free',
+  'meta-llama/llama-3-70b-instruct:free',
+  'meta-llama/llama-3.1-8b-instruct:free',
+  'meta-llama/llama-3.1-70b-instruct:free',
+  'meta-llama/llama-3.1-405b-instruct:free',
+  'meta-llama/llama-3-sonar-small-32k-chat:free',
+  'meta-llama/llama-3-sonar-small-32k-online:free',
+  'meta-llama/llama-3-sonar-large-32k-chat:free',
+  'meta-llama/llama-3-sonar-large-32k-online:free',
+  'meta-llama/llama-guard-2-8b:free',
+  'meta-llama/llama-3.3-8b-instruct:free',
   'meta-llama/llama-4-maverick:free',
   'meta-llama/llama-4-scout:free',
+  'meta-llama/llama-3.3-70b-instruct:free',
+
+  // Google
+  'google/gemma-7b-it:free',
+  'google/gemma-2b-it:free',
+  'google/gemini-flash-1.5:free',
+  'google/gemini-pro-1.5:free',
 
   // MistralAI
-  'mistralai/mistral-small-3.2-24b-instruct:free',
-  'mistralai/devstral-small:free',
+  'mistralai/mistral-7b-instruct:free',
 
   // Qwen
   'qwen/qwen3-32b:free',
