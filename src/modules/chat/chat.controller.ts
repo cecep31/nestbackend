@@ -47,7 +47,7 @@ export class ChatController {
     );
   }
 
-  @Post(':id/messages')
+  @Post('conversations/:id/messages')
   @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 requests per minute for sending messages
   sendMessage(
     @Req() req: RequestWithUser,
@@ -88,7 +88,7 @@ export class ChatController {
     );
   }
 
-  @Post(':id/messages/stream')
+  @Post('conversations/:id/messages/stream')
   @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 requests per minute for streaming messages
   async streamMessage(
     @Req() req: RequestWithUser,
