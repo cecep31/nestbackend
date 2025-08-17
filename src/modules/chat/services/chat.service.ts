@@ -129,26 +129,7 @@ export class ChatService {
       },
     });
 
-    // Add the initial message
-    const userMessage = await this.prisma.chat_messages.create({
-      data: {
-        conversation_id: conversation.id,
-        user_id: userId,
-        role: 'user',
-        content: message,
-      },
-    });
-
-    return this.formatConversationResponse(conversation, [
-      {
-        ...userMessage,
-        model: null,
-        prompt_tokens: null,
-        completion_tokens: null,
-        total_tokens: null,
-        conversation_id: conversation.id,
-      },
-    ]);
+    return this.formatConversationResponse(conversation, []);
   }
 
   async sendMessage(
