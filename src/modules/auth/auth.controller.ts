@@ -22,10 +22,12 @@ import { RegisterDto, registerSchema } from './schemas/register-schema';
 import { CheckUsernameDto, checkUsernameSchema } from './schemas/check-username-schema';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
+
 @Controller({
   path: 'auth',
   version: '1',
 })
+
 export class AuthController {
   constructor(private authService: AuthService) { }
 
