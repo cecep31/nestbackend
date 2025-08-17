@@ -27,7 +27,7 @@ import { AuthGuard } from '@nestjs/passport';
   version: '1',
 })
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
@@ -112,8 +112,8 @@ export class AuthController {
     res.cookie('token', req.user.access_token, {
       maxAge: 4 * 60 * 60 * 1000,
       httpOnly: false,
-      secure: false,
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none',
       domain: '.pilput.me',
     });
 
