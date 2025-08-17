@@ -40,9 +40,13 @@ const FREE_MODELS = [
 
   // Moonshot AI
   'moonshotai/kimi-vl-a3b-thinking:free',
+  'moonshotai/kimi-k2:free',
 
   // OpenAI
   'openai/gpt-oss-20b:free',
+
+  // Z-AI
+  'z-ai/glm-4.5-air:free',
 ];
 
 export const sendMessageSchema = z.object({
