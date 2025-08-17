@@ -2,26 +2,31 @@ import { z } from 'zod';
 
 // List of free models from OpenRouter
 const FREE_MODELS = [
-  // DeepSeek models
+  // DeepSeek
   'deepseek/deepseek-r1-0528-qwen3-8b:free',
   'deepseek/deepseek-r1:free',
   'deepseek/deepseek-r1-0528:free',
   'deepseek/deepseek-v3-base:free',
   'deepseek/deepseek-chat-v3-0324:free',
 
-  // Meta Llama models
+  // Meta Llama
   'meta-llama/llama-3.3-70b-instruct:free',
   'meta-llama/llama-4-maverick:free',
   'meta-llama/llama-4-scout:free',
 
-  //mistral
+  // MistralAI
   'mistralai/mistral-small-3.2-24b-instruct:free',
+  'mistralai/devstral-small:free',
 
-  //qwen
+  // Qwen
   'qwen/qwen3-32b:free',
-  'qwen/qwen3-coder:free'
+  'qwen/qwen3-coder:free',
 
-  // Add other free models as needed
+  // Moonshot AI
+  'moonshotai/kimi-vl-a3b-thinking:free',
+
+  // OpenAI
+  'openai/gpt-oss-20b:free',
 ];
 
 export const sendMessageSchema = z.object({
