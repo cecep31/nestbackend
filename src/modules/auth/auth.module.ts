@@ -11,7 +11,6 @@ import { GithubStrategy } from './strategies/github.strategy';
 
 @Module({
   imports: [
-    UsersModule,
     PassportModule,
     JwtModule.registerAsync({
       global: true,
