@@ -8,10 +8,12 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
+import { DbModule } from 'src/db/db.module';
 
 @Module({
   imports: [
     PassportModule,
+    DbModule,
     JwtModule.registerAsync({
       global: true,
       inject: [ConfigService],
