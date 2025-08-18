@@ -19,7 +19,10 @@ import { AuthService } from './auth.service';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { LoginDto, loginSchema } from './schemas/loogin-schema';
 import { RegisterDto, registerSchema } from './schemas/register-schema';
-import { CheckUsernameDto, checkUsernameSchema } from './schemas/check-username-schema';
+import {
+  CheckUsernameDto,
+  checkUsernameSchema,
+} from './schemas/check-username-schema';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -27,13 +30,14 @@ import { AuthGuard } from '@nestjs/passport';
   path: 'auth',
   version: '1',
 })
-
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
-  async register(@Body(new ZodValidationPipe(registerSchema)) registerDto: RegisterDto) {
+  async register(
+    @Body(new ZodValidationPipe(registerSchema)) registerDto: RegisterDto,
+  ) {
     try {
       const data = await this.authService.register(
         registerDto.username,
@@ -76,8 +80,13 @@ export class AuthController {
 
   @Post('check-username')
   @HttpCode(HttpStatus.OK)
-  async checkUsername(@Body(new ZodValidationPipe(checkUsernameSchema)) checkUsernameDto: CheckUsernameDto) {
-    const data = await this.authService.checkUsernameAvailability(checkUsernameDto.username);
+  async checkUsername(
+    @Body(new ZodValidationPipe(checkUsernameSchema))
+    checkUsernameDto: CheckUsernameDto,
+  ) {
+    const data = await this.authService.checkUsernameAvailability(
+      checkUsernameDto.username,
+    );
     return {
       success: true,
       message: 'Username availability checked',
