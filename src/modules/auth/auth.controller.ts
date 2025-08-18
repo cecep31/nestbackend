@@ -112,7 +112,7 @@ export class AuthController {
 
     // set cookie
     res.cookie('token', req.user.access_token, {
-      maxAge: 4 * 60 * 60 * 1000,
+      maxAge: 6 * 60 * 60 * 1000, // 6 hours
       httpOnly: false,
       secure: true,
       sameSite: 'none',

@@ -19,7 +19,7 @@ import { GithubStrategy } from './strategies/github.strategy';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('jwt_secret'),
-        signOptions: { expiresIn: '48h' },
+        signOptions: { expiresIn: '6h' },
       }),
     }),
   ],
