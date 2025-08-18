@@ -1,15 +1,16 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
+import { PrismaService } from 'src/db/prisma.service';
+import { randomBytes } from 'crypto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private prisma: PrismaService,
   ) {}
 
   /**
@@ -32,25 +33,33 @@ export class AuthService {
   }) {
     // Try to find user by email or username
     let user = email
-      ? await this.userService.findByEmailOrUsername(email)
+      ? await this.prisma.users.findUnique({
+          where: {
+            email,
+          },
+        })
       : null;
 
     // If still not found, create new user
     if (!user) {
       // try if username is already taken
       try {
-        user = await this.userService.create({
-          username: username || provider + '_' + providerId,
-          email: email || `${providerId}@${provider}.oauth`,
-          password: providerId, // Not used, just a placeholder
-          image: photo,
+        user = await this.prisma.users.create({
+          data: {
+            username: username || provider + '_' + providerId,
+            email: email || `${providerId}@${provider}.oauth`,
+            password: providerId, // Not used, just a placeholder
+            image: photo,
+          },
         });
       } catch (error) {
-        user = await this.userService.create({
-          username: provider + '_' + providerId,
-          email: email || `${providerId}@${provider}.oauth`,
-          password: providerId, // Not used, just a placeholder
-          image: photo,
+        user = await this.prisma.users.create({
+          data: {
+            username: provider + '_' + providerId,
+            email: email || `${providerId}@${provider}.oauth`,
+            password: providerId, // Not used, just a placeholder
+            image: photo,
+          },
         });
       }
 
@@ -83,7 +92,11 @@ export class AuthService {
   }
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userService.findByEmailOrUsername(email);
+    const user = await this.prisma.users.findUnique({
+      where: {
+        email,
+      },
+    });
 
     if (!user) {
       return null;
@@ -114,8 +127,19 @@ export class AuthService {
       isSuperAdmin: user.is_super_admin,
     };
 
+    const refreshToken = 'pl_' + randomBytes(64).toString('hex');
+
+    const session = await this.prisma.sessions.create({
+      data: {
+        user_id: user.id,
+        refresh_token: refreshToken,
+        expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      },
+    });
+
     return {
       access_token: await this.jwtService.signAsync(payload),
+      refresh_token: refreshToken,
       user: {
         id: user.id,
         email: user.email,
@@ -138,16 +162,26 @@ export class AuthService {
   }
 
   profile(user: any) {
-    return this.userService.findOne(user.id);
+    return this.prisma.users.findUnique({
+      where: {
+        id: user.id,
+      },
+    });
   }
 
-  async register(username: string, email: string, password: string): Promise<any> {
-    const user = await this.userService.create({
-      username,
-      email,
-      password,
-      first_name : username,
-      last_name : "User"
+  async register(
+    username: string,
+    email: string,
+    password: string,
+  ): Promise<any> {
+    const user = await this.prisma.users.create({
+      data: {
+        username,
+        email,
+        password,
+        first_name: username,
+        last_name: 'User',
+      },
     });
 
     const payload = {
@@ -167,6 +201,10 @@ export class AuthService {
   }
 
   async checkUsernameAvailability(username: string) {
-    return await this.userService.checkUsernameAvailability(username);
+    return await this.prisma.users.findUnique({
+      where: {
+        username,
+      },
+    });
   }
 }

@@ -202,7 +202,7 @@ model post_views {
 }
 
 model sessions {
-  token      String    @id @db.VarChar(128)
+  refresh_token      String    @id @db.VarChar(200)
   user_id    String    @db.Uuid
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   user_agent String?
