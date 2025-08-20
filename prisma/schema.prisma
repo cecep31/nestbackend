@@ -15,7 +15,7 @@ model post_comments {
   deleted_at         DateTime? @db.Timestamptz(6)
   text               String?
   post_id            String?   @db.Uuid
-  parrent_comment_id BigInt?
+  parrent_comment_id Int?
   created_by         String?   @db.Uuid
   creator            users?    @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_post_comments_creator")
   posts              posts?    @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_posts_post_comments")
@@ -32,8 +32,8 @@ model posts {
   slug          String?         @unique(map: "idx_posts_slug") @db.VarChar(255)
   photo_url     String?
   published     Boolean?        @default(true)
-  view_count    BigInt?         @default(0)
-  like_count    BigInt?         @default(0)
+  view_count    Int?         @default(0)
+  like_count    Int?         @default(0)
   likes         likes[]
   post_comments post_comments[]
   post_likes    post_likes[]
@@ -56,9 +56,9 @@ model users {
   image           String?
   is_super_admin  Boolean?        @default(false)
   username        String?         @unique(map: "idx_users_username") @db.VarChar(255)
-  github_id       BigInt?         @unique(map: "users_github_id_unique")
-  followers_count BigInt?         @default(0)
-  following_count BigInt?         @default(0)
+  github_id       Int?         @unique(map: "users_github_id_unique")
+  followers_count Int?         @default(0)
+  following_count Int?         @default(0)
   files           files[]
   likes           likes[]
   post_comments   post_comments[]
