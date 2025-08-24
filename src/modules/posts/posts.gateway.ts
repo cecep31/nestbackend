@@ -56,6 +56,7 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
   async handleConnection(client: Socket) {
     const connectionStart = Date.now();
+    this.logger.log(`Client connected: ${client.id}`);
 
     try {
       // Get required connection parameters
@@ -138,6 +139,7 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
   @SubscribeMessage('sendComment')
   async handleComment(client: Socket, payload: any) {
+    this.logger.log(`Received comment from ${client.id}: ${JSON.stringify(payload)}`);
     try {
       const userId = this.userSocketMapService.getUserIdBySocket(client);
       if (!userId) {
@@ -163,6 +165,7 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
   @SubscribeMessage('typing')
   handleTyping(client: Socket, payload: { postId: string; isTyping: boolean }) {
+    this.logger.log(`User ${this.userSocketMapService.getUserIdBySocket(client)} is typing...`);
     try {
       const userId = this.userSocketMapService.getUserIdBySocket(client);
       if (!userId) {
@@ -183,6 +186,7 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
   @SubscribeMessage('markAsRead')
   async handleMarkAsRead(client: Socket, payload: { commentId: string }) {
+    this.logger.log(`User ${this.userSocketMapService.getUserIdBySocket(client)} marked comment as read.`);
     try {
       const userId = this.userSocketMapService.getUserIdBySocket(client);
       if (!userId) {
@@ -217,6 +221,7 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
   @SubscribeMessage('getAllComments')
   async fetchComments(client: Socket) {
     const postId = client.handshake.query.post_id + '';
+    this.logger.log(`Fetching all comments for post ${postId}`);
     const comments = await this.postService.getAllComments(postId);
     client.emit('newComment', comments);
   }
