@@ -18,7 +18,7 @@ export class UsersService {
   constructor(
     private prisma: PrismaService,
     private userReposistory: UserRepository,
-  ) { }
+  ) {}
 
   async hashPassword(password: string) {
     return await hash(password, 14);
@@ -335,7 +335,7 @@ export class UsersService {
     });
 
     return {
-      followers: followers.map(f => f.follower),
+      followers: followers.map((f) => f.follower),
       metadata: {
         totalItems: total,
         offset,
@@ -369,7 +369,7 @@ export class UsersService {
     });
 
     return {
-      following: following.map(f => f.following),
+      following: following.map((f) => f.following),
       metadata: {
         totalItems: total,
         offset,
@@ -378,7 +378,12 @@ export class UsersService {
     };
   }
 
-  async getMutualFollows(userId: string, targetUserId: string, offset: number = 0, limit: number = 10) {
+  async getMutualFollows(
+    userId: string,
+    targetUserId: string,
+    offset: number = 0,
+    limit: number = 10,
+  ) {
     // Get users that both userId and targetUserId follow
     const mutualFollows = await this.prisma.user_follows.findMany({
       where: {
@@ -386,10 +391,12 @@ export class UsersService {
           { follower_id: userId },
           {
             following_id: {
-              in: await this.prisma.user_follows.findMany({
-                where: { follower_id: targetUserId },
-                select: { following_id: true },
-              }).then(follows => follows.map(f => f.following_id)),
+              in: await this.prisma.user_follows
+                .findMany({
+                  where: { follower_id: targetUserId },
+                  select: { following_id: true },
+                })
+                .then((follows) => follows.map((f) => f.following_id)),
             },
           },
         ],
@@ -411,7 +418,7 @@ export class UsersService {
     });
 
     return {
-      mutual_follows: mutualFollows.map(f => f.following),
+      mutual_follows: mutualFollows.map((f) => f.following),
       metadata: {
         totalItems: mutualFollows.length,
         offset,

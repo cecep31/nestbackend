@@ -75,7 +75,9 @@ export class UsersController {
   @Get('me')
   async getMe(@Req() req: any) {
     const user = await this.usersService.getMyProfile(req.user.user_id);
-    const followStats = await this.usersService.getFollowStats(req.user.user_id);
+    const followStats = await this.usersService.getFollowStats(
+      req.user.user_id,
+    );
     return {
       success: true,
       data: { ...user, ...followStats },
@@ -98,10 +100,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id/follow')
-  async unfollowUser(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Req() req: any,
-  ) {
+  async unfollowUser(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
     await this.usersService.unfollowUser(req.user.user_id, id);
     return {
       success: true,
@@ -131,7 +130,12 @@ export class UsersController {
     @Query('offset') offset: number = 0,
     @Query('limit') limit: number = 10,
   ) {
-    const data = await this.usersService.getMutualFollows(req.user.user_id, id, offset, limit);
+    const data = await this.usersService.getMutualFollows(
+      req.user.user_id,
+      id,
+      offset,
+      limit,
+    );
     return {
       success: true,
       message: 'Mutual follows retrieved',
@@ -181,12 +185,12 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Req() req: any,
-  ) {
+  async findOne(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
     const currentUserId = req.user?.user_id;
-    const data = await this.usersService.getUserWithFollowInfo(id, currentUserId);
+    const data = await this.usersService.getUserWithFollowInfo(
+      id,
+      currentUserId,
+    );
     return {
       success: true,
       message: 'Successfully retrieved user',
