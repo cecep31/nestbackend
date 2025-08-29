@@ -4,7 +4,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
 import { DbModule } from '../../db/db.module';
@@ -23,8 +22,9 @@ import { DbModule } from '../../db/db.module';
       }),
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy, GithubStrategy],
+  providers: [AuthService, JwtStrategy, GithubStrategy],
   exports: [AuthService],
   controllers: [AuthController],
 })
+
 export class AuthModule {}
