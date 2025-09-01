@@ -3,7 +3,7 @@ import { PostsRepository } from '../posts/posts.repository';
 
 @Injectable()
 export class ArticleService {
-  constructor(private postsRepository: PostsRepository) {}
+  constructor(private postsRepository: PostsRepository) { }
 
   async findAll(params: { offset?: number; limit?: number }) {
     return this.postsRepository.findAll({
