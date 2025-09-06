@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Copy package files for better caching
 COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile
+RUN bun install
 
 # Copy source and build
 COPY . .
@@ -21,7 +21,7 @@ WORKDIR /app
 
 # Install production dependencies
 COPY package.json ./
-RUN bun install --production --frozen-lockfile && \
+RUN bun install --production && \
     rm -rf /tmp/* /var/cache/apk/*
 
 # Copy built application
