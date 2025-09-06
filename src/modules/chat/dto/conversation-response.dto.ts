@@ -21,4 +21,6 @@ export const ConversationResponseSchema = z.object({
 });
 
 export type MessageResponseDto = z.infer<typeof MessageResponseSchema>;
-export type ConversationResponseDto = z.infer<typeof ConversationResponseSchema>;
+export type ConversationResponseDto = z.infer<
+  typeof ConversationResponseSchema
+>;

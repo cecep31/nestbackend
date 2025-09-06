@@ -23,7 +23,11 @@ import {
 } from '@nestjs/swagger';
 import { PostsService } from './posts.service';
 import { SuperAdminGuard } from '../auth/guards/superadmin.guard';
-import { CreatePostDto, CreatePostDtoType, CreatePostSchema } from './dto/create-post.dto';
+import {
+  CreatePostDto,
+  CreatePostDtoType,
+  CreatePostSchema,
+} from './dto/create-post.dto';
 import { LikePostDto, LikePostSchema } from './dto/like-post.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
@@ -34,12 +38,22 @@ import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
   path: 'posts',
 })
 export class PostsController {
-  constructor(private postsService: PostsService) { }
+  constructor(private postsService: PostsService) {}
 
   @Get()
   @ApiOperation({ summary: 'Get all posts with pagination' })
-  @ApiQuery({ name: 'offset', required: false, type: Number, description: 'Number of posts to skip' })
-  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Number of posts to return' })
+  @ApiQuery({
+    name: 'offset',
+    required: false,
+    type: Number,
+    description: 'Number of posts to skip',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Number of posts to return',
+  })
   @ApiResponse({ status: 200, description: 'Successfully fetched posts' })
   async findAll(
     @Query('offset') offset: number = 0,
@@ -75,8 +89,17 @@ export class PostsController {
 
   @Get('/random')
   @ApiOperation({ summary: 'Get random posts' })
-  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Number of random posts to return', example: 9 })
-  @ApiResponse({ status: 200, description: 'Successfully fetched random posts' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Number of random posts to return',
+    example: 9,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully fetched random posts',
+  })
   async getPostRandom(@Query('limit') limit: number = 9) {
     return {
       success: true,
@@ -88,8 +111,18 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Get posts created by the authenticated user' })
-  @ApiQuery({ name: 'offset', required: false, type: Number, description: 'Number of posts to skip' })
-  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Number of posts to return' })
+  @ApiQuery({
+    name: 'offset',
+    required: false,
+    type: Number,
+    description: 'Number of posts to skip',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Number of posts to return',
+  })
   @ApiResponse({ status: 200, description: 'Successfully fetched user posts' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getPostsByCreator(
@@ -115,9 +148,7 @@ export class PostsController {
   @ApiParam({ name: 'id', description: 'Post ID' })
   @ApiResponse({ status: 200, description: 'Successfully fetched post' })
   @ApiResponse({ status: 404, description: 'Post not found' })
-  async post(
-    @Param('id') id: string,
-  ) {
+  async post(@Param('id') id: string) {
     const post = await this.postsService.findById(id);
     if (!post) {
       return {
@@ -140,7 +171,10 @@ export class PostsController {
   @ApiParam({ name: 'id', description: 'Post ID to delete' })
   @ApiResponse({ status: 200, description: 'Successfully deleted post' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @ApiResponse({ status: 403, description: 'Forbidden - Super Admin access required' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Super Admin access required',
+  })
   async deletePost(@Param('id') id: string) {
     return {
       success: true,
@@ -158,7 +192,8 @@ export class PostsController {
   @ApiResponse({ status: 400, description: 'Bad request - Invalid post data' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async createPost(
-    @Body(new ZodValidationPipe(CreatePostSchema)) createPostDto: CreatePostDtoType,
+    @Body(new ZodValidationPipe(CreatePostSchema))
+    createPostDto: CreatePostDtoType,
     @Request() req,
   ) {
     return {
@@ -173,10 +208,19 @@ export class PostsController {
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Update post publish status (Super Admin only)' })
   @ApiParam({ name: 'id', description: 'Post ID to update' })
-  @ApiQuery({ name: 'published', required: false, type: Boolean, description: 'Publish status', example: true })
+  @ApiQuery({
+    name: 'published',
+    required: false,
+    type: Boolean,
+    description: 'Publish status',
+    example: true,
+  })
   @ApiResponse({ status: 200, description: 'Successfully updated post' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @ApiResponse({ status: 403, description: 'Forbidden - Super Admin access required' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Super Admin access required',
+  })
   async updatePublishPost(
     @Param('id') id: string,
     @Query('published') published: boolean = true,
@@ -216,10 +260,7 @@ export class PostsController {
   @ApiResponse({ status: 200, description: 'Successfully unliked post' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Post not found or not liked' })
-  async unlikePost(
-    @Param('id') id: string,
-    @Request() req,
-  ) {
+  async unlikePost(@Param('id') id: string, @Request() req) {
     return {
       success: true,
       message: 'Successfully unliked post',
@@ -245,13 +286,13 @@ export class PostsController {
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Check if authenticated user liked a post' })
   @ApiParam({ name: 'id', description: 'Post ID' })
-  @ApiResponse({ status: 200, description: 'Successfully checked if user liked post' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully checked if user liked post',
+  })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Post not found' })
-  async checkUserLiked(
-    @Param('id') id: string,
-    @Request() req,
-  ) {
+  async checkUserLiked(@Param('id') id: string, @Request() req) {
     return {
       success: true,
       message: 'Successfully checked if user liked post',

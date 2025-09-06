@@ -12,4 +12,4 @@ import { UsersModule } from '../users/users.module';
   providers: [MeService, PostsRepository, TagsService],
   imports: [PostsModule, TagsModule, UsersModule],
 })
-export class MeModule { }
+export class MeModule {}

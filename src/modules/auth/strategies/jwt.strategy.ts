@@ -24,4 +24,4 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       isSuperAdmin: payload.isSuperAdmin,
     };
   }
-} 
+}

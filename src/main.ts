@@ -70,7 +70,9 @@ function setupSwagger(app: any, configService: ConfigService, logger: Logger) {
   });
 
   const port = configService.get<number>('port') || DEFAULT_PORT;
-  logger.log(`Swagger documentation available at: http://localhost:${port}/api/docs`);
+  logger.log(
+    `Swagger documentation available at: http://localhost:${port}/api/docs`,
+  );
 }
 
 /**
@@ -140,7 +142,6 @@ async function bootstrap() {
 
     logger.log(`Application is running on: http://${host}:${port}`);
     logger.log(`Environment: ${nodeEnv}`);
-
   } catch (error) {
     logger.error('Failed to start application', error.stack);
     process.exit(1);

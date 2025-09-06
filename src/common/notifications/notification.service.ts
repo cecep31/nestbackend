@@ -27,14 +27,16 @@ export class NotificationService {
     try {
       // Get all active users' emails (excluding the author)
       const subscribers = await this.getSubscriberEmails(data.postId);
-      
+
       if (subscribers.length === 0) {
         this.logger.log('No subscribers found for new post notification');
         return;
       }
 
-      this.logger.log(`Sending new post notification to ${subscribers.length} subscribers`);
-      
+      this.logger.log(
+        `Sending new post notification to ${subscribers.length} subscribers`,
+      );
+
       // Send email notification
       const success = await this.emailService.sendNewPostNotification(
         subscribers,
@@ -45,9 +47,13 @@ export class NotificationService {
       );
 
       if (success) {
-        this.logger.log(`New post notification sent successfully for post: ${data.postTitle}`);
+        this.logger.log(
+          `New post notification sent successfully for post: ${data.postTitle}`,
+        );
       } else {
-        this.logger.error(`Failed to send new post notification for post: ${data.postTitle}`);
+        this.logger.error(
+          `Failed to send new post notification for post: ${data.postTitle}`,
+        );
       }
     } catch (error) {
       this.logger.error('Error sending new post notification:', error);
@@ -85,7 +91,7 @@ export class NotificationService {
       });
 
       return users
-        .map(user => user.email)
+        .map((user) => user.email)
         .filter((email): email is string => email !== null);
     } catch (error) {
       this.logger.error('Error fetching subscriber emails:', error);
@@ -103,7 +109,10 @@ export class NotificationService {
   ): Promise<void> {
     // This could be implemented with a user_notification_preferences table
     // For now, we'll log the intent
-    this.logger.log(`User ${userId} notification preferences update requested:`, preferences);
+    this.logger.log(
+      `User ${userId} notification preferences update requested:`,
+      preferences,
+    );
     // TODO: Implement when notification preferences table is added to schema
   }
 }

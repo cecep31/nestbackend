@@ -7,12 +7,18 @@ type UserId = string;
 @Injectable()
 export class UserSocketMapService {
   private readonly logger = new Logger(UserSocketMapService.name);
-  private readonly postRoomUserMap: Map<RoomId, Map<UserId, Socket>> = new Map();
-  private readonly socketToUserMap: WeakMap<Socket, { userId: UserId; roomId: RoomId }> = new WeakMap();
+  private readonly postRoomUserMap: Map<RoomId, Map<UserId, Socket>> =
+    new Map();
+  private readonly socketToUserMap: WeakMap<
+    Socket,
+    { userId: UserId; roomId: RoomId }
+  > = new WeakMap();
 
   addUserToRoom(userId: UserId, roomId: RoomId, socket: Socket): void {
     if (!userId || !roomId || !socket) {
-      this.logger.warn(`Invalid parameters for addUserToRoom: userId=${userId}, roomId=${roomId}`);
+      this.logger.warn(
+        `Invalid parameters for addUserToRoom: userId=${userId}, roomId=${roomId}`,
+      );
       return;
     }
 
@@ -27,7 +33,11 @@ export class UserSocketMapService {
 
       // Clean up any existing socket for this user in this room
       const existingSocket = roomMap.get(userId);
-      if (existingSocket && existingSocket !== socket && existingSocket.connected) {
+      if (
+        existingSocket &&
+        existingSocket !== socket &&
+        existingSocket.connected
+      ) {
         this.cleanupSocket(existingSocket);
       }
 
@@ -42,13 +52,18 @@ export class UserSocketMapService {
 
       this.logger.debug(`User ${userId} added to room ${roomId}`);
     } catch (error) {
-      this.logger.error(`Error adding user to room: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error adding user to room: ${error.message}`,
+        error.stack,
+      );
     }
   }
 
   removeUserFromRoom(userId: UserId, roomId: RoomId): void {
     if (!userId || !roomId) {
-      this.logger.warn(`Invalid parameters for removeUserFromRoom: userId=${userId}, roomId=${roomId}`);
+      this.logger.warn(
+        `Invalid parameters for removeUserFromRoom: userId=${userId}, roomId=${roomId}`,
+      );
       return;
     }
 
@@ -70,7 +85,10 @@ export class UserSocketMapService {
         this.logger.debug(`Room ${roomId} removed (no more users)`);
       }
     } catch (error) {
-      this.logger.error(`Error removing user from room: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error removing user from room: ${error.message}`,
+        error.stack,
+      );
     }
   }
 
@@ -92,13 +110,16 @@ export class UserSocketMapService {
     try {
       // Remove all listeners to prevent memory leaks
       socket.removeAllListeners();
-      
+
       // Disconnect the socket if it's still connected
       if (socket.connected) {
         socket.disconnect(true);
       }
     } catch (error) {
-      this.logger.error(`Error cleaning up socket: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error cleaning up socket: ${error.message}`,
+        error.stack,
+      );
     }
   }
 

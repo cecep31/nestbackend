@@ -21,7 +21,10 @@ interface RequestWithUser extends Request {
   };
 }
 import { ChatService } from './services/chat.service';
-import { CreateConversationDto, createConversationSchema } from './dto/create-conversation.dto';
+import {
+  CreateConversationDto,
+  createConversationSchema,
+} from './dto/create-conversation.dto';
 import { SendMessageDto, sendMessageSchema } from './dto/send-message.dto';
 import { ConversationResponseDto } from './dto/conversation-response.dto';
 import { MessageResponseDto } from './dto/conversation-response.dto';
@@ -94,7 +97,8 @@ export class ChatController {
     @Req() req: RequestWithUser,
     @Res() res: Response,
     @Param('id') conversationId: string,
-    @Body(new ZodValidationPipe(sendMessageSchema)) sendMessageDto: SendMessageDto,
+    @Body(new ZodValidationPipe(sendMessageSchema))
+    sendMessageDto: SendMessageDto,
   ): Promise<void> {
     // Set headers for SSE-like streaming response
     res.setHeader('Content-Type', 'text/event-stream');
@@ -102,7 +106,7 @@ export class ChatController {
     res.setHeader('Connection', 'keep-alive');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Cache-Control');
-    
+
     try {
       const stream = this.chatService.streamMessage(
         req.user.user_id,
@@ -117,7 +121,9 @@ export class ChatController {
         },
         error: (error: any) => {
           console.error('Streaming error:', error);
-          res.write(`data: ${JSON.stringify({ error: 'Streaming failed' })}\n\n`);
+          res.write(
+            `data: ${JSON.stringify({ error: 'Streaming failed' })}\n\n`,
+          );
           res.write('data: [DONE]\n\n');
           res.end();
         },
@@ -129,7 +135,9 @@ export class ChatController {
       });
     } catch (error) {
       console.error('Stream setup error:', error);
-      res.write(`data: ${JSON.stringify({ error: 'Failed to start streaming' })}\n\n`);
+      res.write(
+        `data: ${JSON.stringify({ error: 'Failed to start streaming' })}\n\n`,
+      );
       res.write('data: [DONE]\n\n');
       res.end();
     }

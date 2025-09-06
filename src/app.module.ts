@@ -32,10 +32,12 @@ import { ArticleModule } from './modules/article/article.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        throttlers: [{
-          ttl: config.get<number>('throttler.ttl', 60),
-          limit: config.get<number>('throttler.limit', 10),
-        }],
+        throttlers: [
+          {
+            ttl: config.get<number>('throttler.ttl', 60),
+            limit: config.get<number>('throttler.limit', 10),
+          },
+        ],
       }),
     }),
     UsersModule,
@@ -49,7 +51,7 @@ import { ArticleModule } from './modules/article/article.module';
     TagsModule,
     WriterModule,
     ChatModule,
-    ArticleModule
+    ArticleModule,
   ],
   controllers: [AppController],
   providers: [

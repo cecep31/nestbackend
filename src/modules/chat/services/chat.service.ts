@@ -102,7 +102,10 @@ export class ChatService {
 
                   observer.complete();
                 } catch (saveError) {
-                  this.logger.error('Error saving assistant response:', saveError);
+                  this.logger.error(
+                    'Error saving assistant response:',
+                    saveError,
+                  );
                   observer.error(saveError);
                 }
               },

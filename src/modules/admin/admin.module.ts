@@ -9,4 +9,4 @@ import { PostsRepository } from '../posts/posts.repository';
   providers: [AdminService, PostsRepository],
   imports: [PostsModule],
 })
-export class AdminModule { }
+export class AdminModule {}

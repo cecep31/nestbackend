@@ -19,14 +19,16 @@ import { WsExceptionFilter } from '../../filters';
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
-    credentials: true
+    credentials: true,
   },
   pingTimeout: 10000, // Close broken connections after 10s of inactivity
   pingInterval: 30000, // Send pings every 30s
   maxHttpBufferSize: 1e8, // 100MB max payload
 })
 @UseFilters(new WsExceptionFilter())
-export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+export class PostsGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server: Server;
 
@@ -37,7 +39,7 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
     private readonly postService: PostsService,
     private readonly authService: AuthService,
     private readonly userSocketMapService: UserSocketMapService,
-  ) { }
+  ) {}
 
   afterInit(server: Server) {
     this.logger.log('WebSocket PostsGateway initialized');
@@ -74,12 +76,15 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       }
 
       // Verify token with timeout
-      const authResult = await Promise.race([
+      const authResult = (await Promise.race([
         this.authService.verifyToken(token),
         new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Authentication timeout')), this.connectionTimeout)
-        )
-      ]) as { user_id: string };
+          setTimeout(
+            () => reject(new Error('Authentication timeout')),
+            this.connectionTimeout,
+          ),
+        ),
+      ])) as { user_id: string };
 
       if (!authResult?.user_id) {
         throw new WsException('Invalid authentication');
@@ -97,11 +102,13 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
       this.logger.log(
         `Socket connected: ${client.id} for user ${user_id} in room ${postId} ` +
-        `(${Date.now() - connectionStart}ms)`
+          `(${Date.now() - connectionStart}ms)`,
       );
-
     } catch (error) {
-      this.logger.error(`Connection error for ${client.id}: ${error.message}`, error.stack);
+      this.logger.error(
+        `Connection error for ${client.id}: ${error.message}`,
+        error.stack,
+      );
 
       // Send error to client before disconnecting
       client.emit('error', {
@@ -125,7 +132,9 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
       if (userId && postId) {
         this.userSocketMapService.removeUserFromRoom(userId, postId);
-        this.logger.log(`Socket disconnected: ${client.id} (user: ${userId}, room: ${postId})`);
+        this.logger.log(
+          `Socket disconnected: ${client.id} (user: ${userId}, room: ${postId})`,
+        );
       } else {
         this.logger.log(`Anonymous socket disconnected: ${client.id}`);
       }
@@ -133,13 +142,18 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       // Clean up any remaining listeners
       client.removeAllListeners();
     } catch (error) {
-      this.logger.error(`Error during socket disconnection: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error during socket disconnection: ${error.message}`,
+        error.stack,
+      );
     }
   }
 
   @SubscribeMessage('sendComment')
   async handleComment(client: Socket, payload: any) {
-    this.logger.log(`Received comment from ${client.id}: ${JSON.stringify(payload)}`);
+    this.logger.log(
+      `Received comment from ${client.id}: ${JSON.stringify(payload)}`,
+    );
     try {
       const userId = this.userSocketMapService.getUserIdBySocket(client);
       if (!userId) {
@@ -158,14 +172,19 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       this.server.to(postId).emit('newComment', comments);
       return { status: 'success', data: comments };
     } catch (error) {
-      this.logger.error(`Error handling comment: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error handling comment: ${error.message}`,
+        error.stack,
+      );
       throw new WsException(error.message || 'Error sending comment');
     }
   }
 
   @SubscribeMessage('typing')
   handleTyping(client: Socket, payload: { postId: string; isTyping: boolean }) {
-    this.logger.log(`User ${this.userSocketMapService.getUserIdBySocket(client)} is typing...`);
+    this.logger.log(
+      `User ${this.userSocketMapService.getUserIdBySocket(client)} is typing...`,
+    );
     try {
       const userId = this.userSocketMapService.getUserIdBySocket(client);
       if (!userId) {
@@ -174,19 +193,24 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
       client.to(payload.postId).emit('userTyping', {
         userId,
-        isTyping: payload.isTyping
+        isTyping: payload.isTyping,
       });
 
       return { status: 'success' };
     } catch (error) {
-      this.logger.error(`Error handling typing event: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error handling typing event: ${error.message}`,
+        error.stack,
+      );
       throw new WsException(error.message || 'Error handling typing event');
     }
   }
 
   @SubscribeMessage('markAsRead')
   async handleMarkAsRead(client: Socket, payload: { commentId: string }) {
-    this.logger.log(`User ${this.userSocketMapService.getUserIdBySocket(client)} marked comment as read.`);
+    this.logger.log(
+      `User ${this.userSocketMapService.getUserIdBySocket(client)} marked comment as read.`,
+    );
     try {
       const userId = this.userSocketMapService.getUserIdBySocket(client);
       if (!userId) {
@@ -203,7 +227,9 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
       // to mark it as read by this user. Since we don't have the actual implementation
       // of the PostsService, we'll just log the action and return success.
 
-      this.logger.log(`User ${userId} marked comment ${payload.commentId} as read`);
+      this.logger.log(
+        `User ${userId} marked comment ${payload.commentId} as read`,
+      );
 
       // Refresh the comments to get the latest state
       const comments = await this.postService.getAllComments(postId);
@@ -213,7 +239,10 @@ export class PostsGateway implements OnGatewayInit, OnGatewayConnection, OnGatew
 
       return { status: 'success' };
     } catch (error) {
-      this.logger.error(`Error marking comment as read: ${error.message}`, error.stack);
+      this.logger.error(
+        `Error marking comment as read: ${error.message}`,
+        error.stack,
+      );
       throw new WsException(error.message || 'Error marking comment as read');
     }
   }

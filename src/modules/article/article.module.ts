@@ -10,5 +10,4 @@ import { AuthModule } from '../auth/auth.module';
   providers: [ArticleService, PostsRepository],
   exports: [ArticleService],
 })
-
-export class ArticleModule { }
+export class ArticleModule {}

@@ -7,9 +7,11 @@ export class WsExceptionFilter extends BaseWsExceptionFilter {
 
   catch(exception: any, host: ArgumentsHost) {
     const client = host.switchToWs().getClient<Socket>();
-    
+
     if (exception instanceof WsException) {
-      this.logger.error(`WebSocket error for client ${client.id}: ${exception.message}`);
+      this.logger.error(
+        `WebSocket error for client ${client.id}: ${exception.message}`,
+      );
       client.emit('error', {
         status: 'error',
         message: exception.message || 'Internal server error',
@@ -24,7 +26,10 @@ export class WsExceptionFilter extends BaseWsExceptionFilter {
         message: 'Internal server error',
       });
     } else {
-      this.logger.error(`Unknown WebSocket error for client ${client.id}`, exception);
+      this.logger.error(
+        `Unknown WebSocket error for client ${client.id}`,
+        exception,
+      );
       client.emit('error', {
         status: 'error',
         message: 'Internal server error',

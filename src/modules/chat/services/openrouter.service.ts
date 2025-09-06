@@ -2,10 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
 import OpenAI from 'openai';
-import {
-  OpenAIMessage,
-  OpenAIResponse,
-} from '../interfaces/openai.types';
+import { OpenAIMessage, OpenAIResponse } from '../interfaces/openai.types';
 
 interface OpenRouterConfig {
   apiKey: string;
@@ -24,10 +21,15 @@ export class OpenRouterService {
   constructor(private readonly configService: ConfigService) {
     this.config = {
       apiKey: this.configService.get<string>('openrouter.apiKey') || '',
-      baseUrl: this.configService.get<string>('openrouter.baseUrl') || 'https://openrouter.ai/api/v1',
-      defaultModel: this.configService.get<string>('openrouter.defaultModel') || 'openai/gpt-3.5-turbo',
+      baseUrl:
+        this.configService.get<string>('openrouter.baseUrl') ||
+        'https://openrouter.ai/api/v1',
+      defaultModel:
+        this.configService.get<string>('openrouter.defaultModel') ||
+        'openai/gpt-3.5-turbo',
       maxTokens: this.configService.get<number>('openrouter.maxTokens') || 4000,
-      temperature: this.configService.get<number>('openrouter.temperature') || 0.7,
+      temperature:
+        this.configService.get<number>('openrouter.temperature') || 0.7,
     };
 
     this.openai = new OpenAI({
@@ -59,7 +61,7 @@ export class OpenRouterService {
         try {
           const stream = await this.openai.chat.completions.create({
             model,
-            messages: messages.map(msg => ({
+            messages: messages.map((msg) => ({
               role: msg.role,
               content: msg.content,
             })),
@@ -101,7 +103,7 @@ export class OpenRouterService {
     try {
       const completion = await this.openai.chat.completions.create({
         model,
-        messages: messages.map(msg => ({
+        messages: messages.map((msg) => ({
           role: msg.role,
           content: msg.content,
         })),
@@ -114,7 +116,7 @@ export class OpenRouterService {
       const response: OpenAIResponse = {
         id: completion.id,
         model: completion.model,
-        choices: completion.choices.map(choice => ({
+        choices: completion.choices.map((choice) => ({
           message: {
             role: choice.message.role,
             content: choice.message.content || '',
@@ -135,7 +137,9 @@ export class OpenRouterService {
       if (error.message?.includes('API error:')) {
         throw error;
       }
-      throw new Error('Failed to get response from OpenAI chat completion endpoint');
+      throw new Error(
+        'Failed to get response from OpenAI chat completion endpoint',
+      );
     }
   }
 }

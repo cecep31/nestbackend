@@ -64,7 +64,9 @@ describe('PostsService', () => {
           useValue: {
             // Mock PrismaService methods as needed
             posts: {
-              findUnique: jest.fn().mockResolvedValue({ id: '123', title: 'Test Post' }),
+              findUnique: jest
+                .fn()
+                .mockResolvedValue({ id: '123', title: 'Test Post' }),
             },
           },
         },

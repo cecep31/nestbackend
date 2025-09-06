@@ -26,5 +26,4 @@ import { DbModule } from '../../db/db.module';
   exports: [AuthService],
   controllers: [AuthController],
 })
-
 export class AuthModule {}

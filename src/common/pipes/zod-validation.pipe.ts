@@ -1,4 +1,9 @@
-import { PipeTransform, Injectable, BadRequestException, Type } from '@nestjs/common';
+import {
+  PipeTransform,
+  Injectable,
+  BadRequestException,
+  Type,
+} from '@nestjs/common';
 import { ZodSchema, ZodError } from 'zod';
 
 interface ZodValidationPipeOptions {
@@ -7,13 +12,13 @@ interface ZodValidationPipeOptions {
    * This is used to improve the error message.
    */
   expectedType?: string;
-  
+
   /**
    * Whether to transform the value to the expected type.
    * @default true
    */
   transform?: boolean;
-  
+
   /**
    * Whether to disable error messages.
    * @default false
@@ -23,7 +28,7 @@ interface ZodValidationPipeOptions {
 
 /**
  * A pipe that validates the input value against a Zod schema.
- * 
+ *
  * @example
  * ```typescript
  * @Post()
@@ -60,12 +65,12 @@ export class ZodValidationPipe<T = any> implements PipeTransform<T> {
 
     try {
       let schemaToUse = this.schema;
-      
+
       // Only apply strict() if transform is false and the schema supports it
       if (!this.options.transform && 'strict' in schemaToUse) {
         schemaToUse = (schemaToUse as any).strict() as ZodSchema<T>;
       }
-      
+
       const result = await schemaToUse.parseAsync(value);
       return result;
     } catch (error) {
@@ -74,11 +79,13 @@ export class ZodValidationPipe<T = any> implements PipeTransform<T> {
         throw new BadRequestException({
           statusCode: 400,
           message: 'Validation failed',
-          errors: this.options.disableErrorMessages ? undefined : validationErrors,
+          errors: this.options.disableErrorMessages
+            ? undefined
+            : validationErrors,
           error: 'Bad Request',
         });
       }
-      
+
       // Re-throw unexpected errors
       throw error;
     }
@@ -91,25 +98,25 @@ export class ZodValidationPipe<T = any> implements PipeTransform<T> {
    */
   private formatZodError(error: ZodError): Record<string, string[]> {
     const formattedErrors: Record<string, string[]> = {};
-    
+
     error.issues.forEach((err) => {
       const path = err.path.join('.');
       const message = err.message;
-      
+
       if (!formattedErrors[path]) {
         formattedErrors[path] = [];
       }
-      
+
       formattedErrors[path].push(message);
     });
-    
+
     return formattedErrors;
   }
 
   /**
    * Creates a new instance of the pipe with the given schema and options.
    * This is useful for inline usage with the `@UsePipes` decorator.
-   * 
+   *
    * @example
    * ```typescript
    * @Post()
@@ -128,7 +135,7 @@ export class ZodValidationPipe<T = any> implements PipeTransform<T> {
         super(schema, options);
       }
     }
-    
+
     return SchemaSpecificPipe;
   }
 }

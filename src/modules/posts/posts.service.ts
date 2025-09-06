@@ -51,9 +51,9 @@ export class PostsService {
         published: true,
       },
     });
-    
+
     const totalPages = Math.ceil(totalposts / limit);
-    
+
     return {
       postsData: postsData.map((post) => ({
         ...post,
@@ -75,9 +75,10 @@ export class PostsService {
       offset,
       limit,
     );
-    const totalItems = await this.postsRepository.getPostsByCreatorCount(user_id);
+    const totalItems =
+      await this.postsRepository.getPostsByCreatorCount(user_id);
     const totalPages = Math.ceil(totalItems / limit);
-    
+
     const metadata = {
       total_items: totalItems,
       offset: offset,
@@ -141,24 +142,27 @@ export class PostsService {
         select: { username: true, first_name: true, last_name: true },
       });
 
-      const authorName = author?.username || 
-        `${author?.first_name || ''} ${author?.last_name || ''}`.trim() || 
+      const authorName =
+        author?.username ||
+        `${author?.first_name || ''} ${author?.last_name || ''}`.trim() ||
         'Unknown Author';
 
       // Extract excerpt from post body (first 200 characters)
       const postExcerpt = this.truncateBody(newpost.body || '', 200);
 
       // Trigger notification asynchronously (don't wait for it to complete)
-      this.notificationService.notifyNewPost({
-        postId: newpost.id,
-        postTitle: newpost.title,
-        postSlug: newpost.slug,
-        authorName,
-        postExcerpt,
-      }).catch(error => {
-        // Log error but don't fail the post creation
-        console.error('Failed to send new post notification:', error);
-      });
+      this.notificationService
+        .notifyNewPost({
+          postId: newpost.id,
+          postTitle: newpost.title,
+          postSlug: newpost.slug,
+          authorName,
+          postExcerpt,
+        })
+        .catch((error) => {
+          // Log error but don't fail the post creation
+          console.error('Failed to send new post notification:', error);
+        });
     }
 
     return newpost;
@@ -173,16 +177,16 @@ export class PostsService {
 
   async likePost(likePostDto: LikePostDto, user_id: string) {
     const { post_id } = likePostDto;
-    
+
     // Check if post exists
     const post = await this.prisma.posts.findUnique({
       where: { id: post_id },
     });
-    
+
     if (!post) {
       throw new NotFoundException('Post not found');
     }
-    
+
     // Check if user already liked the post
     const existingLike = await this.prisma.likes.findFirst({
       where: {
@@ -190,12 +194,12 @@ export class PostsService {
         user_id,
       },
     });
-    
+
     if (existingLike) {
       // User already liked the post, so we'll return the existing like
       return existingLike;
     }
-    
+
     // Create a new like
     const like = await this.prisma.likes.create({
       data: {
@@ -204,20 +208,20 @@ export class PostsService {
         created_at: new Date(),
       },
     });
-    
+
     return like;
   }
-  
+
   async unlikePost(post_id: string, user_id: string) {
     // Check if post exists
     const post = await this.prisma.posts.findUnique({
       where: { id: post_id },
     });
-    
+
     if (!post) {
       throw new NotFoundException('Post not found');
     }
-    
+
     // Find the like
     const existingLike = await this.prisma.likes.findFirst({
       where: {
@@ -225,34 +229,34 @@ export class PostsService {
         user_id,
       },
     });
-    
+
     if (!existingLike) {
       throw new NotFoundException('Like not found');
     }
-    
+
     // Delete the like
     await this.prisma.likes.delete({
       where: { id: existingLike.id },
     });
-    
+
     return { success: true, message: 'Post unliked successfully' };
   }
-  
+
   async getPostLikes(post_id: string) {
     // Check if post exists
     const post = await this.prisma.posts.findUnique({
       where: { id: post_id },
     });
-    
+
     if (!post) {
       throw new NotFoundException('Post not found');
     }
-    
+
     // Get likes count
     const likesCount = await this.prisma.likes.count({
       where: { post_id },
     });
-    
+
     // Get users who liked the post
     const likes = await this.prisma.likes.findMany({
       where: { post_id },
@@ -269,13 +273,13 @@ export class PostsService {
         },
       },
     });
-    
+
     return {
       count: likesCount,
-      users: likes.map(like => like.users),
+      users: likes.map((like) => like.users),
     };
   }
-  
+
   async checkUserLiked(post_id: string, user_id: string) {
     const like = await this.prisma.likes.findFirst({
       where: {
@@ -283,7 +287,7 @@ export class PostsService {
         user_id,
       },
     });
-    
+
     return { liked: !!like };
   }
 }

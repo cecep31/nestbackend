@@ -5,12 +5,9 @@ export const sendMessageSchema = z.object({
   model: z
     .string()
     .optional()
-    .refine(
-      (model) => !model || model.endsWith(':free'),
-      {
-        message: 'Only free models are allowed. Model name must end with ":free"',
-      }
-    )
+    .refine((model) => !model || model.endsWith(':free'), {
+      message: 'Only free models are allowed. Model name must end with ":free"',
+    })
     .default('deepseek/deepseek-chat:free')
     .describe('Model to use for the response. Only free models are allowed'),
   temperature: z
