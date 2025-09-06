@@ -5,10 +5,9 @@ import { PostsRepository } from './posts.repository';
 import { PostsGateway } from './posts.gateway';
 import { UserSocketMapService } from './user-map-service';
 import { AuthModule } from '../auth/auth.module';
-import { NotificationModule } from '../../common/notifications/notification.module';
 
 @Module({
-  imports: [AuthModule, NotificationModule],
+  imports: [AuthModule],
   controllers: [PostsController],
   providers: [
     PostsService,
