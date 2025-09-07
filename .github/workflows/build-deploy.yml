@@ -41,26 +41,26 @@ jobs:
           # Tag the image with 'latest'
           tags: cecep31/nestbackend:latest
   # Job to deploy the application to Fly.io
-  deploy:
+  # deploy:
     # This job will only run after the 'docker' job completes successfully
-    needs: docker
-    name: Deploy app to Fly.io
-    runs-on: ubuntu-latest
+    # needs: docker
+    # name: Deploy app to Fly.io
+    # runs-on: ubuntu-latest
     # Ensure only one deployment runs at a time to prevent conflicts
-    concurrency: deploy-group
+    # concurrency: deploy-group
     
-    steps:
+    # steps:
       # Check out the repository code
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # - name: Checkout code
+        # uses: actions/checkout@v4
       
       # Set up Fly.io CLI (flyctl)
-      - name: Set up Fly.io CLI
-        uses: superfly/flyctl-actions/setup-flyctl@master
+      # - name: Set up Fly.io CLI
+        # uses: superfly/flyctl-actions/setup-flyctl@master
       
       # Deploy the application to Fly.io using the '--remote-only' flag
-      - name: Deploy to Fly.io
-        run: flyctl deploy --remote-only
-        env:
+      # - name: Deploy to Fly.io
+        # run: flyctl deploy --remote-only
+        # env:
           # Fly.io API token stored in GitHub Secrets for authentication
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          # FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
