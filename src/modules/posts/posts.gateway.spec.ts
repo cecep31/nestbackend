@@ -7,8 +7,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../db/prisma.service';
 import { PostsRepository } from './posts.repository';
-import { NotificationService } from '../../common/notifications/notification.service';
-import { EmailService } from '../../common/email/email.service';
+// import { NotificationService } from '../../common/notifications/notification.service';
+// import { EmailService } from '../../common/email/email.service';
 
 describe('PostsGateway', () => {
   let gateway: PostsGateway;
@@ -21,8 +21,8 @@ describe('PostsGateway', () => {
         AuthService,
         UserSocketMapService,
         PostsRepository,
-        NotificationService,
-        EmailService,
+        // NotificationService,
+        // EmailService,
         {
           provide: JwtService,
           useValue: {

@@ -17,12 +17,12 @@ import {
 import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
-import { LoginDto, loginSchema } from './schemas/loogin-schema';
-import { RegisterDto, registerSchema } from './schemas/register-schema';
-import {
-  CheckUsernameDto,
-  checkUsernameSchema,
-} from './schemas/check-username-schema';
+import type { LoginDto } from './schemas/loogin-schema';
+import { loginSchema } from './schemas/loogin-schema';
+import type { RegisterDto } from './schemas/register-schema';
+import { registerSchema } from './schemas/register-schema';
+import type { CheckUsernameDto } from './schemas/check-username-schema';
+import { checkUsernameSchema } from './schemas/check-username-schema';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 

@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PostsService } from './posts.service';
 import { PrismaService } from '../../db/prisma.service';
 import { PostsRepository } from './posts.repository';
-import { NotificationService } from '../../common/notifications/notification.service';
-import { EmailService } from '../../common/email/email.service';
+// import { NotificationService } from '../../common/notifications/notification.service';
+// import { EmailService } from '../../common/email/email.service';
 import { ConfigService } from '@nestjs/config';
 
 describe('PostsService', () => {
@@ -14,8 +14,8 @@ describe('PostsService', () => {
       providers: [
         PostsService,
         PostsRepository,
-        NotificationService,
-        EmailService,
+        // NotificationService,
+        // EmailService,
         {
           provide: PrismaService,
           useValue: {
@@ -57,8 +57,8 @@ describe('PostsService', () => {
       providers: [
         PostsService,
         PostsRepository,
-        NotificationService,
-        EmailService,
+        // NotificationService,
+        // EmailService,
         {
           provide: PrismaService,
           useValue: {

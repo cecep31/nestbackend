@@ -15,15 +15,18 @@ import {
   Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import {
+import type {
   CreateUserDto,
   UpdateUserDto,
   ResetPasswordDto,
+} from './schemas/user.schema';
+import {
   createUserSchema,
   updateUserSchema,
   resetPasswordSchema,
 } from './schemas/user.schema';
-import { FollowUserDto, followUserSchema } from './schemas/follow.schema';
+import type { FollowUserDto } from './schemas/follow.schema';
+import { followUserSchema } from './schemas/follow.schema';
 import { SuperAdminGuard } from '../auth/guards/superadmin.guard';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';

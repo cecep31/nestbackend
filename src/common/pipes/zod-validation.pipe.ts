@@ -4,7 +4,7 @@ import {
   BadRequestException,
   Type,
 } from '@nestjs/common';
-import { ZodSchema, ZodError } from 'zod';
+import { z, ZodError } from 'zod';
 
 interface ZodValidationPipeOptions {
   /**
@@ -42,7 +42,7 @@ export class ZodValidationPipe<T = any> implements PipeTransform<T> {
   private readonly options: ZodValidationPipeOptions;
 
   constructor(
-    private readonly schema: ZodSchema<T>,
+    private readonly schema: z.Schema<T>,
     options?: ZodValidationPipeOptions,
   ) {
     this.options = {
@@ -68,7 +68,7 @@ export class ZodValidationPipe<T = any> implements PipeTransform<T> {
 
       // Only apply strict() if transform is false and the schema supports it
       if (!this.options.transform && 'strict' in schemaToUse) {
-        schemaToUse = (schemaToUse as any).strict() as ZodSchema<T>;
+        schemaToUse = (schemaToUse as any).strict() as z.Schema<T>;
       }
 
       const result = await schemaToUse.parseAsync(value);
@@ -127,7 +127,7 @@ export class ZodValidationPipe<T = any> implements PipeTransform<T> {
    * ```
    */
   static create<T>(
-    schema: ZodSchema<T>,
+    schema: z.Schema<T>,
     options?: ZodValidationPipeOptions,
   ): Type<PipeTransform> {
     class SchemaSpecificPipe extends ZodValidationPipe<T> {

@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { WorkspacesService } from './workspaces.service';
-import { CreateWorkspaceDto } from './dto/create-workspace.dto';
-import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
+import type { CreateWorkspaceDto } from './dto/create-workspace.dto';
+import type { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 
 @Controller('workspaces')
 export class WorkspacesController {
