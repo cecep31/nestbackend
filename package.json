@@ -39,7 +39,7 @@
     "class-validator": "^0.14.2",
     "minio": "^8.0.5",
     "nest-winston": "^1.10.2",
-    "openai": "^5.19.1",
+    "openai": "^5.20.0",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
     "passport-jwt": "^4.0.1",
@@ -79,7 +79,7 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.42.0"
+    "typescript-eslint": "^8.43.0"
   },
   "jest": {
     "moduleFileExtensions": [
