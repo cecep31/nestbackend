@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../db/prisma.service';
 import { randomBytes } from 'crypto';
@@ -42,13 +42,16 @@ export class AuthService {
 
     // If still not found, create new user
     if (!user) {
+      // Generate a secure random password for OAuth users
+      const oauthPassword = await hash(randomBytes(32).toString('hex'), 10);
+
       // try if username is already taken
       try {
         user = await this.prisma.users.create({
           data: {
             username: username || provider + '_' + providerId,
             email: email || `${providerId}@${provider}.oauth`,
-            password: providerId, // Not used, just a placeholder
+            password: oauthPassword, // Secure hashed password for OAuth users
             image: photo,
           },
         });
@@ -57,7 +60,7 @@ export class AuthService {
           data: {
             username: provider + '_' + providerId,
             email: email || `${providerId}@${provider}.oauth`,
-            password: providerId, // Not used, just a placeholder
+            password: oauthPassword, // Secure hashed password for OAuth users
             image: photo,
           },
         });
@@ -174,11 +177,13 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<any> {
+    const hashedPassword = await hash(password, 10);
+
     const user = await this.prisma.users.create({
       data: {
         username,
         email,
-        password,
+        password: hashedPassword,
         first_name: username,
         last_name: 'User',
       },
