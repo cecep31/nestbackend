@@ -43,11 +43,15 @@ export class ChatController {
     @Req() req: RequestWithUser,
     @Body(new ZodValidationPipe(createConversationSchema))
     createConversationDto: CreateConversationDto,
-  ): Promise<ConversationResponseDto> {
-    return this.chatService.createConversation(
-      req.user.user_id,
-      createConversationDto,
-    );
+  ) {
+    return {
+      success: true,
+      message: 'Conversation created successfully',
+      data: this.chatService.createConversation(
+        req.user.user_id,
+        createConversationDto,
+      ),
+    };
   }
 
   @Post('conversations/:id/messages')
@@ -57,38 +61,55 @@ export class ChatController {
     @Param('id') conversationId: string,
     @Body(new ZodValidationPipe(sendMessageSchema))
     sendMessageDto: SendMessageDto,
-  ): Promise<MessageResponseDto> {
-    return this.chatService.sendMessage(
-      req.user.user_id,
-      conversationId,
-      sendMessageDto,
-    );
+  ) {
+    return {
+      success: true,
+      message: 'Message sent successfully',
+      data: this.chatService.sendMessage(
+        req.user.user_id,
+        conversationId,
+        sendMessageDto,
+      ),
+    };
   }
 
   @Get('conversations')
   listConversations(
     @Req() req: RequestWithUser,
-  ): Promise<ConversationResponseDto[]> {
-    return this.chatService.listConversations(req.user.user_id);
+  ) {
+    return {
+      success: true,
+      message: 'Conversations retrieved successfully',
+      data: this.chatService.listConversations(req.user.user_id),
+    };
   }
 
   @Get('conversations/:id')
   getConversation(
     @Req() req: RequestWithUser,
     @Param('id') conversationId: string,
-  ): Promise<ConversationResponseDto> {
-    return this.chatService.getConversation(req.user.user_id, conversationId);
+  ) {
+    return {
+      success: true,
+      message: 'Conversation retrieved successfully',
+      data: this.chatService.getConversation(req.user.user_id, conversationId),
+    };
   }
 
   @Delete('conversations/:id')
-  deleteConversation(
+  async deleteConversation(
     @Req() req: RequestWithUser,
     @Param('id') conversationId: string,
-  ): Promise<void> {
-    return this.chatService.deleteConversation(
+  ) {
+    await this.chatService.deleteConversation(
       req.user.user_id,
       conversationId,
     );
+    
+    return {
+      success: true,
+      message: 'Conversation deleted successfully'
+    };
   }
 
   @Post('conversations/:id/messages/stream')
