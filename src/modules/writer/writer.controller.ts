@@ -11,10 +11,6 @@ export class WriterController {
   @Get(':username')
   async getWriterByUserName(@Param('username') username: string) {
     const writer = await this.writerService.getWriterByUserName(username);
-    return {
-      message: 'Writer fetched successfully',
-      status: true,
-      data: writer,
-    };
+    return writer;
   }
 }
