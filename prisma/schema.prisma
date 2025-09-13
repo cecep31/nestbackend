@@ -32,8 +32,8 @@ model posts {
   slug          String?         @unique(map: "idx_posts_slug") @db.VarChar(255)
   photo_url     String?
   published     Boolean?        @default(true)
-  view_count    Int?         @default(0)
-  like_count    Int?         @default(0)
+  view_count    Int?            @default(0)
+  like_count    Int?            @default(0)
   likes         likes[]
   post_comments post_comments[]
   post_likes    post_likes[]
@@ -56,9 +56,9 @@ model users {
   image           String?
   is_super_admin  Boolean?        @default(false)
   username        String?         @unique(map: "idx_users_username") @db.VarChar(255)
-  github_id       Int?         @unique(map: "users_github_id_unique")
-  followers_count Int?         @default(0)
-  following_count Int?         @default(0)
+  github_id       Int?            @unique(map: "users_github_id_unique")
+  followers_count Int?            @default(0)
+  following_count Int?            @default(0)
   files           files[]
   likes           likes[]
   post_comments   post_comments[]
@@ -127,25 +127,25 @@ model profiles {
 }
 
 model chat_conversations {
-  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  created_at DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at DateTime  @updatedAt @db.Timestamptz(6)
-  deleted_at DateTime? @db.Timestamptz(6)
-  title      String    @db.VarChar(255)
-  user_id    String    @db.Uuid
+  id         String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at DateTime        @updatedAt @db.Timestamptz(6)
+  deleted_at DateTime?       @db.Timestamptz(6)
+  title      String          @db.VarChar(255)
+  user_id    String          @db.Uuid
   messages   chat_messages[]
 }
 
 model chat_messages {
-  id                String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  created_at        DateTime @default(now()) @db.Timestamptz(6)
-  updated_at        DateTime @updatedAt @db.Timestamptz(6)
-  conversation_id   String   @db.Uuid
+  id                String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at        DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime           @updatedAt @db.Timestamptz(6)
+  conversation_id   String             @db.Uuid
   conversation      chat_conversations @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_chat_messages_conversation_id")
-  user_id           String   @db.Uuid
-  role              String   @db.VarChar(20)
+  user_id           String             @db.Uuid
+  role              String             @db.VarChar(20)
   content           String
-  model             String?  @db.VarChar(100)
+  model             String?            @db.VarChar(100)
   prompt_tokens     Int?
   completion_tokens Int?
   total_tokens      Int?
@@ -202,12 +202,12 @@ model post_views {
 }
 
 model sessions {
-  refresh_token      String    @id @db.VarChar(200)
-  user_id    String    @db.Uuid
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  user_agent String?
-  expires_at DateTime? @db.Timestamptz(6)
-  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "sessions_user_id_users_id_fk")
+  refresh_token String    @id @db.VarChar(200)
+  user_id       String    @db.Uuid
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  user_agent    String?
+  expires_at    DateTime? @db.Timestamptz(6)
+  users         users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "sessions_user_id_users_id_fk")
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
