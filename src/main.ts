@@ -5,7 +5,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
 import { winstonConfig } from './config/winston';
-import { ResponseInterceptor } from './common/interceptors';
 
 const DEFAULT_PORT = 3001;
 const DEFAULT_HOST = '0.0.0.0';
@@ -31,9 +30,6 @@ function configureApp(app: any) {
       transform: true,
     }),
   );
-
-  // Apply global response interceptor
-  app.useGlobalInterceptors(new ResponseInterceptor());
 }
 
 /**
