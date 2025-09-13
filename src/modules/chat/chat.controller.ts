@@ -74,25 +74,25 @@ export class ChatController {
   }
 
   @Get('conversations')
-  listConversations(
+  async listConversations(
     @Req() req: RequestWithUser,
   ) {
     return {
       success: true,
       message: 'Conversations retrieved successfully',
-      data: this.chatService.listConversations(req.user.user_id),
+      data: await this.chatService.listConversations(req.user.user_id),
     };
   }
 
   @Get('conversations/:id')
-  getConversation(
+  async getConversation(
     @Req() req: RequestWithUser,
     @Param('id') conversationId: string,
   ) {
     return {
       success: true,
       message: 'Conversation retrieved successfully',
-      data: this.chatService.getConversation(req.user.user_id, conversationId),
+      data: await this.chatService.getConversation(req.user.user_id, conversationId),
     };
   }
 

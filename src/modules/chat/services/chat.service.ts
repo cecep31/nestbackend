@@ -7,6 +7,7 @@ import { CreateConversationDto } from '../dto/create-conversation.dto';
 import { SendMessageDto } from '../dto/send-message.dto';
 import {
   ConversationResponseDto,
+  ConversationWithMessagesResponseDto,
   MessageResponseDto,
 } from '../dto/conversation-response.dto';
 
@@ -132,7 +133,7 @@ export class ChatService {
       },
     });
 
-    return this.formatConversationResponse(conversation, []);
+    return this.formatConversationResponse(conversation);
   }
 
   async sendMessage(
@@ -196,23 +197,18 @@ export class ChatService {
       throw new NotFoundException('Conversation not found');
     }
 
-    return this.formatConversationResponse(conversation, conversation.messages);
+    return this.formatConversationResponseWithMessages(conversation, conversation.messages);
   }
 
   async listConversations(userId: string): Promise<ConversationResponseDto[]> {
     const conversations = await this.prisma.chat_conversations.findMany({
       where: { user_id: userId },
-      include: {
-        messages: {
-          orderBy: { created_at: 'desc' },
-          take: 1, // Only get the latest message for the list
-        },
-      },
+      
       orderBy: { updated_at: 'desc' },
     });
 
     return conversations.map((conv) =>
-      this.formatConversationResponse(conv, conv.messages),
+      this.formatConversationResponse(conv),
     );
   }
 
@@ -294,8 +290,21 @@ export class ChatService {
 
   private formatConversationResponse(
     conversation: any,
-    messages: any[],
+    // messages: any[],
   ): ConversationResponseDto {
+    return {
+      id: conversation.id,
+      title: conversation.title,
+      workspaceId: conversation.workspace_id || undefined,
+      // messages: messages.map((msg) => this.formatMessageResponse(msg)),
+      createdAt: conversation.created_at,
+      updatedAt: conversation.updated_at,
+    };
+  }
+  private formatConversationResponseWithMessages(
+    conversation: any,
+    messages: any[],
+  ): ConversationWithMessagesResponseDto {
     return {
       id: conversation.id,
       title: conversation.title,

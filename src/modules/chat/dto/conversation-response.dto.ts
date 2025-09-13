@@ -15,6 +15,14 @@ export const ConversationResponseSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
   workspaceId: z.string().uuid().optional(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+export const ConversationWithMessagesResponseSchema = z.object({
+  id: z.string().uuid(),
+  title: z.string(),
+  workspaceId: z.string().uuid().optional(),
   messages: z.array(MessageResponseSchema),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -23,4 +31,7 @@ export const ConversationResponseSchema = z.object({
 export type MessageResponseDto = z.infer<typeof MessageResponseSchema>;
 export type ConversationResponseDto = z.infer<
   typeof ConversationResponseSchema
+>;
+export type ConversationWithMessagesResponseDto = z.infer<
+  typeof ConversationWithMessagesResponseSchema
 >;
