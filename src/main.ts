@@ -2,9 +2,7 @@ import { ValidationPipe, VersioningType, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
-import { winstonConfig } from './config/winston';
 
 const DEFAULT_PORT = 3001;
 const DEFAULT_HOST = '0.0.0.0';
@@ -113,7 +111,6 @@ async function bootstrap() {
   try {
     // Create the NestJS application
     const app = await NestFactory.create(AppModule, {
-      logger: WinstonModule.createLogger(winstonConfig),
       abortOnError: false,
     });
 

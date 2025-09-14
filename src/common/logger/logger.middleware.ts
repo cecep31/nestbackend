@@ -1,11 +1,9 @@
-import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Logger } from 'winston';
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-    constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
+    private readonly logger = new Logger('HTTP');
 
     /**
      * Middleware to log HTTP requests and responses with high-resolution timing.
@@ -27,12 +25,7 @@ export class LoggerMiddleware implements NestMiddleware {
             const [seconds, nanoseconds] = process.hrtime(start);
             const durationMs = Math.round((seconds * 1e9 + nanoseconds) / 1e6); // ms
             const { statusCode } = res;
-            this.logger.info(`${method} ${originalUrl} [${event}]`, {
-                statusCode,
-                duration: `${durationMs}ms`,
-                ip,
-                userAgent,
-            });
+            this.logger.log(`${method} ${originalUrl} [${event}] - ${statusCode} - ${durationMs}ms - ${ip} - ${userAgent}`);
         };
 
         res.on('finish', () => logRequest('finish'));

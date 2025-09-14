@@ -12,8 +12,6 @@ import { DbModule } from './db/db.module';
 import { MeModule } from './modules/me/me.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { LoggerMiddleware } from './common/logger/logger.middleware';
-import { WinstonModule } from 'nest-winston';
-import { winstonConfig } from './config/winston';
 import { TagsModule } from './modules/tags/tags.module';
 import { WriterModule } from './modules/writer/writer.module';
 import { ChatModule } from './modules/chat/chat.module';
@@ -23,7 +21,6 @@ import { ArticleModule } from './modules/article/article.module';
 
 @Module({
   imports: [
-    WinstonModule.forRoot(winstonConfig),
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,
