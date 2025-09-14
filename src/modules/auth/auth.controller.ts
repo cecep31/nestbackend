@@ -135,7 +135,18 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('refresh-token')
-  refreshToken(@Request() req) {
-    return this.authService.refreshToken(req.user);
+  async refreshToken(@Request() req) {
+    const data = await this.authService.refreshToken(req.user)
+    if (!data) {
+      throw new UnauthorizedException({
+        success: false,
+        message: 'Invalid credentials',
+      });
+    }
+    return {
+      data,
+      success: true,
+      message: 'Refresh token successful',
+    };
   }
 }
