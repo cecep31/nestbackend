@@ -177,6 +177,7 @@ export class UsersController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id/follow-stats')
   async getFollowStats(@Param('id', ParseUUIDPipe) id: string) {
     const data = await this.usersService.getFollowStats(id);
@@ -201,6 +202,7 @@ export class UsersController {
     };
   }
 
+  @UseGuards(JwtAuthGuard, SuperAdminGuard)
   @Delete(':id')
   @HttpCode(204)
   remove(@Param('id', ParseUUIDPipe) id: string) {
