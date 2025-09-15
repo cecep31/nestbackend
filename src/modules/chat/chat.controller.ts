@@ -74,9 +74,7 @@ export class ChatController {
   }
 
   @Get('conversations')
-  async listConversations(
-    @Req() req: RequestWithUser,
-  ) {
+  async listConversations(@Req() req: RequestWithUser) {
     return {
       success: true,
       message: 'Conversations retrieved successfully',
@@ -92,7 +90,10 @@ export class ChatController {
     return {
       success: true,
       message: 'Conversation retrieved successfully',
-      data: await this.chatService.getConversation(req.user.user_id, conversationId),
+      data: await this.chatService.getConversation(
+        req.user.user_id,
+        conversationId,
+      ),
     };
   }
 
@@ -101,14 +102,11 @@ export class ChatController {
     @Req() req: RequestWithUser,
     @Param('id') conversationId: string,
   ) {
-    await this.chatService.deleteConversation(
-      req.user.user_id,
-      conversationId,
-    );
-    
+    await this.chatService.deleteConversation(req.user.user_id, conversationId);
+
     return {
       success: true,
-      message: 'Conversation deleted successfully'
+      message: 'Conversation deleted successfully',
     };
   }
 
