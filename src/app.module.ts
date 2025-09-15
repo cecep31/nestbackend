@@ -12,6 +12,7 @@ import { DbModule } from './db/db.module';
 import { MeModule } from './v1/me/me.module';
 import { AdminModule } from './v1/admin/admin.module';
 import { LoggerMiddleware } from './common/logger/logger.middleware';
+import { EmailModule } from './common/email/email.module';
 import { TagsModule } from './v1/tags/tags.module';
 import { WriterModule } from './v1/writer/writer.module';
 import { ChatModule } from './v1/chat/chat.module';
@@ -45,6 +46,7 @@ import { ArticleModule } from './v1/article/article.module';
     DbModule,
     MeModule,
     AdminModule,
+    EmailModule,
     TagsModule,
     WriterModule,
     ChatModule,
