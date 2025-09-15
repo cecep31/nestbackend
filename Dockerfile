@@ -1,5 +1,5 @@
 # Build stage
-ARG BUN_VERSION=1.2
+ARG BUN_VERSION=1
 FROM oven/bun:${BUN_VERSION}-alpine AS builder
 
 LABEL maintainer="pilput"
