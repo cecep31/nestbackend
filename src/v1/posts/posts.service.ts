@@ -44,7 +44,11 @@ export class PostsService {
           },
         },
       },
+      orderBy: {
+        created_at: 'desc',
+      },
     });
+
     const totalposts = await this.prisma.posts.count({
       where: {
         deleted_at: null,
