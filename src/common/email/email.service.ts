@@ -28,9 +28,11 @@ export class EmailService {
     const templatesDir = path.join(__dirname, 'templates');
 
     if (fs.existsSync(templatesDir)) {
-      const templateFiles = fs.readdirSync(templatesDir).filter(file => file.endsWith('.hbs'));
+      const templateFiles = fs
+        .readdirSync(templatesDir)
+        .filter((file) => file.endsWith('.hbs'));
 
-      templateFiles.forEach(file => {
+      templateFiles.forEach((file) => {
         const templateName = file.replace('.hbs', '');
         const templatePath = path.join(templatesDir, file);
         const templateSource = fs.readFileSync(templatePath, 'utf8');
@@ -40,8 +42,15 @@ export class EmailService {
     }
   }
 
-  async sendEmail(to: string, subject: string, html: string, text?: string): Promise<void> {
-    const fromEmail = this.configService.get<string>('SMTP_FROM') || this.configService.get<string>('SMTP_USER');
+  async sendEmail(
+    to: string,
+    subject: string,
+    html: string,
+    text?: string,
+  ): Promise<void> {
+    const fromEmail =
+      this.configService.get<string>('SMTP_FROM') ||
+      this.configService.get<string>('SMTP_USER');
     const mailOptions = {
       from: fromEmail,
       to,
@@ -61,7 +70,7 @@ export class EmailService {
     to: string,
     templateName: string,
     context: Record<string, any>,
-    subject?: string
+    subject?: string,
   ): Promise<void> {
     const template = this.templates.get(templateName);
     if (!template) {
@@ -75,7 +84,8 @@ export class EmailService {
     };
 
     const html = template(defaultContext);
-    const emailSubject = subject || this.extractSubjectFromHtml(html) || 'Notification';
+    const emailSubject =
+      subject || this.extractSubjectFromHtml(html) || 'Notification';
 
     await this.sendEmail(to, emailSubject, html);
   }
@@ -85,16 +95,11 @@ export class EmailService {
     return titleMatch ? titleMatch[1] : null;
   }
 
-  async sendWelcomeEmail(to: string, name: string): Promise<void> {
-    const context = {
-      name,
-      loginUrl: `${this.configService.get<string>('FRONTEND_URL')}/login`,
-    };
-
-    await this.sendTemplateEmail(to, 'welcome', context);
-  }
-
-  async sendPasswordResetEmail(to: string, resetToken: string, name?: string): Promise<void> {
+  async sendPasswordResetEmail(
+    to: string,
+    resetToken: string,
+    name?: string,
+  ): Promise<void> {
     const resetUrl = `${this.configService.get<string>('FRONTEND_URL')}/reset-password?token=${resetToken}`;
 
     const context = {
@@ -104,20 +109,5 @@ export class EmailService {
     };
 
     await this.sendTemplateEmail(to, 'password-reset', context);
-  }
-
-  async sendGenericEmail(
-    to: string,
-    subject: string,
-    content: string,
-    context: Record<string, any> = {}
-  ): Promise<void> {
-    const emailContext = {
-      subject,
-      content,
-      ...context,
-    };
-
-    await this.sendTemplateEmail(to, 'generic', emailContext, subject);
   }
 }
