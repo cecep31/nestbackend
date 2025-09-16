@@ -137,24 +137,7 @@ export class PostsService {
         published: true,
       },
     });
-
-    // Send email notifications for new post
-    if (newpost.published && newpost.title && newpost.slug) {
-      // Get author information for the notification
-      const author = await this.prisma.users.findUnique({
-        where: { id: user_id },
-        select: { username: true, first_name: true, last_name: true },
-      });
-
-      const authorName =
-        author?.username ||
-        `${author?.first_name || ''} ${author?.last_name || ''}`.trim() ||
-        'Unknown Author';
-
-      // Extract excerpt from post body (first 200 characters)
-      const postExcerpt = this.truncateBody(newpost.body || '', 200);
-    }
-
+    
     return newpost;
   }
   async updatePublishPost(post_id: string, published: boolean = true) {
