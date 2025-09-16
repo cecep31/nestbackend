@@ -34,6 +34,8 @@ export class PostsService {
             id: true,
             username: true,
             email: true,
+            post_likes: true,
+            image: true,
           },
         },
         tags: {
