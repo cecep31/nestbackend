@@ -93,7 +93,6 @@ export class PostsRepository {
           },
         },
         likes: true,
-        post_comments: false,
         tags: {
           include: {
             tag: true,
@@ -118,7 +117,6 @@ export class PostsRepository {
           },
         },
         likes: true,
-        post_comments: false,
         tags: {
           include: {
             tag: true,
