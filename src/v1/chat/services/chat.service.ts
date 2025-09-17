@@ -1,15 +1,15 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { ConfigService } from '@nestjs/config';
-import { PrismaService } from '../../../db/prisma.service';
-import { OpenRouterService } from './openrouter.service';
-import { CreateConversationDto } from '../dto/create-conversation.dto';
-import { SendMessageDto } from '../dto/send-message.dto';
+import { HttpException, Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { Observable } from "rxjs";
+import { ConfigService } from "@nestjs/config";
+import { PrismaService } from "../../../db/prisma.service";
+import { OpenRouterService } from "./openrouter.service";
+import { CreateConversationDto } from "../dto/create-conversation.dto";
+import { SendMessageDto } from "../dto/send-message.dto";
 import {
   ConversationResponseDto,
   ConversationWithMessagesResponseDto,
   MessageResponseDto,
-} from '../dto/conversation-response.dto';
+} from "../dto/conversation-response.dto";
 
 @Injectable()
 export class ChatService {
@@ -19,17 +19,17 @@ export class ChatService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly openRouterService: OpenRouterService,
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService
   ) {
     this.defaultModel =
-      this.configService.get('openrouter.defaultModel') ||
-      'openai/gpt-3.5-turbo';
+      this.configService.get("openrouter.defaultModel") ||
+      "openai/gpt-3.5-turbo";
   }
 
   streamMessage(
     userId: string,
     conversationId: string,
-    sendMessageDto: SendMessageDto,
+    sendMessageDto: SendMessageDto
   ): Observable<string> {
     return new Observable<string>((observer) => {
       (async () => {
@@ -39,7 +39,7 @@ export class ChatService {
             where: { id: conversationId, user_id: userId },
           });
           if (!conversation) {
-            observer.error(new NotFoundException('Conversation not found'));
+            observer.error(new NotFoundException("Conversation not found"));
             return;
           }
 
@@ -48,7 +48,7 @@ export class ChatService {
             data: {
               conversation_id: conversationId,
               user_id: userId,
-              role: 'user',
+              role: "user",
               content: sendMessageDto.content,
             },
           });
@@ -56,16 +56,16 @@ export class ChatService {
           // Get previous messages for context (including the just-saved user message)
           const previousMessages = await this.prisma.chat_messages.findMany({
             where: { conversation_id: conversationId },
-            orderBy: { created_at: 'asc' },
+            orderBy: { created_at: "asc" },
             take: 10,
           });
 
           const messages = previousMessages.map((msg) => ({
-            role: msg.role as 'user' | 'assistant',
+            role: msg.role as "user" | "assistant",
             content: msg.content,
           }));
 
-          let assistantResponse = '';
+          let assistantResponse = "";
 
           // Stream from OpenRouterService
           this.openRouterService
@@ -79,7 +79,7 @@ export class ChatService {
                 observer.next(chunk);
               },
               error: (err) => {
-                this.logger.error('Streaming error:', err);
+                this.logger.error("Streaming error:", err);
                 observer.error(err);
               },
               complete: async () => {
@@ -89,7 +89,7 @@ export class ChatService {
                     data: {
                       conversation_id: conversationId,
                       user_id: userId,
-                      role: 'assistant',
+                      role: "assistant",
                       content: assistantResponse,
                       model: sendMessageDto.model || this.defaultModel,
                     },
@@ -104,15 +104,15 @@ export class ChatService {
                   observer.complete();
                 } catch (saveError) {
                   this.logger.error(
-                    'Error saving assistant response:',
-                    saveError,
+                    "Error saving assistant response:",
+                    saveError
                   );
                   observer.error(saveError);
                 }
               },
             });
         } catch (error) {
-          this.logger.error('Error in streamMessage:', error);
+          this.logger.error("Error in streamMessage:", error);
           observer.error(error);
         }
       })();
@@ -121,14 +121,14 @@ export class ChatService {
 
   async createConversation(
     userId: string,
-    createConversationDto: CreateConversationDto,
+    createConversationDto: CreateConversationDto
   ): Promise<ConversationResponseDto> {
     const { title, message } = createConversationDto;
 
     // Create conversation in database
     const conversation = await this.prisma.chat_conversations.create({
       data: {
-        title: title || 'New Conversation',
+        title: title || "New Conversation",
         user_id: userId,
       },
     });
@@ -139,7 +139,7 @@ export class ChatService {
   async sendMessage(
     userId: string,
     conversationId: string,
-    sendMessageDto: SendMessageDto,
+    sendMessageDto: SendMessageDto
   ): Promise<MessageResponseDto> {
     // Verify conversation exists and belongs to user
     const conversation = await this.prisma.chat_conversations.findUnique({
@@ -147,23 +147,23 @@ export class ChatService {
     });
 
     if (!conversation) {
-      throw new NotFoundException('Conversation not found');
+      throw new NotFoundException("Conversation not found");
     }
 
     // Get previous messages for context
     const previousMessages = await this.prisma.chat_messages.findMany({
       where: { conversation_id: conversationId },
-      orderBy: { created_at: 'asc' },
+      orderBy: { created_at: "asc" },
       take: 10, // Limit context to last 10 messages
     });
 
     // Format messages for AI
     const messages = [
       ...previousMessages.map((msg) => ({
-        role: msg.role as 'user' | 'assistant',
+        role: msg.role as "user" | "assistant",
         content: msg.content,
       })),
-      { role: 'user' as const, content: sendMessageDto.content },
+      { role: "user" as const, content: sendMessageDto.content },
     ];
 
     // Get AI response
@@ -174,7 +174,7 @@ export class ChatService {
       {
         model: sendMessageDto.model,
         temperature: sendMessageDto.temperature,
-      },
+      }
     );
 
     return aiResponse;
@@ -182,39 +182,40 @@ export class ChatService {
 
   async getConversation(
     userId: string,
-    conversationId: string,
+    conversationId: string
   ): Promise<ConversationResponseDto> {
     const conversation = await this.prisma.chat_conversations.findUnique({
       where: { id: conversationId, user_id: userId },
       include: {
         messages: {
-          orderBy: { created_at: 'asc' },
+          orderBy: { created_at: "asc" },
         },
       },
     });
 
     if (!conversation) {
-      throw new NotFoundException('Conversation not found');
+      throw new NotFoundException("Conversation not found");
     }
 
-    return this.formatConversationResponseWithMessages(conversation, conversation.messages);
+    return this.formatConversationResponseWithMessages(
+      conversation,
+      conversation.messages
+    );
   }
 
   async listConversations(userId: string): Promise<ConversationResponseDto[]> {
     const conversations = await this.prisma.chat_conversations.findMany({
       where: { user_id: userId },
-      
-      orderBy: { updated_at: 'desc' },
+
+      orderBy: { updated_at: "desc" },
     });
 
-    return conversations.map((conv) =>
-      this.formatConversationResponse(conv),
-    );
+    return conversations.map((conv) => this.formatConversationResponse(conv));
   }
 
   async deleteConversation(
     userId: string,
-    conversationId: string,
+    conversationId: string
   ): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.chat_messages.deleteMany({
@@ -229,8 +230,8 @@ export class ChatService {
   private async getAiResponse(
     userId: string,
     conversationId: string,
-    messages: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>,
-    options: { model?: string; temperature?: number } = {},
+    messages: Array<{ role: "user" | "assistant" | "system"; content: string }>,
+    options: { model?: string; temperature?: number } = {}
   ): Promise<MessageResponseDto> {
     try {
       const response = await this.openRouterService.createChatCompletion(
@@ -238,14 +239,14 @@ export class ChatService {
         {
           model: options.model || this.defaultModel,
           temperature: options.temperature,
-        },
+        }
       );
 
       const aiMessage = response.choices[0]?.message;
       const usage = response.usage;
 
       if (!aiMessage) {
-        throw new Error('No response from AI');
+        throw new Error("No response from AI");
       }
 
       // Save AI response to database
@@ -253,7 +254,7 @@ export class ChatService {
         data: {
           conversation_id: conversationId,
           user_id: userId, // Associate AI response with the user
-          role: 'assistant',
+          role: "assistant",
           content: aiMessage.content,
           model: response.model,
           prompt_tokens: usage?.prompt_tokens || null,
@@ -270,15 +271,15 @@ export class ChatService {
 
       return this.formatMessageResponse(savedMessage);
     } catch (error) {
-      this.logger.error('Error getting AI response:', error);
-      throw new Error('Failed to get AI response');
+      this.logger.error("Error getting AI response:", error);
+      throw new Error("Failed to get AI response");
     }
   }
 
   private formatMessageResponse(message: any): MessageResponseDto {
     return {
       id: message.id,
-      role: message.role as 'user' | 'assistant' | 'system',
+      role: message.role as "user" | "assistant" | "system",
       content: message.content,
       model: message.model || undefined,
       promptTokens: message.prompt_tokens || undefined,
@@ -289,7 +290,7 @@ export class ChatService {
   }
 
   private formatConversationResponse(
-    conversation: any,
+    conversation: any
     // messages: any[],
   ): ConversationResponseDto {
     return {
@@ -303,7 +304,7 @@ export class ChatService {
   }
   private formatConversationResponseWithMessages(
     conversation: any,
-    messages: any[],
+    messages: any[]
   ): ConversationWithMessagesResponseDto {
     return {
       id: conversation.id,
