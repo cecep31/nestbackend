@@ -37,18 +37,4 @@ export class PrismaService
       this.logger.error('Error while disconnecting from database', error);
     }
   }
-
-  /**
-   * Check if the database connection is healthy
-   */
-  async isHealthy(): Promise<boolean> {
-    try {
-      // Simple query to check if the connection is alive
-      await this.$queryRaw`SELECT 1`;
-      return true;
-    } catch (error) {
-      this.logger.error('Database health check failed', error);
-      return false;
-    }
-  }
 }
