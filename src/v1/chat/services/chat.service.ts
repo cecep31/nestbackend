@@ -1,4 +1,8 @@
-import { HttpException, Injectable, Logger, NotFoundException } from "@nestjs/common";
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+} from "@nestjs/common";
 import { Observable } from "rxjs";
 import { ConfigService } from "@nestjs/config";
 import { PrismaService } from "../../../db/prisma.service";
