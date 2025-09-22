@@ -3,6 +3,7 @@ import { post_comments } from '../../../generated/prisma';
 import { PrismaService } from '../../db/prisma.service';
 import { PostsRepository } from './posts.repository';
 import { CreatePostDto } from './dto/create-post.dto';
+import { UpdatePostDto } from './dto/update-post.dto';
 import { LikePostDto } from './dto/like-post.dto';
 
 @Injectable()
@@ -124,6 +125,13 @@ export class PostsService {
     return this.prisma.posts.delete({ where: { id: post_id } });
   }
 
+  private generateSlug(title: string): string {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
   async createPost(postData: CreatePostDto, user_id: string) {
     // remove property tags
 
@@ -133,12 +141,35 @@ export class PostsService {
         created_at: new Date(),
         title: postData.title,
         body: postData.body,
-        slug: postData.slug,
+        slug: postData.slug || this.generateSlug(postData.title),
         published: true,
       },
     });
-    
+
     return newpost;
+  }
+
+  async updatePost(updateData: UpdatePostDto, user_id: string) {
+    const { id, title, body, slug } = updateData;
+
+    const post = await this.prisma.posts.upsert({
+      where: { id },
+      update: {
+        title,
+        body,
+        ...(slug && { slug }),
+      },
+      create: {
+        id,
+        title,
+        body,
+        slug: slug || this.generateSlug(title),
+        created_by: user_id,
+        published: true,
+      },
+    });
+
+    return post;
   }
   async updatePublishPost(post_id: string, published: boolean = true) {
     const post = await this.prisma.posts.update({
