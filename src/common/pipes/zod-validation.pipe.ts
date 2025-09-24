@@ -77,7 +77,7 @@ export class ZodValidationPipe<T = any> implements PipeTransform<T> {
       if (error instanceof ZodError) {
         const validationErrors = this.formatZodError(error);
         throw new BadRequestException({
-          statusCode: 400,
+          success: false,
           message: 'Validation failed',
           errors: this.options.disableErrorMessages
             ? undefined
