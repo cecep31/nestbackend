@@ -1,4 +1,4 @@
-import { VersioningType, Logger } from "@nestjs/common";
+import { ValidationPipe, VersioningType, Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
 import { AppModule } from "./app.module";
@@ -19,7 +19,14 @@ function configureApp(app: any) {
     credentials: true,
   });
 
-  // Validation is handled by Zod
+  // Global validation pipe
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    })
+  );
 }
 
 /**
