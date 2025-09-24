@@ -75,7 +75,7 @@ export class AuthService {
     const payload = {
       user_id: user?.id,
       email: user?.email,
-      isSuperAdmin: user?.is_super_admin,
+      is_super_admin: user?.is_super_admin,
       username: user?.username,
     };
 
@@ -127,8 +127,9 @@ export class AuthService {
     const payload = {
       user_id: user.id,
       email: user.email,
-      isSuperAdmin: user.is_super_admin,
+      is_super_admin: user.is_super_admin,
     };
+    console.log(payload);
 
     const refreshToken = 'pl_' + randomBytes(64).toString('hex');
 

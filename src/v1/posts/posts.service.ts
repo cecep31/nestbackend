@@ -130,7 +130,11 @@ export class PostsService {
     return this.postsRepository.findByUsernameAndSlug(username, slug);
   }
 
-  deletePost(post_id: string) {
+  async deletePost(post_id: string) {
+    const post = await this.prisma.posts.findUnique({ where: { id: post_id } });
+    if (!post) {
+      throw new HttpException("Post not found", 404);
+    }
     return this.prisma.posts.delete({ where: { id: post_id } });
   }
 
