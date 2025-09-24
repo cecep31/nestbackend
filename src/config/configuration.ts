@@ -2,12 +2,17 @@ export default () => ({
   port: parseInt(process.env.PORT ?? '3001', 10),
   database_url: process.env.DATABASE_URL || 'mongodb://localhost:27017/nest',
   jwt_secret: process.env.JWT_SECRET || 'default_jwt_secret_for_development',
-  endPointMinio: process.env.MINIO_END_POINT || 'localhost',
-  portMinio: parseInt(process.env.MINIO_PORT || '9000', 10),
-  useSSLMinio: process.env.MINIO_USE_SSL === 'true',
-  accessKeyMinio: process.env.MINIO_ACCESS_KEY || 'minio',
-  secretKeyMinio: process.env.MINIO_SECRET_KEY || 'minio123',
-  bucketMinio: process.env.MINIO_BUCKET || 'pilput-storage',
+  // AWS S3 Configuration
+  s3: {
+    endPoint: process.env.S3_END_POINT || 's3-ap-southeast-1.amazonaws.com',
+    port: parseInt(process.env.S3_PORT || '443', 10),
+    useSSL: process.env.S3_USE_SSL === 'true',
+    accessKey: process.env.S3_ACCESS_KEY || '',
+    secretKey: process.env.S3_SECRET_KEY || '',
+    bucket: process.env.S3_BUCKET || 'your-bucket-name',
+    region: process.env.S3_REGION || 'ap-southeast-1',
+  },
+  // rate limit
   throttler: {
     ttl: parseInt(process.env.THROTTLE_TTL || '60', 10), // 1 minute
     limit: parseInt(process.env.THROTTLE_LIMIT || '10', 10), // 10 requests per minute

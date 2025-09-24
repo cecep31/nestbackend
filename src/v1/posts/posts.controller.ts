@@ -11,7 +11,10 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  UseInterceptors,
+  UploadedFile,
 } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { PostsService } from "./posts.service";
 import { SuperAdminGuard } from "../auth/guards/superadmin.guard";
 import { CreatePostDto, CreatePostSchema } from "./dto/create-post.dto";
@@ -113,15 +116,17 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
+  @UseInterceptors(FileInterceptor('image'))
   async createPost(
     @Body(new ZodValidationPipe(CreatePostSchema))
     createPostDto: CreatePostDto,
+    @UploadedFile() file: Express.Multer.File,
     @Request() req
   ) {
     return {
       success: true,
       message: "Successfully created post",
-      data: await this.postsService.createPost(createPostDto, req.user.user_id),
+      data: await this.postsService.createPost(createPostDto, req.user.user_id, file),
     };
   }
 

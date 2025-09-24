@@ -1,22 +1,24 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { post_comments } from '../../../generated/prisma';
-import { PrismaService } from '../../db/prisma.service';
-import { PostsRepository } from './posts.repository';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
-import { LikePostDto } from './dto/like-post.dto';
+import { Injectable, NotFoundException, HttpException } from "@nestjs/common";
+import { post_comments } from "../../../generated/prisma";
+import { PrismaService } from "../../db/prisma.service";
+import { PostsRepository } from "./posts.repository";
+import { CreatePostDto } from "./dto/create-post.dto";
+import { UpdatePostDto } from "./dto/update-post.dto";
+import { LikePostDto } from "./dto/like-post.dto";
+import { MinioService } from "../../common/s3/minio.service";
 
 @Injectable()
 export class PostsService {
   constructor(
     private prisma: PrismaService,
     private postsRepository: PostsRepository,
+    private minioService: MinioService
   ) {}
 
   private truncateBody(body?: string, maxLength: number = 200): string {
-    if (!body) return '';
+    if (!body) return "";
     return body.length > maxLength
-      ? body.substring(0, maxLength) + '...'
+      ? body.substring(0, maxLength) + "..."
       : body;
   }
 
@@ -46,7 +48,7 @@ export class PostsService {
         },
       },
       orderBy: {
-        created_at: 'desc',
+        created_at: "desc",
       },
     });
 
@@ -62,7 +64,7 @@ export class PostsService {
     return {
       postsData: postsData.map((post) => ({
         ...post,
-        body: this.truncateBody(post.body ?? ''),
+        body: this.truncateBody(post.body ?? ""),
         tags: post.tags.map((tagRelation) => tagRelation.tag),
       })),
       metadata: {
@@ -78,7 +80,7 @@ export class PostsService {
     const posts = await this.postsRepository.getPostsByCreator(
       user_id,
       offset,
-      limit,
+      limit
     );
     const totalItems =
       await this.postsRepository.getPostsByCreatorCount(user_id);
@@ -101,7 +103,7 @@ export class PostsService {
     const postsData = await this.postsRepository.findPostRandom(limit);
     return postsData.map((post) => ({
       ...post,
-      body: this.truncateBody(post.body ?? ''),
+      body: this.truncateBody(post.body ?? ""),
     }));
   }
 
@@ -112,7 +114,7 @@ export class PostsService {
   getAllComments(postId: string): Promise<post_comments[]> {
     return this.prisma.post_comments.findMany({
       where: { post_id: postId, parrent_comment_id: null },
-      orderBy: { created_at: 'asc' },
+      orderBy: { created_at: "asc" },
       include: { creator: true },
     });
   }
@@ -128,12 +130,37 @@ export class PostsService {
   private generateSlug(title: string): string {
     return title
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
   }
 
-  async createPost(postData: CreatePostDto, user_id: string) {
-    // remove property tags
+  async createPost(
+    postData: CreatePostDto,
+    user_id: string,
+    file?: Express.Multer.File
+  ) {
+    let photo_url: string | undefined;
+    const slug = postData.slug || this.generateSlug(postData.title);
+
+    const existingPost = await this.prisma.posts.findFirst({
+      where: {
+        slug,
+      },
+    });
+
+    if (existingPost) {
+      throw new HttpException("Post with this slug already exists", 400);
+    }
+
+    if (file) {
+      // Generate unique filename
+      const timestamp = Date.now();
+      const extension = file.originalname.split(".").pop();
+      const objectName = `public/posts/${user_id}/${timestamp}.${extension}`;
+
+      // Upload to Minio/S3
+      photo_url = await this.minioService.uploadFile(objectName, file);
+    }
 
     const newpost = await this.prisma.posts.create({
       data: {
@@ -141,10 +168,31 @@ export class PostsService {
         created_at: new Date(),
         title: postData.title,
         body: postData.body,
-        slug: postData.slug || this.generateSlug(postData.title),
+        slug,
+        photo_url,
         published: true,
       },
     });
+
+    // Handle tags if provided
+    if (postData.tags && postData.tags.length > 0) {
+      for (const tagName of postData.tags) {
+        // Find or create tag
+        const tag = await this.prisma.tags.upsert({
+          where: { name: tagName },
+          update: {},
+          create: { name: tagName },
+        });
+
+        // Create relation
+        await this.prisma.posts_to_tags.create({
+          data: {
+            post_id: newpost.id,
+            tag_id: tag.id,
+          },
+        });
+      }
+    }
 
     return newpost;
   }
@@ -188,7 +236,7 @@ export class PostsService {
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     // Check if user already liked the post
@@ -223,7 +271,7 @@ export class PostsService {
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     // Find the like
@@ -235,7 +283,7 @@ export class PostsService {
     });
 
     if (!existingLike) {
-      throw new NotFoundException('Like not found');
+      throw new NotFoundException("Like not found");
     }
 
     // Delete the like
@@ -243,7 +291,7 @@ export class PostsService {
       where: { id: existingLike.id },
     });
 
-    return { success: true, message: 'Post unliked successfully' };
+    return { success: true, message: "Post unliked successfully" };
   }
 
   async getPostLikes(post_id: string) {
@@ -253,7 +301,7 @@ export class PostsService {
     });
 
     if (!post) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     // Get likes count

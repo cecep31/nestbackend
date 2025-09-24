@@ -2,9 +2,10 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Client } from 'minio';
+} from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { Client } from "minio";
+import { Readable } from "stream";
 
 @Injectable()
 export class MinioService {
@@ -13,57 +14,47 @@ export class MinioService {
   private bucket: string;
 
   constructor(private readonly confiService: ConfigService) {
+    const endPoint = this.confiService.get("s3.endPoint");
+    const port = this.confiService.get("s3.port");
+    const useSSL = this.confiService.get("s3.useSSL");
+    const region = this.confiService.get("s3.region");
+
     this.client = new Client({
-      endPoint: this.confiService.get('endPoint') ?? '',
-      port: this.confiService.get('port'),
-      useSSL: this.confiService.get('useSSL'),
-      accessKey: this.confiService.get('accessKey'),
-      secretKey: this.confiService.get('secretKey'),
+      endPoint: endPoint,
+      port: port ? parseInt(port, 10) : undefined,
+      useSSL: useSSL,
+      accessKey: this.confiService.get("s3.accessKey"),
+      secretKey: this.confiService.get("s3.secretKey"),
+      region: region,
+      pathStyle: true // Required for AWS S3
     });
-    this.bucket = this.confiService.get('bucket') ?? '';
-    this.initBucket();
+    this.bucket = this.confiService.get("s3.bucket") ?? "";
+    // Skip bucket initialization for AWS S3 as buckets need to be created via AWS Console
   }
+  
 
-  /**
-   * Ensure the bucket exists, create if not.
-   */
-  private async initBucket(): Promise<void> {
-    try {
-      const exists = await this.client.bucketExists(this.bucket);
-      if (!exists) {
-        await this.client.makeBucket(this.bucket, '');
-        this.logger.log(`Bucket '${this.bucket}' created.`);
-      } else {
-        this.logger.log(`Bucket '${this.bucket}' exists.`);
-      }
-    } catch (error) {
-      this.logger.error('Error initializing Minio bucket', error);
-      throw new InternalServerErrorException(
-        'Failed to initialize Minio bucket',
-      );
-    }
-  }
-
-  async uploadObject(
+  async uploadFile(
     objectName: string,
-    path: string,
-    size: number,
-    metaData: Record<string, string> = {},
+    file: Express.Multer.File,
+    metaData: Record<string, string | string[]> = {}
   ): Promise<string> {
     try {
+      // If fileData is a string (file path), size is required
+      const { buffer, size } = file;
+
       await this.client.putObject(
         this.bucket,
         objectName,
-        path,
+        buffer,
         size,
-        metaData,
+        metaData
       );
       this.logger.log(`Uploaded object: ${objectName}`);
       return objectName;
     } catch (error) {
       this.logger.error(`Failed to upload object: ${objectName}`, error);
       throw new InternalServerErrorException(
-        'Failed to upload object to Minio',
+        "Failed to upload object to Minio: " + error.message
       );
     }
   }
@@ -73,7 +64,7 @@ export class MinioService {
       return await this.client.getObject(this.bucket, objectName);
     } catch (error) {
       this.logger.error(`Failed to get object: ${objectName}`, error);
-      throw new InternalServerErrorException('Failed to get object from Minio');
+      throw new InternalServerErrorException("Failed to get object from Minio");
     }
   }
 
@@ -84,7 +75,7 @@ export class MinioService {
     } catch (error) {
       this.logger.error(`Failed to remove object: ${objectName}`, error);
       throw new InternalServerErrorException(
-        'Failed to remove object from Minio',
+        "Failed to remove object from Minio"
       );
     }
   }
@@ -93,9 +84,9 @@ export class MinioService {
     try {
       return await this.client.bucketExists(this.bucket);
     } catch (error) {
-      this.logger.error('Failed to check if bucket exists', error);
+      this.logger.error("Failed to check if bucket exists", error);
       throw new InternalServerErrorException(
-        'Failed to check bucket existence',
+        "Failed to check bucket existence"
       );
     }
   }
@@ -105,15 +96,15 @@ export class MinioService {
       return await this.client.presignedGetObject(
         this.bucket,
         objectName,
-        expiry,
+        expiry
       );
     } catch (error) {
       this.logger.error(
         `Failed to generate presigned URL for object: ${objectName}`,
-        error,
+        error
       );
       throw new InternalServerErrorException(
-        'Failed to generate presigned URL',
+        "Failed to generate presigned URL"
       );
     }
   }
