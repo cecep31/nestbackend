@@ -82,6 +82,13 @@ export class PostsService {
       offset,
       limit
     );
+    // truncate body
+    const postsData = posts.map((post) => ({
+      ...post,
+      body: this.truncateBody(post.body ?? ""),
+      tags: post.tags.map((tagRelation) => tagRelation.tag),
+    }));
+    // count total items
     const totalItems =
       await this.postsRepository.getPostsByCreatorCount(user_id);
     const totalPages = Math.ceil(totalItems / limit);
@@ -92,7 +99,7 @@ export class PostsService {
       limit: limit,
       total_pages: totalPages,
     };
-    return { posts, metadata };
+    return { postsData, metadata };
   }
 
   findById(id: string) {

@@ -74,7 +74,7 @@ export class PostsController {
     @Query("offset") offset: number = 0,
     @Query("limit") limit: number = 10
   ) {
-    const { metadata, posts } = await this.postsService.getPostsMine(
+    const { metadata, postsData } = await this.postsService.getPostsMine(
       req.user.user_id,
       offset,
       limit
@@ -82,7 +82,7 @@ export class PostsController {
     return {
       success: true,
       message: "Successfully fetched posts",
-      data: posts,
+      data: postsData,
       meta: metadata,
     };
   }
@@ -116,7 +116,7 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor("image"))
   async createPost(
     @Body(new ZodValidationPipe(CreatePostSchema))
     createPostDto: CreatePostDto,
@@ -126,7 +126,11 @@ export class PostsController {
     return {
       success: true,
       message: "Successfully created post",
-      data: await this.postsService.createPost(createPostDto, req.user.user_id, file),
+      data: await this.postsService.createPost(
+        createPostDto,
+        req.user.user_id,
+        file
+      ),
     };
   }
 
