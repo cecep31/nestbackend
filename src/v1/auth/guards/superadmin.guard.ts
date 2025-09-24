@@ -11,11 +11,14 @@ export class SuperAdminGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    if (!user || typeof user.isSuperAdmin !== 'boolean') {
+    console.log(user);
+
+    if (!user || typeof user.is_super_admin !== 'boolean') {
       throw new ForbiddenException('User information is missing or invalid.');
     }
+    console.log(user);
 
-    if (user.isSuperAdmin) {
+    if (user.is_super_admin) {
       return true;
     } else {
       throw new ForbiddenException(
