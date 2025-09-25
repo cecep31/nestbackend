@@ -67,14 +67,14 @@ export class PostsController {
       data: await this.postsService.getPostRandom(limit),
     };
   }
-  @Get("mine")
+  @Get("me")
   @UseGuards(JwtAuthGuard)
   async getPostsByCreator(
     @Request() req,
     @Query("offset") offset: number = 0,
     @Query("limit") limit: number = 10
   ) {
-    const { metadata, postsData } = await this.postsService.getPostsMine(
+    const { metadata, postsData } = await this.postsService.getPostsByCreator(
       req.user.user_id,
       offset,
       limit

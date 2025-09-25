@@ -76,7 +76,7 @@ export class PostsService {
     };
   }
 
-  async getPostsMine(user_id: string, offset = 0, limit = 10) {
+  async getPostsByCreator(user_id: string, offset = 0, limit = 10) {
     const posts = await this.postsRepository.getPostsByCreator(
       user_id,
       offset,
