@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../db/prisma.service';
-import { Prisma, posts } from '../../../generated/prisma';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../../db/prisma.service";
+import { Prisma, posts } from "../../../generated/prisma";
 
 @Injectable()
 export class PostsRepository {
@@ -36,7 +36,7 @@ export class PostsRepository {
 
   async findOne(
     where: Prisma.postsWhereUniqueInput,
-    include?: Prisma.postsInclude,
+    include?: Prisma.postsInclude
   ) {
     return this.prisma.posts.findUnique({
       where,
@@ -69,6 +69,9 @@ export class PostsRepository {
       },
       skip: offset,
       take: limit,
+      orderBy: {
+        created_at: "desc",
+      },
     });
   }
 
@@ -104,7 +107,7 @@ export class PostsRepository {
 
   async findByUsernameAndSlug(
     username: string,
-    slug: string,
+    slug: string
   ): Promise<posts | null> {
     return this.prisma.posts.findUnique({
       where: { creator: { username }, slug },

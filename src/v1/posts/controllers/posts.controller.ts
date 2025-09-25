@@ -15,13 +15,13 @@ import {
   UploadedFile,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { PostsService } from "./posts.service";
-import { SuperAdminGuard } from "../auth/guards/superadmin.guard";
-import { CreatePostDto, CreatePostSchema } from "./dto/create-post.dto";
-import { UpdatePostDto, updatePostSchema } from "./dto/update-post.dto";
-import { LikePostDto, LikePostSchema } from "./dto/like-post.dto";
-import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
-import { ZodValidationPipe } from "../../common/pipes/zod-validation.pipe";
+import { PostsService } from "../posts.service";
+import { SuperAdminGuard } from "../../auth/guards/superadmin.guard";
+import { CreatePostDto, CreatePostSchema } from "../dto/create-post.dto";
+import { UpdatePostDto, updatePostSchema } from "../dto/update-post.dto";
+import { LikePostDto, LikePostSchema } from "../dto/like-post.dto";
+import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
+import { ZodValidationPipe } from "../../../common/pipes/zod-validation.pipe";
 
 @Controller({
   version: "1",

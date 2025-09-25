@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostsController } from './posts.controller';
-import { PostsService } from './posts.service';
-import { PrismaService } from '../../db/prisma.service';
-import { PostsRepository } from './posts.repository';
+import { PostsService } from '../posts.service';
+import { PrismaService } from '../../../db/prisma.service';
+import { PostsRepository } from '../posts.repository';
 // import { NotificationService } from '../../common/notifications/notification.service';
 // import { EmailService } from '../../common/email/email.service';
 import { ConfigService } from '@nestjs/config';

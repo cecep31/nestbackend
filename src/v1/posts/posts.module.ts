@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PostsController } from './posts.controller';
+import { PostsController } from './controllers/posts.controller';
+import { AdminPostsController } from './controllers/admin-posts.controller';
 import { PostsService } from './posts.service';
 import { PostsRepository } from './posts.repository';
 import { PostsGateway } from './posts.gateway';
@@ -9,7 +10,7 @@ import { MinioModule } from '../../common/s3/minio.module';
 
 @Module({
   imports: [AuthModule, MinioModule],
-  controllers: [PostsController],
+  controllers: [PostsController, AdminPostsController],
   providers: [
     PostsService,
     PostsRepository,
