@@ -22,7 +22,6 @@ export class AdminPostsController {
   async findAll(
     @Query("offset") offset: number = 0,
     @Query("limit") limit: number = 10,
-    @Query("published") published?: boolean
   ) {
     const { metadata, postsData } = await this.postsService.posts({
       offset,
