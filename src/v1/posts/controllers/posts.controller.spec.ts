@@ -1,13 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PostsController } from './posts.controller';
-import { PostsService } from '../posts.service';
-import { PrismaService } from '../../../db/prisma.service';
-import { PostsRepository } from '../posts.repository';
-// import { NotificationService } from '../../common/notifications/notification.service';
-// import { EmailService } from '../../common/email/email.service';
-import { ConfigService } from '@nestjs/config';
+import { Test, TestingModule } from "@nestjs/testing";
+import { PostsController } from "./posts.controller";
+import { PostsService } from "../posts.service";
+import { PrismaService } from "../../../db/prisma.service";
+import { PostsRepository } from "../posts.repository";
+import { ConfigService } from "@nestjs/config";
 
-describe('PostsController', () => {
+describe("PostsController", () => {
   let controller: PostsController;
 
   beforeEach(async () => {
@@ -30,10 +28,10 @@ describe('PostsController', () => {
             // Mock ConfigService methods as needed
             get: jest.fn((key: string) => {
               switch (key) {
-                case 'resend.apiKey':
-                  return 'test-api-key';
-                case 'resend.fromEmail':
-                  return 'test@example.com';
+                case "resend.apiKey":
+                  return "test-api-key";
+                case "resend.fromEmail":
+                  return "test@example.com";
                 default:
                   return null;
               }
@@ -46,7 +44,7 @@ describe('PostsController', () => {
     controller = module.get<PostsController>(PostsController);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 });
