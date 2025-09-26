@@ -7,14 +7,14 @@ import {
   Body,
   UseGuards,
   Query,
-} from '@nestjs/common';
-import { ArticleService } from './article.service';
-import { SuperAdminGuard } from '../auth/guards/superadmin.guard';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+} from "@nestjs/common";
+import { ArticleService } from "./article.service";
+import { SuperAdminGuard } from "../auth/guards/superadmin.guard";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @Controller({
-  version: '1',
-  path: 'articles',
+  version: "1",
+  path: "articles",
 })
 @UseGuards(JwtAuthGuard, SuperAdminGuard)
 export class ArticleController {
@@ -22,23 +22,23 @@ export class ArticleController {
 
   @Get()
   async findAll(
-    @Query('offset') offset: number = 0,
-    @Query('limit') limit: number = 10,
+    @Query("offset") offset: number = 0,
+    @Query("limit") limit: number = 10
   ) {
     const articles = await this.articleService.findAll({ offset, limit });
     return {
       success: true,
-      message: 'Successfully fetched articles',
+      message: "Successfully fetched articles",
       data: articles,
     };
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @Get(":id")
+  async findOne(@Param("id") id: string) {
     const article = await this.articleService.findById(id);
     return {
       success: !!article,
-      message: article ? 'Successfully fetched article' : 'Article not found',
+      message: article ? "Successfully fetched article" : "Article not found",
       data: article || [],
     };
   }
@@ -48,17 +48,17 @@ export class ArticleController {
     const article = await this.articleService.createArticle(createDto);
     return {
       success: true,
-      message: 'Successfully created article',
+      message: "Successfully created article",
       data: article,
     };
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
+  @Delete(":id")
+  async remove(@Param("id") id: string) {
     const result = await this.articleService.deleteArticle(id);
     return {
       success: true,
-      message: 'Successfully deleted article',
+      message: "Successfully deleted article",
       data: result,
     };
   }
