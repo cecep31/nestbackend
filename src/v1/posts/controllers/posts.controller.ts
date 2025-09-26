@@ -148,7 +148,7 @@ export class PostsController {
   }
 
   @UseGuards(JwtAuthGuard, SuperAdminGuard)
-  @Patch("publish")
+  @Patch("/:id/published")
   async updatePublishPost(
     @Param("id") id: string,
     @Query("published") published: boolean = true
