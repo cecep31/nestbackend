@@ -151,7 +151,7 @@ export class PostsController {
   @Patch("/:id/published")
   async updatePublishPost(
     @Param("id") id: string,
-    @Query("published") published: boolean = true
+    @Query("published") published: boolean
   ) {
     return {
       success: true,

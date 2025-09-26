@@ -231,11 +231,17 @@ export class PostsService {
     return post;
   }
   async updatePublishPost(post_id: string, published: boolean = true) {
-    const post = await this.prisma.posts.update({
+    const post = await this.prisma.posts.findUnique({
+      where: { id: post_id },
+    });
+    if (!post) {
+      throw new NotFoundException("Post not found");
+    }
+    const updatedPost = await this.prisma.posts.update({
       where: { id: post_id },
       data: { published },
     });
-    return post;
+    return updatedPost;
   }
 
   async likePost(likePostDto: LikePostDto, user_id: string) {
