@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, HttpException, ForbiddenException } from "@nestjs/common";
+import {
+  Injectable,
+  NotFoundException,
+  HttpException,
+  ForbiddenException,
+} from "@nestjs/common";
 import { post_comments } from "../../../generated/prisma";
 import { PrismaService } from "../../db/prisma.service";
 import { PostsRepository } from "./posts.repository";
@@ -230,7 +235,11 @@ export class PostsService {
 
     return post;
   }
-  async updatePublishPost(post_id: string, published: boolean, user_id?: string) {
+  async updatePublishPost(
+    post_id: string,
+    published: boolean,
+    user_id?: string
+  ) {
     const post = await this.prisma.posts.findUnique({
       where: { id: post_id },
     });
