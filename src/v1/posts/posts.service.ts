@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, HttpException } from "@nestjs/common";
+import { Injectable, NotFoundException, HttpException, ForbiddenException } from "@nestjs/common";
 import { post_comments } from "../../../generated/prisma";
 import { PrismaService } from "../../db/prisma.service";
 import { PostsRepository } from "./posts.repository";
@@ -230,12 +230,15 @@ export class PostsService {
 
     return post;
   }
-  async updatePublishPost(post_id: string, published: boolean = true) {
+  async updatePublishPost(post_id: string, published: boolean, user_id?: string) {
     const post = await this.prisma.posts.findUnique({
       where: { id: post_id },
     });
     if (!post) {
       throw new NotFoundException("Post not found");
+    }
+    if (user_id && post.created_by !== user_id) {
+      throw new ForbiddenException("You can only update your own posts");
     }
     const updatedPost = await this.prisma.posts.update({
       where: { id: post_id },
