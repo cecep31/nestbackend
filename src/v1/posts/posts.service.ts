@@ -1,7 +1,7 @@
 import {
   Injectable,
   NotFoundException,
-  HttpException,
+  BadRequestException,
   ForbiddenException,
 } from "@nestjs/common";
 import { post_comments } from "../../../generated/prisma";
@@ -138,7 +138,7 @@ export class PostsService {
   async deletePost(post_id: string) {
     const post = await this.prisma.posts.findUnique({ where: { id: post_id } });
     if (!post) {
-      throw new HttpException("Post not found", 404);
+      throw new NotFoundException("Post not found");
     }
     return this.prisma.posts.delete({ where: { id: post_id } });
   }
@@ -165,7 +165,7 @@ export class PostsService {
     });
 
     if (existingPost) {
-      throw new HttpException("Post with this slug already exists", 400);
+      throw new BadRequestException("Post with this slug already exists");
     }
 
     if (file) {
@@ -216,20 +216,17 @@ export class PostsService {
   async updatePost(updateData: UpdatePostDto, user_id: string) {
     const { id, title, body, slug } = updateData;
 
-    const post = await this.prisma.posts.upsert({
+    const existingPost = await this.prisma.posts.findUnique({ where: { id } });
+    if (!existingPost) {
+      throw new NotFoundException("Post not found");
+    }
+
+    const post = await this.prisma.posts.update({
       where: { id },
-      update: {
+      data: {
         title,
         body,
         ...(slug && { slug }),
-      },
-      create: {
-        id,
-        title,
-        body,
-        slug: slug || this.generateSlug(title),
-        created_by: user_id,
-        published: true,
       },
     });
 
@@ -277,8 +274,7 @@ export class PostsService {
     });
 
     if (existingLike) {
-      // User already liked the post, so we'll return the existing like
-      return existingLike;
+      throw new BadRequestException("User has already liked this post");
     }
 
     // Create a new like
