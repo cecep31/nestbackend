@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
   ForbiddenException,
+  Logger,
 } from "@nestjs/common";
 import { post_comments } from "../../../generated/prisma";
 import { PrismaService } from "../../db/prisma.service";
@@ -11,9 +12,17 @@ import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
 import { LikePostDto } from "./dto/like-post.dto";
 import { MinioService } from "../../common/s3/minio.service";
+import {
+  AdminCreatePostDto,
+  AdminUpdatePostDto,
+  AdminBulkOperationDto,
+  AdminPostQueryDto,
+} from "./dto/admin-posts.dto";
 
 @Injectable()
 export class PostsService {
+  private readonly logger = new Logger(PostsService.name);
+
   constructor(
     private prisma: PrismaService,
     private postsRepository: PostsRepository,
@@ -366,5 +375,362 @@ export class PostsService {
     });
 
     return { liked: !!like };
+  }
+
+  // Admin-specific methods
+  async getAdminPosts(query: AdminPostQueryDto) {
+    const {
+      offset = 0,
+      limit = 10,
+      search,
+      published = 'all',
+      sort_by = 'created_at',
+      sort_order = 'desc',
+      creator_id,
+      tags,
+    } = query;
+
+    // Build where clause
+    const where: any = {
+      deleted_at: null,
+    };
+
+    // Handle published filter
+    if (published !== 'all') {
+      where.published = published === 'true';
+    }
+
+    // Handle search
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { body: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
+    // Handle creator filter
+    if (creator_id) {
+      where.created_by = creator_id;
+    }
+
+    // Handle tags filter
+    if (tags && tags.length > 0) {
+      where.tags = {
+        some: {
+          tag: {
+            name: {
+              in: tags,
+            },
+          },
+        },
+      };
+    }
+
+    // Build order by
+    const orderBy: any = {};
+    orderBy[sort_by] = sort_order;
+
+    const [posts, total] = await Promise.all([
+      this.postsRepository.findAll({
+        where,
+        offset,
+        take: limit,
+        orderBy,
+        include: {
+          creator: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+              first_name: true,
+              last_name: true,
+              image: true,
+            },
+          },
+          tags: {
+            include: {
+              tag: true,
+            },
+          },
+          _count: {
+            select: {
+              likes: true,
+              post_comments: true,
+            },
+          },
+        },
+      }),
+      this.prisma.posts.count({ where }),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      posts: posts.map((post) => ({
+        ...post,
+        body: this.truncateBody(post.body ?? ''),
+        tags: post.tags.map((tagRelation) => tagRelation.tag),
+        stats: {
+          likes: post._count.likes,
+          comments: post._count.post_comments,
+        },
+      })),
+      metadata: {
+        total_items: total,
+        offset,
+        limit,
+        total_pages: totalPages,
+      },
+    };
+  }
+
+  async adminCreatePost(
+    postData: AdminCreatePostDto,
+    file?: Express.Multer.File
+  ) {
+    let photo_url: string | undefined;
+    const slug = postData.slug || this.generateSlug(postData.title);
+
+    // Check if slug already exists
+    const existingPost = await this.prisma.posts.findFirst({
+      where: { slug },
+    });
+
+    if (existingPost) {
+      throw new BadRequestException('Post with this slug already exists');
+    }
+
+    // Handle file upload
+    if (file) {
+      const timestamp = Date.now();
+      const extension = file.originalname.split('.').pop();
+      const userId = postData.created_by || 'admin';
+      const objectName = `public/posts/${userId}/${timestamp}.${extension}`;
+      photo_url = await this.minioService.uploadFile(objectName, file);
+    }
+
+    // Create post
+    const newPost = await this.prisma.posts.create({
+      data: {
+        created_by: postData.created_by || 'admin',
+        created_at: new Date(),
+        title: postData.title,
+        body: postData.body,
+        slug,
+        photo_url,
+        published: postData.published,
+      },
+    });
+
+    // Handle tags
+    if (postData.tags && postData.tags.length > 0) {
+      for (const tagName of postData.tags) {
+        const tag = await this.prisma.tags.upsert({
+          where: { name: tagName },
+          update: {},
+          create: { name: tagName },
+        });
+
+        await this.prisma.posts_to_tags.create({
+          data: {
+            post_id: newPost.id,
+            tag_id: tag.id,
+          },
+        });
+      }
+    }
+
+    this.logger.log(`Admin created post: ${newPost.id}`);
+    return newPost;
+  }
+
+  async adminUpdatePost(
+    postData: AdminUpdatePostDto,
+    file?: Express.Multer.File
+  ) {
+    const { id, title, body, slug, published, tags } = postData;
+
+    // Check if post exists
+    const existingPost = await this.prisma.posts.findUnique({
+      where: { id },
+      include: { tags: { include: { tag: true } } },
+    });
+
+    if (!existingPost) {
+      throw new NotFoundException('Post not found');
+    }
+
+    // Handle slug uniqueness if changed
+    if (slug && slug !== existingPost.slug) {
+      const existingSlug = await this.prisma.posts.findFirst({
+        where: { slug, NOT: { id } },
+      });
+      if (existingSlug) {
+        throw new BadRequestException('Post with this slug already exists');
+      }
+    }
+
+    // Handle file upload
+    let photo_url = existingPost.photo_url;
+    if (file) {
+      const timestamp = Date.now();
+      const extension = file.originalname.split('.').pop();
+      const objectName = `public/posts/${existingPost.created_by}/${timestamp}.${extension}`;
+      photo_url = await this.minioService.uploadFile(objectName, file);
+    }
+
+    // Update post
+    const updatedPost = await this.prisma.posts.update({
+      where: { id },
+      data: {
+        ...(title && { title }),
+        ...(body && { body }),
+        ...(slug && { slug }),
+        ...(published !== undefined && { published }),
+        ...(file && { photo_url }),
+        updated_at: new Date(),
+      },
+    });
+
+    // Handle tags update
+    if (tags) {
+      // Remove existing tags
+      await this.prisma.posts_to_tags.deleteMany({
+        where: { post_id: id },
+      });
+
+      // Add new tags
+      if (tags.length > 0) {
+        for (const tagName of tags) {
+          const tag = await this.prisma.tags.upsert({
+            where: { name: tagName },
+            update: {},
+            create: { name: tagName },
+          });
+
+          await this.prisma.posts_to_tags.create({
+            data: {
+              post_id: id,
+              tag_id: tag.id,
+            },
+          });
+        }
+      }
+    }
+
+    this.logger.log(`Admin updated post: ${id}`);
+    return updatedPost;
+  }
+
+  async adminBulkOperation(operationData: AdminBulkOperationDto) {
+    const { post_ids, operation } = operationData;
+    const results: Array<{
+      id: string;
+      success: boolean;
+      error?: string;
+      data?: any;
+    }> = [];
+
+    for (const postId of post_ids) {
+      try {
+        const post = await this.prisma.posts.findUnique({
+          where: { id: postId },
+        });
+
+        if (!post) {
+          results.push({
+            id: postId,
+            success: false,
+            error: 'Post not found',
+          });
+          continue;
+        }
+
+        let result;
+        switch (operation) {
+          case 'publish':
+            result = await this.prisma.posts.update({
+              where: { id: postId },
+              data: { published: true, updated_at: new Date() },
+            });
+            break;
+          case 'unpublish':
+            result = await this.prisma.posts.update({
+              where: { id: postId },
+              data: { published: false, updated_at: new Date() },
+            });
+            break;
+          case 'delete':
+            result = await this.prisma.posts.delete({
+              where: { id: postId },
+            });
+            break;
+        }
+
+        results.push({
+          id: postId,
+          success: true,
+          data: result,
+        });
+
+        this.logger.log(`Admin ${operation} post: ${postId}`);
+      } catch (error) {
+        results.push({
+          id: postId,
+          success: false,
+          error: error.message,
+        });
+      }
+    }
+
+    return {
+      total: post_ids.length,
+      successful: results.filter((r) => r.success).length,
+      failed: results.filter((r) => !r.success).length,
+      results,
+    };
+  }
+
+  async getAdminPostStats() {
+    const [
+      totalPosts,
+      publishedPosts,
+      unpublishedPosts,
+      totalDeleted,
+      postsThisMonth,
+      postsLastMonth,
+    ] = await Promise.all([
+      this.prisma.posts.count(),
+      this.prisma.posts.count({ where: { published: true } }),
+      this.prisma.posts.count({ where: { published: false } }),
+      this.prisma.posts.count({ where: { NOT: { deleted_at: null } } }),
+      this.prisma.posts.count({
+        where: {
+          created_at: {
+            gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+          },
+        },
+      }),
+      this.prisma.posts.count({
+        where: {
+          created_at: {
+            gte: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
+            lt: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+          },
+        },
+      }),
+    ]);
+
+    return {
+      total: totalPosts,
+      published: publishedPosts,
+      unpublished: unpublishedPosts,
+      deleted: totalDeleted,
+      thisMonth: postsThisMonth,
+      lastMonth: postsLastMonth,
+      growth: postsLastMonth > 0
+        ? ((postsThisMonth - postsLastMonth) / postsLastMonth * 100).toFixed(2)
+        : '0',
+    };
   }
 }
