@@ -36,7 +36,7 @@ export class PostsController {
     @Query("offset") offset: number = 0,
     @Query("limit") limit: number = 10
   ) {
-    const { metadata, postsData } = await this.postsService.posts({
+    const { metadata, postsData } = await this.postsService.findAllPosts({
       offset,
       limit,
     });

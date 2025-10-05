@@ -36,7 +36,7 @@ export class PostsService {
       : body;
   }
 
-  async posts(params: { offset?: number; limit?: number }) {
+  async findAllPosts(params: { offset?: number; limit?: number }) {
     const { offset = 0, limit = 10 } = params;
     const postsData = await this.postsRepository.findAll({
       where: {
