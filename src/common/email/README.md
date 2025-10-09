@@ -1,6 +1,16 @@
 # Email Service with Templates
 
-This directory contains the email service with Handlebars template support for your NestJS application.
+This directory contains an improved email service with Handlebars template support, better error handling, logging, and connection management for your NestJS application.
+
+## ✨ Features
+
+- **Template Support**: Handlebars templates for dynamic email content
+- **Connection Pooling**: Efficient SMTP connection management
+- **Error Handling**: Comprehensive error handling and logging
+- **Environment Detection**: Development-specific optimizations
+- **Validation**: Email validation and connection testing utilities
+- **Rate Limiting**: Built-in rate limiting to prevent spam
+- **Logging**: Detailed logging for debugging and monitoring
 
 ## 📁 Structure
 
@@ -80,6 +90,30 @@ await emailService.sendEmail(
   '<h1>Hello</h1><p>This is HTML content</p>',
   'This is plain text content' // optional
 );
+```
+
+### Utility Methods
+
+```typescript
+// Get list of available templates
+const templates = emailService.getAvailableTemplates();
+console.log('Available templates:', templates);
+
+// Test SMTP connection
+const isConnected = await emailService.testConnection();
+if (isConnected) {
+  console.log('SMTP connection is working');
+} else {
+  console.log('SMTP connection failed');
+}
+
+// Validate email format
+const isValid = emailService.isValidEmail('user@example.com');
+if (isValid) {
+  await emailService.sendEmail('user@example.com', 'Test', 'Hello');
+} else {
+  console.log('Invalid email address');
+}
 ```
 
 ## 📧 Available Templates
