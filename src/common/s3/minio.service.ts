@@ -5,7 +5,6 @@ import {
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Client } from "minio";
-import { Readable } from "stream";
 
 @Injectable()
 export class MinioService {
@@ -26,12 +25,11 @@ export class MinioService {
       accessKey: this.confiService.get("s3.accessKey"),
       secretKey: this.confiService.get("s3.secretKey"),
       region: region,
-      pathStyle: true // Required for AWS S3
+      pathStyle: true, // Required for AWS S3
     });
     this.bucket = this.confiService.get("s3.bucket") ?? "";
     // Skip bucket initialization for AWS S3 as buckets need to be created via AWS Console
   }
-  
 
   async uploadFile(
     objectName: string,

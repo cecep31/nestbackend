@@ -10,7 +10,7 @@ export class EmailService {
   private transporter: nodemailer.Transporter;
   private templates: Map<string, handlebars.TemplateDelegate> = new Map();
   private readonly logger = new Logger(EmailService.name);
-  private isDevelopment = process.env.NODE_ENV === 'development';
+  private isDevelopment = process.env.NODE_ENV === "development";
 
   constructor(private configService: ConfigService) {
     this.initializeTransporter();
@@ -23,7 +23,9 @@ export class EmailService {
     const smtpPass = this.configService.get<string>("SMTP_PASS");
 
     if (!smtpHost || !smtpUser || !smtpPass) {
-      this.logger.warn('SMTP configuration is incomplete. Email functionality may be limited.');
+      this.logger.warn(
+        "SMTP configuration is incomplete. Email functionality may be limited."
+      );
       return;
     }
 
@@ -52,9 +54,9 @@ export class EmailService {
   private async verifyTransporter() {
     try {
       await this.transporter.verify();
-      this.logger.log('SMTP connection verified successfully');
+      this.logger.log("SMTP connection verified successfully");
     } catch (error) {
-      this.logger.error('SMTP connection verification failed:', error.message);
+      this.logger.error("SMTP connection verification failed:", error.message);
     }
   }
 
@@ -72,7 +74,7 @@ export class EmailService {
         .filter((file) => file.endsWith(".hbs"));
 
       if (templateFiles.length === 0) {
-        this.logger.warn('No template files found in templates directory');
+        this.logger.warn("No template files found in templates directory");
         return;
       }
 
@@ -91,7 +93,7 @@ export class EmailService {
 
       this.logger.log(`Loaded ${this.templates.size} email templates`);
     } catch (error) {
-      this.logger.error('Failed to load email templates:', error.message);
+      this.logger.error("Failed to load email templates:", error.message);
     }
   }
 
@@ -102,7 +104,8 @@ export class EmailService {
     text?: string
   ): Promise<void> {
     if (!this.transporter) {
-      const msg = 'Email transporter not initialized. Check SMTP configuration.';
+      const msg =
+        "Email transporter not initialized. Check SMTP configuration.";
       this.logger.error(msg);
       throw new Error(msg);
     }
@@ -123,7 +126,9 @@ export class EmailService {
 
     try {
       const result = await this.transporter.sendMail(mailOptions);
-      this.logger.log(`Email sent successfully to ${to}. Message ID: ${result.messageId}`);
+      this.logger.log(
+        `Email sent successfully to ${to}. Message ID: ${result.messageId}`
+      );
     } catch (error) {
       this.logger.error(`Failed to send email to ${to}:`, error.message);
       throw new Error(`Failed to send email: ${error.message}`);
@@ -176,7 +181,9 @@ export class EmailService {
   }
 
   async sendWelcomeEmail(to: string, name: string): Promise<void> {
-    const loginUrl = this.configService.get<string>("FRONTEND_URL") || `${this.configService.get<string>("APP_URL")}/login`;
+    const loginUrl =
+      this.configService.get<string>("FRONTEND_URL") ||
+      `${this.configService.get<string>("APP_URL")}/login`;
 
     const context = {
       name,
@@ -215,7 +222,7 @@ export class EmailService {
       await this.transporter.verify();
       return true;
     } catch (error) {
-      this.logger.error('Connection test failed:', error.message);
+      this.logger.error("Connection test failed:", error.message);
       return false;
     }
   }
