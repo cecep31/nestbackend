@@ -7,7 +7,7 @@ import {
   CreateUserDto,
   UpdateUserDto,
   ResetPasswordDto,
-} from './schemas/user.schema';
+} from './dto/user.schema';
 import { hash } from 'bcrypt';
 import { PrismaService } from '../../db/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
