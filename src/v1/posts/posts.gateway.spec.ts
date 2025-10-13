@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../db/prisma.service';
 import { PostsRepository } from './posts.repository';
+import { MinioService } from '../../common/s3/minio.service';
 // import { NotificationService } from '../../common/notifications/notification.service';
 // import { EmailService } from '../../common/email/email.service';
 
@@ -29,6 +30,13 @@ describe('PostsGateway', () => {
             // Mock JwtService methods as needed
             sign: jest.fn().mockReturnValue('test-token'),
             verify: jest.fn().mockReturnValue({ userId: 'test-user-id' }),
+          },
+        },
+        {
+          provide: MinioService,
+          useValue: {
+            // Mock MinioService methods as needed
+            uploadFile: jest.fn().mockResolvedValue('test-file-path'),
           },
         },
         {

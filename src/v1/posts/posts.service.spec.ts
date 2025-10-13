@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PostsService } from './posts.service';
 import { PrismaService } from '../../db/prisma.service';
 import { PostsRepository } from './posts.repository';
+import { MinioService } from '../../common/s3/minio.service';
 // import { NotificationService } from '../../common/notifications/notification.service';
 // import { EmailService } from '../../common/email/email.service';
 import { ConfigService } from '@nestjs/config';
@@ -20,6 +21,13 @@ describe('PostsService', () => {
           provide: PrismaService,
           useValue: {
             // Mock PrismaService methods as needed
+          },
+        },
+        {
+          provide: MinioService,
+          useValue: {
+            // Mock MinioService methods as needed
+            uploadFile: jest.fn().mockResolvedValue('test-file-path'),
           },
         },
         {
@@ -68,6 +76,13 @@ describe('PostsService', () => {
                 .fn()
                 .mockResolvedValue({ id: '123', title: 'Test Post' }),
             },
+          },
+        },
+        {
+          provide: MinioService,
+          useValue: {
+            // Mock MinioService methods as needed
+            uploadFile: jest.fn().mockResolvedValue('test-file-path'),
           },
         },
         {
