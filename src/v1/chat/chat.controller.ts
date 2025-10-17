@@ -26,8 +26,6 @@ import {
   createConversationSchema,
 } from "./dto/create-conversation.dto";
 import { type SendMessageDto, sendMessageSchema } from "./dto/send-message.dto";
-import { type ConversationResponseDto } from "./dto/conversation-response.dto";
-import { type MessageResponseDto } from "./dto/conversation-response.dto";
 import { ZodValidationPipe } from "../../common/pipes/zod-validation.pipe";
 @Controller({
   path: "chat",

@@ -20,7 +20,10 @@ import { SuperAdminGuard } from "../../auth/guards/superadmin.guard";
 import { type CreatePostDto, CreatePostSchema } from "../dto/create-post.dto";
 import { type UpdatePostDto, updatePostSchema } from "../dto/update-post.dto";
 import { LikePostDto, LikePostSchema } from "../dto/like-post.dto";
-import { type UpdatePublishedDto, UpdatePublishedSchema } from "../dto/update-published.dto";
+import {
+  type UpdatePublishedDto,
+  UpdatePublishedSchema,
+} from "../dto/update-published.dto";
 import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import { ZodValidationPipe } from "../../../common/pipes/zod-validation.pipe";
 
@@ -152,13 +155,18 @@ export class PostsController {
   @Patch("/:id/published")
   async updatePublishPost(
     @Param("id") id: string,
-    @Body(new ZodValidationPipe(UpdatePublishedSchema)) updatePublishedDto: UpdatePublishedDto,
+    @Body(new ZodValidationPipe(UpdatePublishedSchema))
+    updatePublishedDto: UpdatePublishedDto,
     @Request() req
   ) {
     return {
       success: true,
       message: "Successfully updated post",
-      data: await this.postsService.updatePublishPost(id, updatePublishedDto.published, req.user.user_id),
+      data: await this.postsService.updatePublishPost(
+        id,
+        updatePublishedDto.published,
+        req.user.user_id
+      ),
     };
   }
 

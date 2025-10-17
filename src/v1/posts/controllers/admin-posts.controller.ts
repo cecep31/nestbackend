@@ -46,7 +46,7 @@ export class AdminPostsController {
   ) {
     try {
       const { posts, metadata } = await this.postsService.getAdminPosts(query);
-      
+
       return {
         success: true,
         message: "Successfully fetched posts",
@@ -63,7 +63,7 @@ export class AdminPostsController {
   async getPostStats() {
     try {
       const stats = await this.postsService.getAdminPostStats();
-      
+
       return {
         success: true,
         message: "Successfully fetched post statistics",
@@ -86,7 +86,7 @@ export class AdminPostsController {
           data: null,
         };
       }
-      
+
       return {
         success: true,
         message: "Successfully fetched post",
@@ -107,7 +107,7 @@ export class AdminPostsController {
   ) {
     try {
       const post = await this.postsService.adminCreatePost(createPostDto, file);
-      
+
       return {
         success: true,
         message: "Successfully created post",
@@ -128,14 +128,16 @@ export class AdminPostsController {
   ) {
     try {
       const post = await this.postsService.adminUpdatePost(updatePostDto, file);
-      
+
       return {
         success: true,
         message: "Successfully updated post",
         data: post,
       };
     } catch (error) {
-      this.logger.error(`Failed to update post ${updatePostDto.id}: ${error.message}`);
+      this.logger.error(
+        `Failed to update post ${updatePostDto.id}: ${error.message}`
+      );
       throw error;
     }
   }
@@ -147,8 +149,9 @@ export class AdminPostsController {
     bulkOperationDto: AdminBulkOperationDto
   ) {
     try {
-      const result = await this.postsService.adminBulkOperation(bulkOperationDto);
-      
+      const result =
+        await this.postsService.adminBulkOperation(bulkOperationDto);
+
       return {
         success: true,
         message: `Successfully processed ${result.successful} posts`,
@@ -167,14 +170,16 @@ export class AdminPostsController {
   ) {
     try {
       const post = await this.postsService.updatePublishPost(id, published);
-      
+
       return {
         success: true,
         message: "Successfully updated post publish status",
         data: post,
       };
     } catch (error) {
-      this.logger.error(`Failed to update publish status for post ${id}: ${error.message}`);
+      this.logger.error(
+        `Failed to update publish status for post ${id}: ${error.message}`
+      );
       throw error;
     }
   }
@@ -183,7 +188,7 @@ export class AdminPostsController {
   async deletePost(@Param("id") id: string) {
     try {
       await this.postsService.deletePost(id);
-      
+
       return {
         success: true,
         message: "Successfully deleted post",
