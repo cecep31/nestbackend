@@ -1,9 +1,9 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const createUserSchema = z.object({
   username: z.string().min(3).max(50),
-  email: z.string().email(),
-  password: z.string().min(8),
+  email: z.string().min(5, "Email must be at least 5 characters long").max(200),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
   image: z.string().url().optional(),
   first_name: z.string().min(3).max(50).optional(),
   last_name: z.string().min(3).max(50).optional(),
