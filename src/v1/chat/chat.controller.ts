@@ -10,7 +10,7 @@ import {
   Res,
 } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
-import { Request, Response } from "express";
+import { Request, type Response } from "express";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 // Extend Express Request type to include user
@@ -22,12 +22,12 @@ interface RequestWithUser extends Request {
 }
 import { ChatService } from "./services/chat.service";
 import {
-  CreateConversationDto,
+  type CreateConversationDto,
   createConversationSchema,
 } from "./dto/create-conversation.dto";
-import { SendMessageDto, sendMessageSchema } from "./dto/send-message.dto";
-import { ConversationResponseDto } from "./dto/conversation-response.dto";
-import { MessageResponseDto } from "./dto/conversation-response.dto";
+import { type SendMessageDto, sendMessageSchema } from "./dto/send-message.dto";
+import { type ConversationResponseDto } from "./dto/conversation-response.dto";
+import { type MessageResponseDto } from "./dto/conversation-response.dto";
 import { ZodValidationPipe } from "../../common/pipes/zod-validation.pipe";
 @Controller({
   path: "chat",

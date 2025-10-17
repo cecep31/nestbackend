@@ -24,10 +24,10 @@ import {
   AdminUpdatePostSchema,
   AdminBulkOperationSchema,
   AdminPostQuerySchema,
-  AdminCreatePostDto,
-  AdminUpdatePostDto,
-  AdminBulkOperationDto,
-  AdminPostQueryDto,
+  type AdminCreatePostDto,
+  type AdminUpdatePostDto,
+  type AdminBulkOperationDto,
+  type AdminPostQueryDto,
 } from "../dto/admin-posts.dto";
 
 @Controller({
