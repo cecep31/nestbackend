@@ -9,7 +9,6 @@ import { PagesModule } from "./v1/note/pages/pages.module";
 import { WorkspacesModule } from "./v1/note/workspaces/workspaces.module";
 import configuration from "./config/configuration";
 import { DbModule } from "./db/db.module";
-import { MeModule } from "./v1/me/me.module";
 import { LoggerMiddleware } from "./common/logger/logger.middleware";
 import { EmailModule } from "./common/email/email.module";
 import { TagsModule } from "./v1/tags/tags.module";
@@ -42,7 +41,6 @@ import { APP_GUARD } from "@nestjs/core";
     PagesModule,
     WorkspacesModule,
     DbModule,
-    MeModule,
     EmailModule,
     TagsModule,
     WriterModule,
