@@ -15,7 +15,8 @@ import { TagsModule } from "./v1/tags/tags.module";
 import { WriterModule } from "./v1/writer/writer.module";
 import { ChatModule } from "./v1/chat/chat.module";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
-import { APP_GUARD } from "@nestjs/core";
+import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
+import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
 
 @Module({
   imports: [
@@ -52,6 +53,10 @@ import { APP_GUARD } from "@nestjs/core";
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: BigIntInterceptor,
     },
   ],
 })
