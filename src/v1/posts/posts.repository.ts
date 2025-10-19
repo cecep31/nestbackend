@@ -85,7 +85,7 @@ export class PostsRepository {
   }
 
   async findBySlug(slug: string): Promise<posts | null> {
-    return this.prisma.posts.findUnique({
+    return this.prisma.posts.findFirst({
       where: { slug },
       include: {
         creator: {
@@ -95,7 +95,6 @@ export class PostsRepository {
             email: true,
           },
         },
-        likes: true,
         tags: {
           include: {
             tag: true,
@@ -109,8 +108,8 @@ export class PostsRepository {
     username: string,
     slug: string
   ): Promise<posts | null> {
-    return this.prisma.posts.findUnique({
-      where: { creator: { username }, slug },
+    return this.prisma.posts.findFirst({
+      where: { creator: { username }, slug: slug },
       include: {
         creator: {
           select: {
@@ -119,7 +118,6 @@ export class PostsRepository {
             email: true,
           },
         },
-        likes: true,
         tags: {
           include: {
             tag: true,
@@ -185,7 +183,7 @@ export class PostsRepository {
       orderBy,
       include: {
         creator: true,
-        likes: true,
+        post_likes: true,
         post_comments: false,
         tags: {
           include: {
@@ -200,6 +198,111 @@ export class PostsRepository {
     return this.prisma.posts.count({
       where: {
         created_by: userId,
+        deleted_at: null,
+      },
+    });
+  }
+
+  async bookmarkPost(postId: string, userId: string) {
+    return this.prisma.post_bookmarks.create({
+      data: {
+        post_id: postId,
+        user_id: userId,
+        created_at: new Date(),
+      },
+    });
+  }
+
+  async unbookmarkPost(postId: string, userId: string) {
+    return this.prisma.post_bookmarks.deleteMany({
+      where: {
+        post_id: postId,
+        user_id: userId,
+      },
+    });
+  }
+
+  async findBookmark(postId: string, userId: string) {
+    return this.prisma.post_bookmarks.findFirst({
+      where: {
+        post_id: postId,
+        user_id: userId,
+      },
+    });
+  }
+
+  async getUserBookmarks(userId: string, offset = 0, limit = 10) {
+    return this.prisma.post_bookmarks.findMany({
+      where: {
+        user_id: userId,
+        deleted_at: null,
+      },
+      include: {
+        posts: {
+          include: {
+            creator: {
+              select: {
+                id: true,
+                username: true,
+                email: true,
+                first_name: true,
+                last_name: true,
+                image: true,
+              },
+            },
+            tags: {
+              include: {
+                tag: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+      skip: offset,
+      take: limit,
+    });
+  }
+
+  async getUserBookmarksCount(userId: string): Promise<number> {
+    return this.prisma.post_bookmarks.count({
+      where: {
+        user_id: userId,
+        deleted_at: null,
+      },
+    });
+  }
+
+  async getPostBookmarks(postId: string) {
+    return this.prisma.post_bookmarks.findMany({
+      where: {
+        post_id: postId,
+        deleted_at: null,
+      },
+      include: {
+        users: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            first_name: true,
+            last_name: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+  }
+
+  async getPostBookmarksCount(postId: string): Promise<number> {
+    return this.prisma.post_bookmarks.count({
+      where: {
+        post_id: postId,
         deleted_at: null,
       },
     });

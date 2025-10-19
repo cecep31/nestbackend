@@ -184,7 +184,7 @@ export class ChatService {
     userId: string,
     conversationId: string
   ): Promise<ConversationResponseDto> {
-    const conversation = await this.prisma.chat_conversations.findUnique({
+    const conversation = await this.prisma.chat_conversations.findFirst({
       where: { id: conversationId, user_id: userId },
       include: {
         messages: {

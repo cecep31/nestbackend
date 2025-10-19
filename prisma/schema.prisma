@@ -36,7 +36,9 @@ model posts {
   like_count    BigInt?         @default(0)
   post_comments post_comments[]
   post_likes    post_likes[]
+  post_bookmarks post_bookmarks[]
   creator       users?          @relation(fields: [created_by], references: [id], map: "fk_posts_creator")
+  tags          posts_to_tags[]
 
   @@unique([created_by, slug], map: "creator and slug inique")
   @@index([deleted_at])
@@ -63,6 +65,7 @@ model users {
   post_comments   post_comments[]
   post_likes      post_likes[]
   post_views      post_views[]
+  post_bookmarks  post_bookmarks[]
   posts           posts[]
   profile         profiles?
   sessions        sessions[]
@@ -76,6 +79,7 @@ model posts_to_tags {
   post_id String @db.Uuid
   tag_id  Int
   tag     tags   @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "posts_to_tags_tag_id_tags_id_fk")
+  posts   posts  @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "posts_to_tags_post_id_posts_id_fk")
 
   @@id([post_id, tag_id], map: "posts_to_tags_posts_id_tags_id_pk")
 }
@@ -129,6 +133,7 @@ model chat_conversations {
   deleted_at DateTime? @db.Timestamptz(6)
   title      String    @db.VarChar(255)
   user_id    String    @db.Uuid
+  messages   chat_messages[]
 }
 
 model chat_messages {
@@ -143,6 +148,7 @@ model chat_messages {
   prompt_tokens     Int?
   completion_tokens Int?
   total_tokens      Int?
+  conversation      chat_conversations @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_messages_conversation_id_chat_conversations_id_fk")
 }
 
 model user_follows {
@@ -192,6 +198,23 @@ model post_views {
   @@index([deleted_at], map: "idx_post_views_deleted_at")
   @@index([post_id], map: "idx_post_views_post_id")
   @@index([user_id], map: "idx_post_views_user_id")
+}
+
+model post_bookmarks {
+  id         String    @id @default(uuid()) @db.Uuid
+  post_id    String    @db.Uuid
+  user_id    String    @db.Uuid
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  deleted_at DateTime? @db.Timestamptz(6)
+  posts      posts     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_bookmarks_post_id")
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_bookmarks_user_id")
+
+  @@unique([post_id, user_id], map: "idx_bookmark_post_id_user_id")
+  @@index([created_at], map: "idx_post_bookmarks_created_at")
+  @@index([deleted_at], map: "idx_post_bookmarks_deleted_at")
+  @@index([post_id], map: "idx_post_bookmarks_post_id")
+  @@index([user_id], map: "idx_post_bookmarks_user_id")
 }
 
 model sessions {

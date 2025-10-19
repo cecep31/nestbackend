@@ -20,6 +20,7 @@ import { SuperAdminGuard } from "../../auth/guards/superadmin.guard";
 import { type CreatePostDto, CreatePostSchema } from "../dto/create-post.dto";
 import { type UpdatePostDto, updatePostSchema } from "../dto/update-post.dto";
 import { LikePostDto, LikePostSchema } from "../dto/like-post.dto";
+import { BookmarkPostDto, BookmarkPostSchema } from "../dto/bookmark-post.dto";
 import {
   type UpdatePublishedDto,
   UpdatePublishedSchema,
@@ -210,6 +211,70 @@ export class PostsController {
       success: true,
       message: "Successfully checked if user liked post",
       data: await this.postsService.checkUserLiked(id, req.user.user_id),
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post("bookmark")
+  async bookmarkPost(
+    @Body(new ZodValidationPipe(BookmarkPostSchema))
+    bookmarkPostDto: BookmarkPostDto,
+    @Request() req
+  ) {
+    return {
+      success: true,
+      message: "Successfully bookmarked post",
+      data: await this.postsService.bookmarkPost(bookmarkPostDto, req.user.user_id),
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete("bookmark/:id")
+  @HttpCode(HttpStatus.OK)
+  async unbookmarkPost(@Param("id") id: string, @Request() req) {
+    return {
+      success: true,
+      message: "Successfully unbookmarked post",
+      data: await this.postsService.unbookmarkPost(id, req.user.user_id),
+    };
+  }
+
+  @Get(":id/bookmarks")
+  async getPostBookmarks(@Param("id") id: string) {
+    return {
+      success: true,
+      message: "Successfully fetched post bookmarks",
+      data: await this.postsService.getPostBookmarks(id),
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(":id/bookmarked")
+  async checkUserBookmarked(@Param("id") id: string, @Request() req) {
+    return {
+      success: true,
+      message: "Successfully checked if user bookmarked post",
+      data: await this.postsService.checkUserBookmarked(id, req.user.user_id),
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get("bookmarks/me")
+  async getUserBookmarks(
+    @Request() req,
+    @Query("offset") offset: number = 0,
+    @Query("limit") limit: number = 10
+  ) {
+    const { metadata, postsData } = await this.postsService.getUserBookmarks(
+      req.user.user_id,
+      offset,
+      limit
+    );
+    return {
+      success: true,
+      message: "Successfully fetched user bookmarks",
+      data: postsData,
+      meta: metadata,
     };
   }
 }

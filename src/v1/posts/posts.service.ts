@@ -11,6 +11,7 @@ import { PostsRepository } from "./posts.repository";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
 import { LikePostDto } from "./dto/like-post.dto";
+import { BookmarkPostDto } from "./dto/bookmark-post.dto";
 import { MinioService } from "../../common/s3/minio.service";
 import {
   AdminCreatePostDto,
@@ -377,6 +378,119 @@ export class PostsService {
     return { liked: !!like };
   }
 
+  async bookmarkPost(bookmarkPostDto: BookmarkPostDto, user_id: string) {
+    const { post_id } = bookmarkPostDto;
+
+    // Check if post exists
+    const post = await this.prisma.posts.findUnique({
+      where: { id: post_id },
+    });
+
+    if (!post) {
+      throw new NotFoundException("Post not found");
+    }
+
+    // Check if user already bookmarked the post
+    const existingBookmark = await this.postsRepository.findBookmark(
+      post_id,
+      user_id
+    );
+
+    if (existingBookmark) {
+      throw new BadRequestException("User has already bookmarked this post");
+    }
+
+    // Create a new bookmark
+    const bookmark = await this.postsRepository.bookmarkPost(post_id, user_id);
+
+    return bookmark;
+  }
+
+  async unbookmarkPost(post_id: string, user_id: string) {
+    // Check if post exists
+    const post = await this.prisma.posts.findUnique({
+      where: { id: post_id },
+    });
+
+    if (!post) {
+      throw new NotFoundException("Post not found");
+    }
+
+    // Find the bookmark
+    const existingBookmark = await this.postsRepository.findBookmark(
+      post_id,
+      user_id
+    );
+
+    if (!existingBookmark) {
+      throw new NotFoundException("Bookmark not found");
+    }
+
+    // Delete the bookmark
+    await this.postsRepository.unbookmarkPost(post_id, user_id);
+
+    return { success: true, message: "Post unbookmarked successfully" };
+  }
+
+  async getPostBookmarks(post_id: string) {
+    // Check if post exists
+    const post = await this.prisma.posts.findUnique({
+      where: { id: post_id },
+    });
+
+    if (!post) {
+      throw new NotFoundException("Post not found");
+    }
+
+    // Get bookmarks count
+    const bookmarksCount = await this.postsRepository.getPostBookmarksCount(
+      post_id
+    );
+
+    // Get users who bookmarked the post
+    const bookmarks = await this.postsRepository.getPostBookmarks(post_id);
+
+    return {
+      count: bookmarksCount,
+      users: bookmarks.map((bookmark) => bookmark.users),
+    };
+  }
+
+  async checkUserBookmarked(post_id: string, user_id: string) {
+    const bookmark = await this.postsRepository.findBookmark(post_id, user_id);
+
+    return { bookmarked: !!bookmark };
+  }
+
+  async getUserBookmarks(user_id: string, offset = 0, limit = 10) {
+    const bookmarks = await this.postsRepository.getUserBookmarks(
+      user_id,
+      offset,
+      limit
+    );
+
+    // Transform the data to match the expected format
+    const postsData = bookmarks.map((bookmark) => ({
+      ...bookmark.posts,
+      body: this.truncateBody(bookmark.posts.body ?? ""),
+      tags: bookmark.posts.tags.map((tagRelation) => tagRelation.tag),
+      bookmarked_at: bookmark.created_at,
+    }));
+
+    // Count total items
+    const totalItems = await this.postsRepository.getUserBookmarksCount(user_id);
+    const totalPages = Math.ceil(totalItems / limit);
+
+    const metadata = {
+      total_items: totalItems,
+      offset: offset,
+      limit: limit,
+      total_pages: totalPages,
+    };
+
+    return { postsData, metadata };
+  }
+
   // Admin-specific methods
   async getAdminPosts(query: AdminPostQueryDto) {
     const {
@@ -454,7 +568,7 @@ export class PostsService {
           },
           _count: {
             select: {
-              likes: true,
+              post_likes: true,
               post_comments: true,
             },
           },
@@ -471,7 +585,7 @@ export class PostsService {
         body: this.truncateBody(post.body ?? ''),
         tags: post.tags.map((tagRelation) => tagRelation.tag),
         stats: {
-          likes: post._count.likes,
+          likes: post._count.post_likes,
           comments: post._count.post_comments,
         },
       })),
