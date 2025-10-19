@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a comprehensive REST API for a blog/content management system. The API provides endpoints for user management, authentication, posts, comments, tags, workspaces, and more.
+This is a comprehensive REST API for a content management system built with NestJS. The API provides endpoints for user management, authentication, posts, bookmarks, likes, tags, workspaces, pages, chat, and writer profiles.
 
 ## Base URL
 
@@ -114,7 +114,7 @@ Register a new user account.
 
 Authenticate user and receive JWT token.
 
-**Rate Limit:** 5 requests per 5 minutes
+**Rate Limit:** 5 requests per 1 minute (60 seconds)
 
 **Request Body:**
 ```json
@@ -136,6 +136,58 @@ Authenticate user and receive JWT token.
       "email": "user@example.com",
       "username": "username"
     }
+  }
+}
+```
+
+### Get Profile
+
+**GET** `/v1/auth/profile`
+
+🔒 **Authentication Required**
+
+Retrieve current user's profile information.
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Profile retrieved successfully",
+  "data": {
+    "id": "uuid",
+    "email": "user@example.com",
+    "username": "username"
+  }
+}
+```
+
+### GitHub OAuth
+
+**GET** `/v1/auth/github`
+
+Initiate GitHub OAuth login flow. Redirects to GitHub for authentication.
+
+### GitHub OAuth Callback
+
+**GET** `/v1/auth/github/callback`
+
+Handle GitHub OAuth callback. Sets JWT cookie and redirects to frontend.
+
+### Refresh Token
+
+**POST** `/v1/auth/refresh-token`
+
+🔒 **Authentication Required**
+
+Refresh JWT token.
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Refresh token successful",
+  "data": {
+    "access_token": "new-jwt-token"
   }
 }
 ```
@@ -243,7 +295,6 @@ Retrieve paginated list of all users.
 ```json
 {
   "success": true,
-  "message": "Successfully retrieved users",
   "data": [
     {
       "id": "uuid",
@@ -252,7 +303,7 @@ Retrieve paginated list of all users.
       "name": "First Last"
     }
   ],
-  "meta": {
+  "metadata": {
     "total_items": 100,
     "offset": 0,
     "limit": 10,
@@ -260,6 +311,30 @@ Retrieve paginated list of all users.
   }
 }
 ```
+
+### Create User (Admin Only)
+
+**POST** `/v1/users`
+
+🔒 **Authentication Required** | 👑 **Admin Only**
+
+Create a new user account.
+
+### Update User (Admin Only)
+
+**PUT** `/v1/users/{id}`
+
+🔒 **Authentication Required** | 👑 **Admin Only**
+
+Update user information.
+
+### Reset User Password (Admin Only)
+
+**PUT** `/v1/users/{id}/reset-password`
+
+🔒 **Authentication Required** | 👑 **Admin Only**
+
+Reset user password.
 
 ### Delete User (Admin Only)
 
@@ -272,14 +347,7 @@ Delete a user account.
 **Parameters:**
 - `id` (path): User ID to delete
 
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Successfully deleted user",
-  "data": null
-}
-```
+**Response (204):** No content
 
 ---
 
@@ -355,33 +423,32 @@ Get follower and following counts for a user.
 
 🔒 **Authentication Required**
 
-Create a new blog post.
+Create a new blog post with optional image upload.
 
-**Request Body:**
+**Request:** Multipart form data
+- `image` (file, optional): Image file to upload
+- JSON body with post data:
 ```json
 {
   "title": "Post Title",
-  "photo_url": "https://example.com/image.jpg",
   "slug": "post-slug",
   "body": "Post content here...",
-  "tags": ["tag1", "tag2"]
+  "tags": ["tag1", "tag2"],
+  "published": true
 }
 ```
 
-**Validation Rules:**
-- `title`: Required, minimum 7 characters
-- `slug`: Required, minimum 7 characters, must be unique
-- `body`: Required, minimum 10 characters
-- `photo_url`: Optional
-- `tags`: Optional array of tag names
-
-**Response (201):**
+**Response (200):**
 ```json
 {
   "success": true,
   "message": "Successfully created post",
   "data": {
-    "id": "uuid"
+    "id": "uuid",
+    "title": "Post Title",
+    "slug": "post-slug",
+    "body": "Post content here...",
+    "published": true
   }
 }
 ```
@@ -478,11 +545,42 @@ Retrieve a post by username and slug. Automatically records a view.
 
 ### Update Post
 
-**PUT** `/v1/posts/{id}`
+**PATCH** `/v1/posts`
 
-🔒 **Authentication Required** | 👤 **Author Only**
+🔒 **Authentication Required**
 
-Update an existing post. Only the post author can update.
+Update an existing post.
+
+**Request Body:**
+```json
+{
+  "id": "uuid",
+  "title": "Updated Title",
+  "slug": "updated-slug",
+  "body": "Updated content...",
+  "tags": ["new-tag"]
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Successfully updated post",
+  "data": {
+    "id": "uuid",
+    "title": "Updated Title"
+  }
+}
+```
+
+### Update Post Published Status
+
+**PATCH** `/v1/posts/{id}/published`
+
+🔒 **Authentication Required**
+
+Update the published status of a post.
 
 **Parameters:**
 - `id` (path): Post ID
@@ -490,11 +588,19 @@ Update an existing post. Only the post author can update.
 **Request Body:**
 ```json
 {
-  "title": "Updated Title",
-  "photo_url": "new-image-url",
-  "slug": "updated-slug",
-  "body": "Updated content...",
-  "tags": ["new-tag"]
+  "published": true
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Successfully updated post",
+  "data": {
+    "id": "uuid",
+    "published": true
+  }
 }
 ```
 
@@ -556,26 +662,63 @@ Retrieve posts with a specific tag.
 - `offset` (optional): Number of records to skip (default: 0)
 - `limit` (optional): Number of records to return (default: 10)
 
-### Upload Post Image
+---
 
-**POST** `/v1/posts/image`
+## Post Like Endpoints
+
+### Like Post
+
+**POST** `/v1/posts/like`
 
 🔒 **Authentication Required**
 
-Upload an image for use in posts.
+Like a post.
 
-**Request:** Multipart form data
-- `image` (file): Image file to upload
+**Request Body:**
+```json
+{
+  "post_id": "uuid"
+}
+```
 
----
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Successfully liked post",
+  "data": {
+    "id": "uuid",
+    "post_id": "uuid",
+    "user_id": "uuid"
+  }
+}
+```
 
-## Comment Endpoints
+### Unlike Post
 
-### Get Post Comments
+**DELETE** `/v1/posts/like/{id}`
 
-**GET** `/v1/posts/{id}/comments`
+🔒 **Authentication Required**
 
-Retrieve all comments for a specific post.
+Unlike a post.
+
+**Parameters:**
+- `id` (path): Like ID or Post ID
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Successfully unliked post",
+  "data": null
+}
+```
+
+### Get Post Likes
+
+**GET** `/v1/posts/{id}/likes`
+
+Get all likes for a specific post.
 
 **Parameters:**
 - `id` (path): Post ID
@@ -584,84 +727,177 @@ Retrieve all comments for a specific post.
 ```json
 {
   "success": true,
-  "message": "Comments fetched successfully",
+  "message": "Successfully fetched post likes",
   "data": [
     {
       "id": "uuid",
-      "content": "Comment content",
-      "author": {
-        "id": "uuid",
-        "username": "commenter",
-        "name": "Commenter Name"
-      },
-      "created_at": "2023-01-01T00:00:00Z",
-      "updated_at": "2023-01-01T00:00:00Z"
+      "user_id": "uuid",
+      "post_id": "uuid",
+      "created_at": "2023-01-01T00:00:00Z"
     }
   ]
 }
 ```
 
-### Create Comment
+### Check if User Liked Post
 
-**POST** `/v1/posts/{id}/comments`
+**GET** `/v1/posts/{id}/liked`
 
 🔒 **Authentication Required**
 
-Create a new comment on a post.
+Check if current user has liked a specific post.
 
 **Parameters:**
 - `id` (path): Post ID
 
-**Request Body:**
-```json
-{
-  "content": "Comment content here..."
-}
-```
-
-**Response (201):**
+**Response (200):**
 ```json
 {
   "success": true,
-  "message": "Comment created successfully",
+  "message": "Successfully checked if user liked post",
   "data": {
-    "id": "uuid",
-    "content": "Comment content",
-    "created_at": "2023-01-01T00:00:00Z"
+    "liked": true,
+    "like_id": "uuid"
   }
 }
 ```
 
-### Update Comment
+---
 
-**PUT** `/v1/posts/{id}/comments/{comment_id}`
+## Post Bookmark Endpoints
 
-🔒 **Authentication Required** | 👤 **Author Only**
+### Bookmark Post
 
-Update an existing comment. Only the comment author can update.
+**POST** `/v1/posts/bookmark`
 
-**Parameters:**
-- `id` (path): Post ID
-- `comment_id` (path): Comment ID
+🔒 **Authentication Required**
+
+Bookmark a post.
 
 **Request Body:**
 ```json
 {
-  "content": "Updated comment content..."
+  "post_id": "uuid"
 }
 ```
 
-### Delete Comment
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Successfully bookmarked post",
+  "data": {
+    "id": "uuid",
+    "post_id": "uuid",
+    "user_id": "uuid"
+  }
+}
+```
 
-**DELETE** `/v1/posts/{id}/comments/{comment_id}`
+### Unbookmark Post
 
-🔒 **Authentication Required** | 👤 **Author Only**
+**DELETE** `/v1/posts/bookmark/{id}`
 
-Delete a comment. Only the comment author can delete.
+🔒 **Authentication Required**
+
+Remove a bookmark from a post.
+
+**Parameters:**
+- `id` (path): Bookmark ID or Post ID
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Successfully unbookmarked post",
+  "data": null
+}
+```
+
+### Get Post Bookmarks
+
+**GET** `/v1/posts/{id}/bookmarks`
+
+Get all bookmarks for a specific post.
 
 **Parameters:**
 - `id` (path): Post ID
-- `comment_id` (path): Comment ID
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Successfully fetched post bookmarks",
+  "data": [
+    {
+      "id": "uuid",
+      "user_id": "uuid",
+      "post_id": "uuid",
+      "created_at": "2023-01-01T00:00:00Z"
+    }
+  ]
+}
+```
+
+### Check if User Bookmarked Post
+
+**GET** `/v1/posts/{id}/bookmarked`
+
+🔒 **Authentication Required**
+
+Check if current user has bookmarked a specific post.
+
+**Parameters:**
+- `id` (path): Post ID
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Successfully checked if user bookmarked post",
+  "data": {
+    "bookmarked": true,
+    "bookmark_id": "uuid"
+  }
+}
+```
+
+### Get User Bookmarks
+
+**GET** `/v1/posts/bookmarks/me`
+
+🔒 **Authentication Required**
+
+Get current user's bookmarked posts.
+
+**Query Parameters:**
+- `offset` (optional): Number of records to skip (default: 0)
+- `limit` (optional): Number of records to return (default: 10)
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Successfully fetched user bookmarks",
+  "data": [
+    {
+      "id": "uuid",
+      "title": "Post Title",
+      "slug": "post-slug",
+      "creator": {
+        "id": "uuid",
+        "username": "author"
+      }
+    }
+  ],
+  "meta": {
+    "total_items": 50,
+    "offset": 0,
+    "limit": 10,
+    "total_pages": 5
+  }
+}
+```
 
 ---
 
@@ -702,22 +938,6 @@ Check if current user has viewed a specific post.
 
 ## Tag Endpoints
 
-### Create Tag
-
-**POST** `/v1/tags`
-
-🔒 **Authentication Required**
-
-Create a new tag.
-
-**Request Body:**
-```json
-{
-  "name": "tag-name",
-  "description": "Tag description"
-}
-```
-
 ### Get All Tags
 
 **GET** `/v1/tags`
@@ -728,7 +948,7 @@ Retrieve all available tags.
 ```json
 {
   "success": true,
-  "message": "Successfully retrieved tags",
+  "message": "Tags fetched successfully",
   "data": [
     {
       "id": "uuid",
@@ -740,28 +960,6 @@ Retrieve all available tags.
 }
 ```
 
-### Get Tag by ID
-
-**GET** `/v1/tags/{id}`
-
-Retrieve a specific tag by ID.
-
-### Update Tag
-
-**PUT** `/v1/tags/{id}`
-
-🔒 **Authentication Required** | 👑 **Admin Only**
-
-Update a tag. Admin access required.
-
-### Delete Tag
-
-**DELETE** `/v1/tags/{id}`
-
-🔒 **Authentication Required** | 👑 **Admin Only**
-
-Delete a tag. Admin access required.
-
 ---
 
 ## Workspace Endpoints
@@ -770,81 +968,82 @@ Delete a tag. Admin access required.
 
 **POST** `/v1/workspaces`
 
-🔒 **Authentication Required**
-
 Create a new workspace.
+
+**Request Body:**
+```json
+{
+  "name": "Workspace Name",
+  "description": "Workspace description"
+}
+```
 
 ### Get All Workspaces
 
 **GET** `/v1/workspaces`
 
-🔒 **Authentication Required**
-
 Retrieve all workspaces.
 
-### Get User Workspaces
-
-**GET** `/v1/workspaces/me`
-
-🔒 **Authentication Required**
-
-Retrieve current user's workspaces.
+**Response (200):**
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Workspace Name",
+      "description": "Workspace description",
+      "created_at": "2023-01-01T00:00:00Z"
+    }
+  ]
+}
+```
 
 ### Get Workspace by ID
 
 **GET** `/v1/workspaces/{id}`
 
-🔒 **Authentication Required**
-
 Retrieve a specific workspace.
+
+**Parameters:**
+- `id` (path): Workspace ID (integer)
+
+**Response (200):**
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Workspace Name",
+    "description": "Workspace description",
+    "created_at": "2023-01-01T00:00:00Z"
+  }
+}
+```
 
 ### Update Workspace
 
-**PUT** `/v1/workspaces/{id}`
-
-🔒 **Authentication Required**
+**PATCH** `/v1/workspaces/{id}`
 
 Update a workspace.
+
+**Parameters:**
+- `id` (path): Workspace ID (integer)
+
+**Request Body:**
+```json
+{
+  "name": "Updated Workspace Name",
+  "description": "Updated description"
+}
+```
 
 ### Delete Workspace
 
 **DELETE** `/v1/workspaces/{id}`
 
-🔒 **Authentication Required**
-
 Delete a workspace.
 
-### Add Workspace Member
-
-**POST** `/v1/workspaces/{id}/members`
-
-🔒 **Authentication Required**
-
-Add a member to a workspace.
-
-### Get Workspace Members
-
-**GET** `/v1/workspaces/{id}/members`
-
-🔒 **Authentication Required**
-
-Retrieve workspace members.
-
-### Update Member Role
-
-**PUT** `/v1/workspaces/{id}/members/{user_id}`
-
-🔒 **Authentication Required**
-
-Update a member's role in the workspace.
-
-### Remove Workspace Member
-
-**DELETE** `/v1/workspaces/{id}/members/{user_id}`
-
-🔒 **Authentication Required**
-
-Remove a member from the workspace.
+**Parameters:**
+- `id` (path): Workspace ID (integer)
 
 ---
 
@@ -854,49 +1053,286 @@ Remove a member from the workspace.
 
 **POST** `/v1/pages`
 
-🔒 **Authentication Required**
-
 Create a new page within a workspace.
+
+**Request Body:**
+```json
+{
+  "title": "Page Title",
+  "content": "Page content",
+  "workspace_id": 1,
+  "parent_id": null
+}
+```
 
 ### Get Page
 
 **GET** `/v1/pages/{id}`
 
-🔒 **Authentication Required**
-
 Retrieve a specific page.
+
+**Parameters:**
+- `id` (path): Page ID (integer)
+
+**Response (200):**
+```json
+{
+  "data": {
+    "id": 1,
+    "title": "Page Title",
+    "content": "Page content",
+    "workspace_id": 1,
+    "parent_id": null,
+    "created_at": "2023-01-01T00:00:00Z"
+  }
+}
+```
 
 ### Update Page
 
-**PUT** `/v1/pages/{id}`
-
-🔒 **Authentication Required**
+**PATCH** `/v1/pages/{id}`
 
 Update a page.
+
+**Parameters:**
+- `id` (path): Page ID (integer)
+
+**Request Body:**
+```json
+{
+  "title": "Updated Page Title",
+  "content": "Updated content"
+}
+```
 
 ### Delete Page
 
 **DELETE** `/v1/pages/{id}`
 
-🔒 **Authentication Required**
-
 Delete a page.
+
+**Parameters:**
+- `id` (path): Page ID (integer)
 
 ### Get Workspace Pages
 
 **GET** `/v1/pages/workspace/{workspace_id}`
 
-🔒 **Authentication Required**
-
 Retrieve all pages in a workspace.
+
+**Parameters:**
+- `workspace_id` (path): Workspace ID (integer)
 
 ### Get Child Pages
 
 **GET** `/v1/pages/children/{parent_id}`
 
+Retrieve child pages of a parent page.
+
+**Parameters:**
+- `parent_id` (path): Parent page ID (integer)
+
+---
+
+## Writer Endpoints
+
+### Get Writer by Username
+
+**GET** `/v1/writers/{username}`
+
+Retrieve writer profile information by username.
+
+**Parameters:**
+- `username` (path): Writer's username
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Writer retrieved successfully",
+  "data": {
+    "id": "uuid",
+    "username": "writer-username",
+    "name": "Writer Name",
+    "email": "writer@example.com",
+    "followers_count": 10,
+    "following_count": 5,
+    "posts_count": 25
+  }
+}
+```
+
+---
+
+## Chat Endpoints
+
+All chat endpoints require authentication.
+
+### Create Conversation
+
+**POST** `/v1/chat/conversations`
+
+🔒 **Authentication Required**
+**Rate Limit:** 5 requests per minute
+
+Create a new conversation.
+
+**Request Body:**
+```json
+{
+  "title": "Conversation Title"
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Conversation created successfully",
+  "data": {
+    "id": "uuid",
+    "title": "Conversation Title",
+    "user_id": "uuid",
+    "created_at": "2023-01-01T00:00:00Z"
+  }
+}
+```
+
+### Send Message
+
+**POST** `/v1/chat/conversations/{id}/messages`
+
+🔒 **Authentication Required**
+**Rate Limit:** 10 requests per minute
+
+Send a message to a conversation.
+
+**Parameters:**
+- `id` (path): Conversation ID
+
+**Request Body:**
+```json
+{
+  "content": "Message content here..."
+}
+```
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Message sent successfully",
+  "data": {
+    "id": "uuid",
+    "conversation_id": "uuid",
+    "user_id": "uuid",
+    "content": "Message content here...",
+    "role": "user",
+    "created_at": "2023-01-01T00:00:00Z"
+  }
+}
+```
+
+### Stream Message
+
+**POST** `/v1/chat/conversations/{id}/messages/stream`
+
+🔒 **Authentication Required**
+**Rate Limit:** 10 requests per minute
+
+Send a message and receive streaming response using Server-Sent Events (SSE).
+
+**Parameters:**
+- `id` (path): Conversation ID
+
+**Request Body:**
+```json
+{
+  "content": "Message content here..."
+}
+```
+
+**Response:** Server-Sent Events stream
+```
+data: {"content": "Partial response"}
+data: {"content": "More response"}
+data: [DONE]
+```
+
+### List Conversations
+
+**GET** `/v1/chat/conversations`
+
 🔒 **Authentication Required**
 
-Retrieve child pages of a parent page.
+Retrieve all conversations for the current user.
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Conversations retrieved successfully",
+  "data": [
+    {
+      "id": "uuid",
+      "title": "Conversation Title",
+      "created_at": "2023-01-01T00:00:00Z",
+      "updated_at": "2023-01-01T00:00:00Z"
+    }
+  ]
+}
+```
+
+### Get Conversation
+
+**GET** `/v1/chat/conversations/{id}`
+
+🔒 **Authentication Required**
+
+Retrieve a specific conversation with its messages.
+
+**Parameters:**
+- `id` (path): Conversation ID
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Conversation retrieved successfully",
+  "data": {
+    "id": "uuid",
+    "title": "Conversation Title",
+    "messages": [
+      {
+        "id": "uuid",
+        "content": "Message content",
+        "role": "user|assistant",
+        "created_at": "2023-01-01T00:00:00Z"
+      }
+    ],
+    "created_at": "2023-01-01T00:00:00Z"
+  }
+}
+```
+
+### Delete Conversation
+
+**DELETE** `/v1/chat/conversations/{id}`
+
+🔒 **Authentication Required**
+
+Delete a conversation and all its messages.
+
+**Parameters:**
+- `id` (path): Conversation ID
+
+**Response (200):**
+```json
+{
+  "success": true,
+  "message": "Conversation deleted successfully"
+}
+```
 
 ---
 
@@ -921,170 +1357,6 @@ Available endpoints:
 - `/v1/debug/pprof/allocs` - Memory allocations
 - `/v1/debug/pprof/block` - Block profile
 - `/v1/debug/pprof/mutex` - Mutex profile
-
----
-
-## WebSocket Gateway
-
-### Connection
-
-**WebSocket** `wss://nest.pilput.me/ws/posts`
-
-Connect to the WebSocket gateway for real-time post interactions. Requires authentication via JWT token and a post ID.
-
-**Connection Parameters:**
-- `token` (query): JWT authentication token
-- `post_id` (query): ID of the post to connect to
-
-**Example Connection URL:**
-```
-wss://nest.pilput.me/ws/posts?token=your-jwt-token&post_id=post-uuid
-```
-
-### Authentication
-
-WebSocket connections require a valid JWT token passed as a query parameter. The token is verified upon connection.
-
-### Events
-
-#### Client to Server Events
-
-**`sendComment`**
-Send a new comment to a post.
-
-**Payload:**
-```json
-{
-  "content": "Comment content here..."
-}
-```
-
-**Response:**
-```json
-{
-  "status": "success",
-  "data": [
-    {
-      "id": "comment-uuid",
-      "content": "Comment content",
-      "created_at": "2023-01-01T00:00:00Z",
-      "creator": {
-        "id": "user-uuid",
-        "username": "commenter",
-        "email": "commenter@example.com",
-        "first_name": "Commenter",
-        "last_name": "User"
-      }
-    }
-  ]
-}
-```
-
-**`typing`**
-Send typing indicator status.
-
-**Payload:**
-```json
-{
-  "postId": "post-uuid",
-  "isTyping": true
-}
-```
-
-**Response:**
-```json
-{
-  "status": "success"
-}
-```
-
-**`markAsRead`**
-Mark a comment as read.
-
-**Payload:**
-```json
-{
-  "commentId": "comment-uuid"
-}
-```
-
-**Response:**
-```json
-{
-  "status": "success"
-}
-```
-
-**`getAllComments`**
-Request all comments for the post.
-
-**Response:**
-```json
-{
-  "status": "success"
-}
-```
-
-#### Server to Client Events
-
-**`newComment`**
-Broadcast when new comments are available or updated.
-
-**Payload:**
-```json
-[
-  {
-    "id": "comment-uuid",
-    "content": "Comment content",
-    "created_at": "2023-01-01T00:00:00Z",
-    "creator": {
-      "id": "user-uuid",
-      "username": "commenter",
-      "email": "commenter@example.com",
-      "first_name": "Commenter",
-      "last_name": "User"
-    }
-  }
-]
-```
-
-**`userTyping`**
-Broadcast when a user starts or stops typing.
-
-**Payload:**
-```json
-{
-  "userId": "user-uuid",
-  "isTyping": true
-}
-```
-
-**`error`**
-Sent when an error occurs during connection or processing.
-
-**Payload:**
-```json
-{
-  "status": "error",
-  "message": "Error description"
-}
-```
-
-### WebSocket Connection Lifecycle
-
-1. **Connection**: Client connects with token and post_id parameters
-2. **Authentication**: Server verifies JWT token
-3. **Initialization**: Server loads initial comments and sends them via `newComment` event
-4. **Real-time Interaction**: Client and server exchange events for comments and typing indicators
-5. **Disconnection**: Client or server terminates connection
-
-### Error Handling
-
-WebSocket errors are sent via the `error` event. Common errors include:
-- Invalid or missing authentication token
-- Invalid post ID
-- Unauthorized access
-- Connection timeout
 
 ---
 
@@ -1146,7 +1418,10 @@ WebSocket errors are sent via the `error` event. Common errors include:
 
 Certain endpoints have rate limiting applied:
 
-- **Login endpoint**: 5 requests per 5 minutes per IP address
+- **Login endpoint**: 5 requests per 1 minute per IP address
+- **Chat conversation creation**: 5 requests per 1 minute per user
+- **Chat message sending**: 10 requests per 1 minute per user
+- **Global rate limiting**: 10 requests per 60 seconds for all endpoints
 
 ---
 
@@ -1237,14 +1512,28 @@ Respect rate limits and implement appropriate retry logic with exponential backo
 ## Changelog
 
 ### Version 1.0.0
-- Initial API release
-- User authentication and management
-- Post creation and management
-- Comment system
-- Tag system
-- Workspace and page management
-- User follow system
+- Initial API release built with NestJS
+- User authentication with JWT and GitHub OAuth
+- User management with follow/unfollow functionality
+- Post creation and management with image upload support
+- Post like and bookmark system (replaces comment system)
+- Tag system (read-only)
+- Workspace and page management for notes
+- Chat system with conversation and message management
+- Writer profiles
 - Post view tracking
+- Rate limiting on sensitive endpoints
+- Server-Sent Events streaming for chat responses
+
+### Key Changes from Documentation
+- Authentication includes GitHub OAuth flow and refresh tokens
+- Comments replaced with like and bookmark functionality
+- Post creation supports multipart file uploads for images
+- Chat system added with streaming responses
+- Tags are currently read-only (GET only)
+- Workspaces and pages use integer IDs instead of UUIDs
+- WebSocket Gateway removed (no longer implemented)
+- Response format uses `metadata` instead of `meta` for pagination
 
 ---
 
