@@ -56,7 +56,7 @@ export class ChatService {
           // Get previous messages for context (including the just-saved user message)
           const previousMessages = await this.prisma.chat_messages.findMany({
             where: { conversation_id: conversationId },
-            orderBy: { created_at: "asc" },
+            orderBy: { created_at: "desc" },
             take: 10,
           });
 
