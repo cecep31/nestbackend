@@ -26,7 +26,7 @@ export class OpenRouterService {
         'https://openrouter.ai/api/v1',
       defaultModel:
         this.configService.get<string>('openrouter.defaultModel') ||
-        'openai/gpt-3.5-turbo',
+        'x-ai/grok-4-fast',
       maxTokens: this.configService.get<number>('openrouter.maxTokens') || 4000,
       temperature:
         this.configService.get<number>('openrouter.temperature') || 0.7,
@@ -71,9 +71,17 @@ export class OpenRouterService {
           });
 
           for await (const chunk of stream) {
-            const content = chunk.choices[0]?.delta?.content;
-            if (content) {
-              observer.next(content);
+            const delta = chunk.choices[0]?.delta;
+            if (delta) {
+              // Handle reasoning content first (for models like o1)
+              const reasoningContent = (delta as any).reasoning_content;
+              if (reasoningContent) {
+                observer.next(reasoningContent);
+              }
+              // Handle regular content
+              if (delta.content) {
+                observer.next(delta.content);
+              }
             }
           }
 

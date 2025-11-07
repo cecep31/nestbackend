@@ -1,6 +1,7 @@
 export interface OpenAIMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
+  reasoning_content?: string;
 }
 
 export interface OpenAIRequest {

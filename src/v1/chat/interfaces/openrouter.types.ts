@@ -1,6 +1,7 @@
 export interface OpenRouterMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
+  reasoning_content?: string;
 }
 
 export interface OpenRouterRequest {

@@ -23,7 +23,7 @@ export class ChatService {
   ) {
     this.defaultModel =
       this.configService.get("openrouter.defaultModel") ||
-      "openai/gpt-3.5-turbo";
+      "x-ai/grok-4-fast";
   }
 
   streamMessage(
