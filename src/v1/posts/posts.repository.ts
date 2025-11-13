@@ -182,7 +182,16 @@ export class PostsRepository {
       take,
       orderBy,
       include: {
-        creator: true,
+        creator: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            first_name: true,
+            last_name: true,
+            image: true,
+          },
+        },
         post_likes: true,
         post_comments: false,
         tags: {

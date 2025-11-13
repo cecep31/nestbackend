@@ -137,7 +137,18 @@ export class PostsService {
     return this.prisma.post_comments.findMany({
       where: { post_id: postId, parrent_comment_id: null },
       orderBy: { created_at: "asc" },
-      include: { creator: true },
+      include: {
+        creator: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            first_name: true,
+            last_name: true,
+            image: true,
+          },
+        },
+      },
     });
   }
 
