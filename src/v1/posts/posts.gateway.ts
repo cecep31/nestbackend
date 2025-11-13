@@ -56,6 +56,28 @@ export class PostsGateway
     return type === 'Bearer' ? token : undefined;
   }
 
+  private stringifyBigInts(obj: any): any {
+    if (typeof obj === 'bigint') {
+      return obj.toString();
+    }
+
+    if (Array.isArray(obj)) {
+      return obj.map((item) => this.stringifyBigInts(item));
+    }
+
+    if (obj && typeof obj === 'object') {
+      const result: any = {};
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          result[key] = this.stringifyBigInts(obj[key]);
+        }
+      }
+      return result;
+    }
+
+    return obj;
+  }
+
   async handleConnection(client: Socket) {
     const connectionStart = Date.now();
     this.logger.log(`Client connected: ${client.id}`);
@@ -98,7 +120,7 @@ export class PostsGateway
 
       // Load initial data
       const comments = await this.postService.getAllComments(postId);
-      client.emit('newComment', comments);
+      client.emit('newComment', this.stringifyBigInts(comments));
 
       this.logger.log(
         `Socket connected: ${client.id} for user ${user_id} in room ${postId} ` +
@@ -169,8 +191,8 @@ export class PostsGateway
       await this.postService.createComment(commentData);
       const comments = await this.postService.getAllComments(postId);
 
-      this.server.to(postId).emit('newComment', comments);
-      return { status: 'success', data: comments };
+      this.server.to(postId).emit('newComment', this.stringifyBigInts(comments));
+      return { status: 'success', data: this.stringifyBigInts(comments) };
     } catch (error) {
       this.logger.error(
         `Error handling comment: ${error.message}`,
@@ -235,7 +257,7 @@ export class PostsGateway
       const comments = await this.postService.getAllComments(postId);
 
       // Broadcast the updated comments to all clients
-      this.server.to(postId).emit('newComment', comments);
+      this.server.to(postId).emit('newComment', this.stringifyBigInts(comments));
 
       return { status: 'success' };
     } catch (error) {
@@ -252,6 +274,6 @@ export class PostsGateway
     const postId = client.handshake.query.post_id + '';
     this.logger.log(`Fetching all comments for post ${postId}`);
     const comments = await this.postService.getAllComments(postId);
-    client.emit('newComment', comments);
+    client.emit('newComment', this.stringifyBigInts(comments));
   }
 }
