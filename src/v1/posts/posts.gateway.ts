@@ -57,25 +57,11 @@ export class PostsGateway
   }
 
   private stringifyBigInts(obj: any): any {
-    if (typeof obj === 'bigint') {
-      return obj.toString();
-    }
-
-    if (Array.isArray(obj)) {
-      return obj.map((item) => this.stringifyBigInts(item));
-    }
-
-    if (obj && typeof obj === 'object') {
-      const result: any = {};
-      for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          result[key] = this.stringifyBigInts(obj[key]);
-        }
-      }
-      return result;
-    }
-
-    return obj;
+    return JSON.parse(
+      JSON.stringify(obj, (_, value) =>
+        typeof value === 'bigint' ? value.toString() : value,
+      ),
+    );
   }
 
   async handleConnection(client: Socket) {
@@ -120,6 +106,8 @@ export class PostsGateway
 
       // Load initial data
       const comments = await this.postService.getAllComments(postId);
+      console.log(comments, this.stringifyBigInts(comments));
+      
       client.emit('newComment', this.stringifyBigInts(comments));
 
       this.logger.log(
