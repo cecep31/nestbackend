@@ -11,31 +11,15 @@ import { map } from 'rxjs/operators';
 export class BigIntInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
-      map((data) => {
-        return this.stringifyBigInts(data);
-      }),
+      map((data) =>
+        JSON.parse(
+          JSON.stringify(
+            data,
+            (_, value) =>
+              typeof value === 'bigint' ? value.toString() : value,
+          ),
+        ),
+      ),
     );
-  }
-
-  private stringifyBigInts(obj: any): any {
-    if (typeof obj === 'bigint') {
-      return obj.toString();
-    }
-
-    if (Array.isArray(obj)) {
-      return obj.map((item) => this.stringifyBigInts(item));
-    }
-
-    if (obj && typeof obj === 'object') {
-      const result: any = {};
-      for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          result[key] = this.stringifyBigInts(obj[key]);
-        }
-      }
-      return result;
-    }
-
-    return obj;
   }
 }
