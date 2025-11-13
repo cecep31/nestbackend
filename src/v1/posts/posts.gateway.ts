@@ -13,6 +13,7 @@ import { UserSocketMapService } from './user-map-service';
 import { Logger, UseFilters } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { WsExceptionFilter } from '../../filters';
+import { stringifyBigInts } from '../../common/utils/big-int.util';
 
 @WebSocketGateway({
   namespace: 'ws/posts',
@@ -56,13 +57,6 @@ export class PostsGateway
     return type === 'Bearer' ? token : undefined;
   }
 
-  private stringifyBigInts(obj: any): any {
-    return JSON.parse(
-      JSON.stringify(obj, (_, value) =>
-        typeof value === 'bigint' ? value.toString() : value,
-      ),
-    );
-  }
 
   async handleConnection(client: Socket) {
     const connectionStart = Date.now();
@@ -106,9 +100,9 @@ export class PostsGateway
 
       // Load initial data
       const comments = await this.postService.getAllComments(postId);
-      console.log(comments, this.stringifyBigInts(comments));
-      
-      client.emit('newComment', this.stringifyBigInts(comments));
+      console.log(comments, stringifyBigInts(comments));
+
+      client.emit('newComment', stringifyBigInts(comments));
 
       this.logger.log(
         `Socket connected: ${client.id} for user ${user_id} in room ${postId} ` +
@@ -179,8 +173,8 @@ export class PostsGateway
       await this.postService.createComment(commentData);
       const comments = await this.postService.getAllComments(postId);
 
-      this.server.to(postId).emit('newComment', this.stringifyBigInts(comments));
-      return { status: 'success', data: this.stringifyBigInts(comments) };
+      this.server.to(postId).emit('newComment', stringifyBigInts(comments));
+      return { status: 'success', data: stringifyBigInts(comments) };
     } catch (error) {
       this.logger.error(
         `Error handling comment: ${error.message}`,
@@ -245,7 +239,7 @@ export class PostsGateway
       const comments = await this.postService.getAllComments(postId);
 
       // Broadcast the updated comments to all clients
-      this.server.to(postId).emit('newComment', this.stringifyBigInts(comments));
+      this.server.to(postId).emit('newComment', stringifyBigInts(comments));
 
       return { status: 'success' };
     } catch (error) {
@@ -262,6 +256,6 @@ export class PostsGateway
     const postId = client.handshake.query.post_id + '';
     this.logger.log(`Fetching all comments for post ${postId}`);
     const comments = await this.postService.getAllComments(postId);
-    client.emit('newComment', this.stringifyBigInts(comments));
+    client.emit('newComment', stringifyBigInts(comments));
   }
 }
