@@ -38,4 +38,4 @@ COPY --from=builder --chown=nestjs:nodejs /app/generated ./generated
 USER nestjs
 EXPOSE 3001
 
-CMD ["bun", "dist/main.js"]
+CMD ["bun", "dist/src/main.js"]
