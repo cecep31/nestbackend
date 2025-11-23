@@ -12,7 +12,9 @@ RUN bun install --frozen-lockfile
 
 # Copy source and build
 COPY . .
-RUN bunx prisma generate && bun run build
+RUN bunx prisma generate
+
+RUN bun run build
 
 # Production stage
 FROM oven/bun:${BUN_VERSION}-alpine
