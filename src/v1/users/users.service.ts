@@ -10,8 +10,8 @@ import {
 } from './dto/user.schema';
 import { hash } from 'bcrypt';
 import { PrismaService } from '../../db/prisma.service';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { UserRepository } from './users.repository';
+import { PrismaClientKnownRequestError } from 'generated/prisma/internal/prismaNamespace';
 
 @Injectable()
 export class UsersService {

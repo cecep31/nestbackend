@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
   Req,
   Res,
 } from "@nestjs/common";
@@ -110,6 +111,7 @@ export class ChatController {
 
   @Post("conversations/:id/messages/stream")
   @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 requests per minute for streaming messages
+  @UseInterceptors() // Disable global interceptors for this endpoint
   async streamMessage(
     @Req() req: RequestWithUser,
     @Res() res: Response,

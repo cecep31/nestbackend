@@ -11,6 +11,14 @@ import { stringifyBigInts } from '../utils/big-int.util';
 @Injectable()
 export class BigIntInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    return next.handle().pipe(map((data) => stringifyBigInts(data)));
+    return next.handle().pipe(
+      map((data) => {
+        // Don't process if data is undefined, null, or already a string (like streaming responses)
+        if (data === undefined || data === null || typeof data === 'string') {
+          return data;
+        }
+        return stringifyBigInts(data);
+      })
+    );
   }
 }
