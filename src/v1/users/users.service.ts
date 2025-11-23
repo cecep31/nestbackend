@@ -11,7 +11,7 @@ import {
 import { hash } from 'bcrypt';
 import { PrismaService } from '../../db/prisma.service';
 import { UserRepository } from './users.repository';
-import { PrismaClientKnownRequestError } from 'generated/prisma/internal/prismaNamespace';
+import { PrismaClientKnownRequestError } from '../../../generated/prisma/internal/prismaNamespace';
 
 @Injectable()
 export class UsersService {
