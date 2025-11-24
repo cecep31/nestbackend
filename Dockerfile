@@ -53,7 +53,6 @@ RUN bun install --production --frozen-lockfile && \
 
 # Copy built application and generated files from builder stage
 COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist
-COPY --from=builder --chown=nestjs:nodejs /app/generated ./generated
 
 # Switch to non-root user
 USER nestjs
