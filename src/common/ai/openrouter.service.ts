@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
 import OpenAI from 'openai';
-import { OpenAIMessage, OpenAIResponse } from '../interfaces/openai.types';
+import { OpenAIMessage, OpenAIResponse } from './interfaces/openai.types';
 
 interface OpenRouterConfig {
   apiKey: string;

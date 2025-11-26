@@ -129,7 +129,6 @@ export class AuthService {
       email: user.email,
       is_super_admin: user.is_super_admin,
     };
-    console.log(payload);
 
     const refreshToken = 'pl_' + randomBytes(64).toString('hex');
 
