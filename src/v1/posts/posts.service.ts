@@ -5,7 +5,7 @@ import {
   ForbiddenException,
   Logger,
 } from "@nestjs/common";
-import { post_comments } from "../../../generated/prisma/client";
+import { post_comments } from "../../generated/prisma/client";
 import { PrismaService } from "../../db/prisma.service";
 import { PostsRepository } from "./posts.repository";
 import { CreatePostDto } from "./dto/create-post.dto";
@@ -104,8 +104,9 @@ export class PostsService {
       tags: post.tags.map((tagRelation) => tagRelation.tag),
     }));
     // count total items
-    const totalItems =
-      await this.postsRepository.getPostsByCreatorCount(user_id);
+    const totalItems = await this.postsRepository.getPostsByCreatorCount(
+      user_id
+    );
     const totalPages = Math.ceil(totalItems / limit);
 
     const metadata = {
@@ -489,7 +490,9 @@ export class PostsService {
     }));
 
     // Count total items
-    const totalItems = await this.postsRepository.getUserBookmarksCount(user_id);
+    const totalItems = await this.postsRepository.getUserBookmarksCount(
+      user_id
+    );
     const totalPages = Math.ceil(totalItems / limit);
 
     const metadata = {
@@ -508,9 +511,9 @@ export class PostsService {
       offset = 0,
       limit = 10,
       search,
-      published = 'all',
-      sort_by = 'created_at',
-      sort_order = 'desc',
+      published = "all",
+      sort_by = "created_at",
+      sort_order = "desc",
       creator_id,
       tags,
     } = query;
@@ -521,15 +524,15 @@ export class PostsService {
     };
 
     // Handle published filter
-    if (published !== 'all') {
-      where.published = published === 'true';
+    if (published !== "all") {
+      where.published = published === "true";
     }
 
     // Handle search
     if (search) {
       where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { body: { contains: search, mode: 'insensitive' } },
+        { title: { contains: search, mode: "insensitive" } },
+        { body: { contains: search, mode: "insensitive" } },
       ];
     }
 
@@ -593,11 +596,11 @@ export class PostsService {
     return {
       posts: posts.map((post) => ({
         ...post,
-        body: this.truncateBody(post.body ?? ''),
+        body: this.truncateBody(post.body ?? ""),
         tags: post.tags.map((tagRelation) => tagRelation.tag),
         stats: {
-          likes: post._count.post_likes,
-          comments: post._count.post_comments,
+          likes: post.like_count,
+          comments: post.view_count,
         },
       })),
       metadata: {
@@ -622,14 +625,14 @@ export class PostsService {
     });
 
     if (existingPost) {
-      throw new BadRequestException('Post with this slug already exists');
+      throw new BadRequestException("Post with this slug already exists");
     }
 
     // Handle file upload
     if (file) {
       const timestamp = Date.now();
-      const extension = file.originalname.split('.').pop();
-      const userId = postData.created_by || 'admin';
+      const extension = file.originalname.split(".").pop();
+      const userId = postData.created_by || "admin";
       const objectName = `public/posts/${userId}/${timestamp}.${extension}`;
       photo_url = await this.minioService.uploadFile(objectName, file);
     }
@@ -637,7 +640,7 @@ export class PostsService {
     // Create post
     const newPost = await this.prisma.posts.create({
       data: {
-        created_by: postData.created_by || 'admin',
+        created_by: postData.created_by || "admin",
         created_at: new Date(),
         title: postData.title,
         body: postData.body,
@@ -682,7 +685,7 @@ export class PostsService {
     });
 
     if (!existingPost) {
-      throw new NotFoundException('Post not found');
+      throw new NotFoundException("Post not found");
     }
 
     // Handle slug uniqueness if changed
@@ -691,7 +694,7 @@ export class PostsService {
         where: { slug, NOT: { id } },
       });
       if (existingSlug) {
-        throw new BadRequestException('Post with this slug already exists');
+        throw new BadRequestException("Post with this slug already exists");
       }
     }
 
@@ -699,7 +702,7 @@ export class PostsService {
     let photo_url = existingPost.photo_url;
     if (file) {
       const timestamp = Date.now();
-      const extension = file.originalname.split('.').pop();
+      const extension = file.originalname.split(".").pop();
       const objectName = `public/posts/${existingPost.created_by}/${timestamp}.${extension}`;
       photo_url = await this.minioService.uploadFile(objectName, file);
     }
@@ -766,26 +769,26 @@ export class PostsService {
           results.push({
             id: postId,
             success: false,
-            error: 'Post not found',
+            error: "Post not found",
           });
           continue;
         }
 
         let result;
         switch (operation) {
-          case 'publish':
+          case "publish":
             result = await this.prisma.posts.update({
               where: { id: postId },
               data: { published: true, updated_at: new Date() },
             });
             break;
-          case 'unpublish':
+          case "unpublish":
             result = await this.prisma.posts.update({
               where: { id: postId },
               data: { published: false, updated_at: new Date() },
             });
             break;
-          case 'delete':
+          case "delete":
             result = await this.prisma.posts.delete({
               where: { id: postId },
             });
@@ -839,7 +842,11 @@ export class PostsService {
       this.prisma.posts.count({
         where: {
           created_at: {
-            gte: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
+            gte: new Date(
+              new Date().getFullYear(),
+              new Date().getMonth() - 1,
+              1
+            ),
             lt: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
           },
         },
@@ -853,9 +860,13 @@ export class PostsService {
       deleted: totalDeleted,
       thisMonth: postsThisMonth,
       lastMonth: postsLastMonth,
-      growth: postsLastMonth > 0
-        ? ((postsThisMonth - postsLastMonth) / postsLastMonth * 100).toFixed(2)
-        : '0',
+      growth:
+        postsLastMonth > 0
+          ? (
+              ((postsThisMonth - postsLastMonth) / postsLastMonth) *
+              100
+            ).toFixed(2)
+          : "0",
     };
   }
 }
