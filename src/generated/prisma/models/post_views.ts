@@ -207,6 +207,7 @@ export type post_viewsWhereInput = {
   updated_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
   users?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+  posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
 }
 
 export type post_viewsOrderByWithRelationInput = {
@@ -219,6 +220,7 @@ export type post_viewsOrderByWithRelationInput = {
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   users?: Prisma.usersOrderByWithRelationInput
+  posts?: Prisma.postsOrderByWithRelationInput
 }
 
 export type post_viewsWhereUniqueInput = Prisma.AtLeast<{
@@ -234,6 +236,7 @@ export type post_viewsWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
   users?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
+  posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
 }, "id">
 
 export type post_viewsOrderByWithAggregationInput = {
@@ -266,13 +269,13 @@ export type post_viewsScalarWhereWithAggregatesInput = {
 
 export type post_viewsCreateInput = {
   id?: string
-  post_id: string
   ip_address?: string | null
   user_agent?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
   users?: Prisma.usersCreateNestedOneWithoutPost_viewsInput
+  posts: Prisma.postsCreateNestedOneWithoutPost_viewsInput
 }
 
 export type post_viewsUncheckedCreateInput = {
@@ -288,13 +291,13 @@ export type post_viewsUncheckedCreateInput = {
 
 export type post_viewsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   users?: Prisma.usersUpdateOneWithoutPost_viewsNestedInput
+  posts?: Prisma.postsUpdateOneRequiredWithoutPost_viewsNestedInput
 }
 
 export type post_viewsUncheckedUpdateInput = {
@@ -321,7 +324,6 @@ export type post_viewsCreateManyInput = {
 
 export type post_viewsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -383,6 +385,48 @@ export type post_viewsMinOrderByAggregateInput = {
   deleted_at?: Prisma.SortOrder
 }
 
+export type post_viewsCreateNestedManyWithoutPostsInput = {
+  create?: Prisma.XOR<Prisma.post_viewsCreateWithoutPostsInput, Prisma.post_viewsUncheckedCreateWithoutPostsInput> | Prisma.post_viewsCreateWithoutPostsInput[] | Prisma.post_viewsUncheckedCreateWithoutPostsInput[]
+  connectOrCreate?: Prisma.post_viewsCreateOrConnectWithoutPostsInput | Prisma.post_viewsCreateOrConnectWithoutPostsInput[]
+  createMany?: Prisma.post_viewsCreateManyPostsInputEnvelope
+  connect?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+}
+
+export type post_viewsUncheckedCreateNestedManyWithoutPostsInput = {
+  create?: Prisma.XOR<Prisma.post_viewsCreateWithoutPostsInput, Prisma.post_viewsUncheckedCreateWithoutPostsInput> | Prisma.post_viewsCreateWithoutPostsInput[] | Prisma.post_viewsUncheckedCreateWithoutPostsInput[]
+  connectOrCreate?: Prisma.post_viewsCreateOrConnectWithoutPostsInput | Prisma.post_viewsCreateOrConnectWithoutPostsInput[]
+  createMany?: Prisma.post_viewsCreateManyPostsInputEnvelope
+  connect?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+}
+
+export type post_viewsUpdateManyWithoutPostsNestedInput = {
+  create?: Prisma.XOR<Prisma.post_viewsCreateWithoutPostsInput, Prisma.post_viewsUncheckedCreateWithoutPostsInput> | Prisma.post_viewsCreateWithoutPostsInput[] | Prisma.post_viewsUncheckedCreateWithoutPostsInput[]
+  connectOrCreate?: Prisma.post_viewsCreateOrConnectWithoutPostsInput | Prisma.post_viewsCreateOrConnectWithoutPostsInput[]
+  upsert?: Prisma.post_viewsUpsertWithWhereUniqueWithoutPostsInput | Prisma.post_viewsUpsertWithWhereUniqueWithoutPostsInput[]
+  createMany?: Prisma.post_viewsCreateManyPostsInputEnvelope
+  set?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+  disconnect?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+  delete?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+  connect?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+  update?: Prisma.post_viewsUpdateWithWhereUniqueWithoutPostsInput | Prisma.post_viewsUpdateWithWhereUniqueWithoutPostsInput[]
+  updateMany?: Prisma.post_viewsUpdateManyWithWhereWithoutPostsInput | Prisma.post_viewsUpdateManyWithWhereWithoutPostsInput[]
+  deleteMany?: Prisma.post_viewsScalarWhereInput | Prisma.post_viewsScalarWhereInput[]
+}
+
+export type post_viewsUncheckedUpdateManyWithoutPostsNestedInput = {
+  create?: Prisma.XOR<Prisma.post_viewsCreateWithoutPostsInput, Prisma.post_viewsUncheckedCreateWithoutPostsInput> | Prisma.post_viewsCreateWithoutPostsInput[] | Prisma.post_viewsUncheckedCreateWithoutPostsInput[]
+  connectOrCreate?: Prisma.post_viewsCreateOrConnectWithoutPostsInput | Prisma.post_viewsCreateOrConnectWithoutPostsInput[]
+  upsert?: Prisma.post_viewsUpsertWithWhereUniqueWithoutPostsInput | Prisma.post_viewsUpsertWithWhereUniqueWithoutPostsInput[]
+  createMany?: Prisma.post_viewsCreateManyPostsInputEnvelope
+  set?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+  disconnect?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+  delete?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+  connect?: Prisma.post_viewsWhereUniqueInput | Prisma.post_viewsWhereUniqueInput[]
+  update?: Prisma.post_viewsUpdateWithWhereUniqueWithoutPostsInput | Prisma.post_viewsUpdateWithWhereUniqueWithoutPostsInput[]
+  updateMany?: Prisma.post_viewsUpdateManyWithWhereWithoutPostsInput | Prisma.post_viewsUpdateManyWithWhereWithoutPostsInput[]
+  deleteMany?: Prisma.post_viewsScalarWhereInput | Prisma.post_viewsScalarWhereInput[]
+}
+
 export type post_viewsCreateNestedManyWithoutUsersInput = {
   create?: Prisma.XOR<Prisma.post_viewsCreateWithoutUsersInput, Prisma.post_viewsUncheckedCreateWithoutUsersInput> | Prisma.post_viewsCreateWithoutUsersInput[] | Prisma.post_viewsUncheckedCreateWithoutUsersInput[]
   connectOrCreate?: Prisma.post_viewsCreateOrConnectWithoutUsersInput | Prisma.post_viewsCreateOrConnectWithoutUsersInput[]
@@ -425,14 +469,74 @@ export type post_viewsUncheckedUpdateManyWithoutUsersNestedInput = {
   deleteMany?: Prisma.post_viewsScalarWhereInput | Prisma.post_viewsScalarWhereInput[]
 }
 
-export type post_viewsCreateWithoutUsersInput = {
+export type post_viewsCreateWithoutPostsInput = {
   id?: string
-  post_id: string
   ip_address?: string | null
   user_agent?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
+  users?: Prisma.usersCreateNestedOneWithoutPost_viewsInput
+}
+
+export type post_viewsUncheckedCreateWithoutPostsInput = {
+  id?: string
+  user_id?: string | null
+  ip_address?: string | null
+  user_agent?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+}
+
+export type post_viewsCreateOrConnectWithoutPostsInput = {
+  where: Prisma.post_viewsWhereUniqueInput
+  create: Prisma.XOR<Prisma.post_viewsCreateWithoutPostsInput, Prisma.post_viewsUncheckedCreateWithoutPostsInput>
+}
+
+export type post_viewsCreateManyPostsInputEnvelope = {
+  data: Prisma.post_viewsCreateManyPostsInput | Prisma.post_viewsCreateManyPostsInput[]
+  skipDuplicates?: boolean
+}
+
+export type post_viewsUpsertWithWhereUniqueWithoutPostsInput = {
+  where: Prisma.post_viewsWhereUniqueInput
+  update: Prisma.XOR<Prisma.post_viewsUpdateWithoutPostsInput, Prisma.post_viewsUncheckedUpdateWithoutPostsInput>
+  create: Prisma.XOR<Prisma.post_viewsCreateWithoutPostsInput, Prisma.post_viewsUncheckedCreateWithoutPostsInput>
+}
+
+export type post_viewsUpdateWithWhereUniqueWithoutPostsInput = {
+  where: Prisma.post_viewsWhereUniqueInput
+  data: Prisma.XOR<Prisma.post_viewsUpdateWithoutPostsInput, Prisma.post_viewsUncheckedUpdateWithoutPostsInput>
+}
+
+export type post_viewsUpdateManyWithWhereWithoutPostsInput = {
+  where: Prisma.post_viewsScalarWhereInput
+  data: Prisma.XOR<Prisma.post_viewsUpdateManyMutationInput, Prisma.post_viewsUncheckedUpdateManyWithoutPostsInput>
+}
+
+export type post_viewsScalarWhereInput = {
+  AND?: Prisma.post_viewsScalarWhereInput | Prisma.post_viewsScalarWhereInput[]
+  OR?: Prisma.post_viewsScalarWhereInput[]
+  NOT?: Prisma.post_viewsScalarWhereInput | Prisma.post_viewsScalarWhereInput[]
+  id?: Prisma.UuidFilter<"post_views"> | string
+  post_id?: Prisma.UuidFilter<"post_views"> | string
+  user_id?: Prisma.UuidNullableFilter<"post_views"> | string | null
+  ip_address?: Prisma.StringNullableFilter<"post_views"> | string | null
+  user_agent?: Prisma.StringNullableFilter<"post_views"> | string | null
+  created_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
+  updated_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
+  deleted_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
+}
+
+export type post_viewsCreateWithoutUsersInput = {
+  id?: string
+  ip_address?: string | null
+  user_agent?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  posts: Prisma.postsCreateNestedOneWithoutPost_viewsInput
 }
 
 export type post_viewsUncheckedCreateWithoutUsersInput = {
@@ -471,18 +575,44 @@ export type post_viewsUpdateManyWithWhereWithoutUsersInput = {
   data: Prisma.XOR<Prisma.post_viewsUpdateManyMutationInput, Prisma.post_viewsUncheckedUpdateManyWithoutUsersInput>
 }
 
-export type post_viewsScalarWhereInput = {
-  AND?: Prisma.post_viewsScalarWhereInput | Prisma.post_viewsScalarWhereInput[]
-  OR?: Prisma.post_viewsScalarWhereInput[]
-  NOT?: Prisma.post_viewsScalarWhereInput | Prisma.post_viewsScalarWhereInput[]
-  id?: Prisma.UuidFilter<"post_views"> | string
-  post_id?: Prisma.UuidFilter<"post_views"> | string
-  user_id?: Prisma.UuidNullableFilter<"post_views"> | string | null
-  ip_address?: Prisma.StringNullableFilter<"post_views"> | string | null
-  user_agent?: Prisma.StringNullableFilter<"post_views"> | string | null
-  created_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
-  deleted_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
+export type post_viewsCreateManyPostsInput = {
+  id?: string
+  user_id?: string | null
+  ip_address?: string | null
+  user_agent?: string | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+}
+
+export type post_viewsUpdateWithoutPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  users?: Prisma.usersUpdateOneWithoutPost_viewsNestedInput
+}
+
+export type post_viewsUncheckedUpdateWithoutPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type post_viewsUncheckedUpdateManyWithoutPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type post_viewsCreateManyUsersInput = {
@@ -497,12 +627,12 @@ export type post_viewsCreateManyUsersInput = {
 
 export type post_viewsUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  post_id?: Prisma.StringFieldUpdateOperationsInput | string
   ip_address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user_agent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  posts?: Prisma.postsUpdateOneRequiredWithoutPost_viewsNestedInput
 }
 
 export type post_viewsUncheckedUpdateWithoutUsersInput = {
@@ -537,6 +667,7 @@ export type post_viewsSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updated_at?: boolean
   deleted_at?: boolean
   users?: boolean | Prisma.post_views$usersArgs<ExtArgs>
+  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_views"]>
 
 export type post_viewsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -549,6 +680,7 @@ export type post_viewsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   updated_at?: boolean
   deleted_at?: boolean
   users?: boolean | Prisma.post_views$usersArgs<ExtArgs>
+  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_views"]>
 
 export type post_viewsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -561,6 +693,7 @@ export type post_viewsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   updated_at?: boolean
   deleted_at?: boolean
   users?: boolean | Prisma.post_views$usersArgs<ExtArgs>
+  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_views"]>
 
 export type post_viewsSelectScalar = {
@@ -577,18 +710,22 @@ export type post_viewsSelectScalar = {
 export type post_viewsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "post_id" | "user_id" | "ip_address" | "user_agent" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["post_views"]>
 export type post_viewsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.post_views$usersArgs<ExtArgs>
+  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 export type post_viewsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.post_views$usersArgs<ExtArgs>
+  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 export type post_viewsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.post_views$usersArgs<ExtArgs>
+  posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
 }
 
 export type $post_viewsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "post_views"
   objects: {
     users: Prisma.$usersPayload<ExtArgs> | null
+    posts: Prisma.$postsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -994,6 +1131,7 @@ readonly fields: post_viewsFieldRefs;
 export interface Prisma__post_viewsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   users<T extends Prisma.post_views$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.post_views$usersArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  posts<T extends Prisma.postsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.postsDefaultArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
