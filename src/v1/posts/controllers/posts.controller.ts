@@ -263,7 +263,7 @@ export class PostsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get("bookmarks/me")
+  @Get("bookmarks")
   async getUserBookmarks(
     @Request() req,
     @Query("offset") offset: number = 0,
