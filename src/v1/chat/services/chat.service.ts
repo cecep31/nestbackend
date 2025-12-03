@@ -203,14 +203,37 @@ export class ChatService {
     );
   }
 
-  async listConversations(userId: string): Promise<ConversationResponseDto[]> {
+  async listConversations(
+    userId: string,
+    offset: number = 0,
+    limit: number = 10
+  ): Promise<{ conversationsData: ConversationResponseDto[]; metadata: any }> {
     const conversations = await this.prisma.chat_conversations.findMany({
       where: { user_id: userId },
-
+      skip: offset,
+      take: limit,
       orderBy: { updated_at: "desc" },
     });
 
-    return conversations.map((conv) => this.formatConversationResponse(conv));
+    // Count total conversations for metadata
+    const totalConversations = await this.prisma.chat_conversations.count({
+      where: { user_id: userId },
+    });
+
+    const totalPages = Math.ceil(totalConversations / limit);
+
+    const conversationsData = conversations.map((conv) =>
+      this.formatConversationResponse(conv)
+    );
+
+    const metadata = {
+      total_items: totalConversations,
+      offset: offset,
+      limit: limit,
+      total_pages: totalPages,
+    };
+
+    return { conversationsData, metadata };
   }
 
   async deleteConversation(

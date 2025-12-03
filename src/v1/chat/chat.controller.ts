@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   Req,
   Res,
+  Query,
 } from "@nestjs/common";
 import { Throttle } from "@nestjs/throttler";
 import { Request, type Response } from "express";
@@ -73,11 +74,21 @@ export class ChatController {
   }
 
   @Get("conversations")
-  async listConversations(@Req() req: RequestWithUser) {
+  async listConversations(
+    @Req() req: RequestWithUser,
+    @Query("offset") offset: number = 0,
+    @Query("limit") limit: number = 10
+  ) {
+    const { metadata, conversationsData } = await this.chatService.listConversations(
+      req.user.user_id,
+      offset,
+      limit
+    );
     return {
       success: true,
       message: "Conversations retrieved successfully",
-      data: await this.chatService.listConversations(req.user.user_id),
+      data: conversationsData,
+      meta: metadata,
     };
   }
 
