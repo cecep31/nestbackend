@@ -316,4 +316,65 @@ export class PostsRepository {
       },
     });
   }
+
+  async recordView(
+    postId: string,
+    userId?: string,
+    ipAddress?: string,
+    userAgent?: string
+  ) {
+    return this.prisma.post_views.create({
+      data: {
+        post_id: postId,
+        user_id: userId,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        created_at: new Date(),
+      },
+    });
+  }
+
+  async getPostViews(postId: string) {
+    return this.prisma.post_views.findMany({
+      where: {
+        post_id: postId,
+        deleted_at: null,
+      },
+      include: {
+        users: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            first_name: true,
+            last_name: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+  }
+
+  async getPostViewsCount(postId: string): Promise<number> {
+    return this.prisma.post_views.count({
+      where: {
+        post_id: postId,
+        deleted_at: null,
+      },
+    });
+  }
+
+  async incrementPostViewCount(postId: string) {
+    return this.prisma.posts.update({
+      where: { id: postId },
+      data: {
+        view_count: {
+          increment: 1,
+        },
+      },
+    });
+  }
 }

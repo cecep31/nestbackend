@@ -12,6 +12,7 @@ import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";
 import { LikePostDto } from "./dto/like-post.dto";
 import { BookmarkPostDto } from "./dto/bookmark-post.dto";
+import { RecordViewDto } from "./dto/record-view.dto";
 import { MinioService } from "../../common/s3/minio.service";
 import {
   AdminCreatePostDto,
@@ -867,6 +868,92 @@ export class PostsService {
               100
             ).toFixed(2)
           : "0",
+    };
+  }
+
+  async recordView(
+    recordViewDto: RecordViewDto,
+    user_id?: string
+  ) {
+    const { post_id, ip_address, user_agent } = recordViewDto;
+
+    // Check if post exists
+    const post = await this.prisma.posts.findUnique({
+      where: { id: post_id },
+    });
+
+    if (!post) {
+      throw new NotFoundException("Post not found");
+    }
+
+    // Record the view
+    const view = await this.prisma.post_views.create({
+      data: {
+        post_id,
+        user_id,
+        ip_address,
+        user_agent,
+        created_at: new Date(),
+      },
+    });
+
+    // Increment the view count
+    await this.prisma.posts.update({
+      where: { id: post_id },
+      data: {
+        view_count: {
+          increment: 1,
+        },
+      },
+    });
+
+    return view;
+  }
+
+  async getPostViews(post_id: string) {
+    // Check if post exists
+    const post = await this.prisma.posts.findUnique({
+      where: { id: post_id },
+    });
+
+    if (!post) {
+      throw new NotFoundException("Post not found");
+    }
+
+    // Get views count
+    const viewsCount = await this.prisma.post_views.count({
+      where: {
+        post_id,
+        deleted_at: null,
+      },
+    });
+
+    // Get users who viewed the post
+    const views = await this.prisma.post_views.findMany({
+      where: {
+        post_id,
+        deleted_at: null,
+      },
+      include: {
+        users: {
+          select: {
+            id: true,
+            username: true,
+            email: true,
+            first_name: true,
+            last_name: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+
+    return {
+      count: viewsCount,
+      users: views.map((view) => view.users),
     };
   }
 }

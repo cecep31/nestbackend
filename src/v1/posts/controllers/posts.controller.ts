@@ -21,6 +21,7 @@ import { type CreatePostDto, CreatePostSchema } from "../dto/create-post.dto";
 import { type UpdatePostDto, updatePostSchema } from "../dto/update-post.dto";
 import { LikePostDto, LikePostSchema } from "../dto/like-post.dto";
 import { BookmarkPostDto, BookmarkPostSchema } from "../dto/bookmark-post.dto";
+import { type RecordViewDto, RecordViewSchema } from "../dto/record-view.dto";
 import {
   type UpdatePublishedDto,
   UpdatePublishedSchema,
@@ -224,7 +225,10 @@ export class PostsController {
     return {
       success: true,
       message: "Successfully bookmarked post",
-      data: await this.postsService.bookmarkPost(bookmarkPostDto, req.user.user_id),
+      data: await this.postsService.bookmarkPost(
+        bookmarkPostDto,
+        req.user.user_id
+      ),
     };
   }
 
@@ -275,6 +279,38 @@ export class PostsController {
       message: "Successfully fetched user bookmarks",
       data: postsData,
       meta: metadata,
+    };
+  }
+
+  @Post("view")
+  async recordView(
+    @Body(new ZodValidationPipe(RecordViewSchema))
+    recordViewDto: RecordViewDto,
+    @Request() req
+  ) {
+    // Get user_id if authenticated
+    const user_id = req.user?.user_id;
+
+    // Populate optional fields from request
+    const enrichedDto: RecordViewDto = {
+      ...recordViewDto,
+      ip_address: recordViewDto.ip_address || req.ip || req.connection?.remoteAddress,
+      user_agent: recordViewDto.user_agent || req.get('User-Agent'),
+    };
+
+    return {
+      success: true,
+      message: "Successfully recorded view",
+      data: await this.postsService.recordView(enrichedDto, user_id),
+    };
+  }
+
+  @Get(":id/views")
+  async getPostViews(@Param("id") id: string) {
+    return {
+      success: true,
+      message: "Successfully fetched post views",
+      data: await this.postsService.getPostViews(id),
     };
   }
 }
