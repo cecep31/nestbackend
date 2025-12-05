@@ -357,7 +357,7 @@ const s3Config = this.configService.get('s3');
 - Graceful shutdown handlers for SIGTERM and SIGINT signals
 - Global error handlers for uncaught exceptions and unhandled rejections
 
-**Database Lifecycle** (src/db/prisma.service.ts:22-39):
+**Database Lifecycle** (src/prisma.service.ts:22-39):
 - Connection logging on module initialization with connection details
 - Graceful disconnection on module destruction
 - Error handling for connection failures with retry logic
@@ -730,7 +730,7 @@ npx prisma migrate reset
 
 ### Database Layer
 - **`prisma/schema.prisma`** - PostgreSQL database schema with all models, relationships, and indexes
-- **`src/db/prisma.service.ts`** - Prisma client with lifecycle management and error handling
+- **`src/prisma.service.ts`** - Prisma client with lifecycle management and error handling
 - **`src/db/db.module.ts`** - Global database module providing PrismaService singleton
 
 ### Authentication and Authorization
