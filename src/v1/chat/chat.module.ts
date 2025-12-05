@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { DbModule } from '../../db/db.module';
 import { OpenRouterService } from '../../common/ai/openrouter.service';
 import { ChatController } from './chat.controller';
 import { ChatService } from './services/chat.service';
@@ -23,7 +22,6 @@ import { ChatService } from './services/chat.service';
         limit: 100,
       },
     ]),
-    DbModule,
     HttpModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

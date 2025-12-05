@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { ConfigService } from "@nestjs/config";
-import { PrismaService } from "../../../db/prisma.service";
+import { PrismaService } from "../../../prisma.service";
 import { OpenRouterService } from "../../../common/ai/openrouter.service";
 import { CreateConversationDto } from "../dto/create-conversation.dto";
 import { SendMessageDto } from "../dto/send-message.dto";

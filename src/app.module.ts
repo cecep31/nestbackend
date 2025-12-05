@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { Global, MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { UsersModule } from "./v1/users/users.module";
@@ -8,7 +8,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { PagesModule } from "./v1/note/pages/pages.module";
 import { WorkspacesModule } from "./v1/note/workspaces/workspaces.module";
 import configuration from "./config/configuration";
-import { DbModule } from "./db/db.module";
+import { PrismaService } from "./prisma.service";
 import { LoggerMiddleware } from "./common/logger/logger.middleware";
 import { EmailModule } from "./common/email/email.module";
 import { TagsModule } from "./v1/tags/tags.module";
@@ -18,6 +18,7 @@ import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
 
+@Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -41,7 +42,6 @@ import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
     PostsModule,
     PagesModule,
     WorkspacesModule,
-    DbModule,
     EmailModule,
     TagsModule,
     WriterModule,
@@ -50,6 +50,7 @@ import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
   controllers: [AppController],
   providers: [
     AppService,
+    PrismaService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
@@ -59,6 +60,7 @@ import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
       useClass: BigIntInterceptor,
     },
   ],
+  exports: [PrismaService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

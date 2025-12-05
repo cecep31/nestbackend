@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostsService } from './posts.service';
-import { PrismaService } from '../../db/prisma.service';
+import { PrismaService } from '../../prisma.service';
 import { PostsRepository } from './posts.repository';
 import { MinioService } from '../../common/s3/minio.service';
 // import { NotificationService } from '../../common/notifications/notification.service';

@@ -6,12 +6,10 @@ import { ConfigService, ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
-import { DbModule } from '../../db/db.module';
 
 @Module({
   imports: [
     PassportModule,
-    DbModule,
     JwtModule.registerAsync({
       global: true,
       inject: [ConfigService],

@@ -6,7 +6,7 @@ import {
   Logger,
 } from "@nestjs/common";
 import { post_comments } from "../../generated/prisma/client";
-import { PrismaService } from "../../db/prisma.service";
+import { PrismaService } from "../../prisma.service";
 import { PostsRepository } from "./posts.repository";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { UpdatePostDto } from "./dto/update-post.dto";

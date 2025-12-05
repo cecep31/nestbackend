@@ -9,7 +9,7 @@ import {
   ResetPasswordDto,
 } from './dto/user.schema';
 import { hash } from 'bcrypt';
-import { PrismaService } from '../../db/prisma.service';
+import { PrismaService } from '../../prisma.service';
 import { UserRepository } from './users.repository';
 import { PrismaClientKnownRequestError } from '../../generated/prisma/internal/prismaNamespace';
 

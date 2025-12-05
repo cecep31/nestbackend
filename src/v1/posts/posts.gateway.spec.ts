@@ -5,7 +5,7 @@ import { AuthService } from '../auth/auth.service';
 import { UserSocketMapService } from './user-map-service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { PrismaService } from '../../db/prisma.service';
+import { PrismaService } from '../../prisma.service';
 import { PostsRepository } from './posts.repository';
 import { MinioService } from '../../common/s3/minio.service';
 // import { NotificationService } from '../../common/notifications/notification.service';
