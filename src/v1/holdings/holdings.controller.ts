@@ -32,9 +32,52 @@ export class HoldingsController {
     };
   }
 
+  @Get('types')
+  async getHoldingTypes() {
+    const types = await this.holdingsService.getHoldingTypes();
+    return {
+      success: true,
+      message: "Successfully fetched holding types",
+      data: types,
+    };
+  }
+
+  @Get('types/:id')
+  async getHoldingType(@Param('id') id: string) {
+    const idNum = parseInt(id, 10);
+    if (isNaN(idNum)) {
+      return {
+        success: false,
+        message: "Invalid holding type ID",
+        data: [],
+      };
+    }
+    const type = await this.holdingsService.getHoldingType(idNum);
+    if (!type) {
+      return {
+        success: false,
+        message: "Holding type not found",
+        data: [],
+      };
+    }
+    return {
+      success: true,
+      message: "Successfully fetched holding type",
+      data: type,
+    };
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string, @Request() req) {
-    const holding = await this.holdingsService.findOne(req.user.user_id, BigInt(id));
+    const idNum = parseInt(id, 10);
+    if (isNaN(idNum)) {
+      return {
+        success: false,
+        message: "Invalid holding ID",
+        data: [],
+      };
+    }
+    const holding = await this.holdingsService.findOne(req.user.user_id, BigInt(idNum));
     if (!holding) {
       return {
         success: false,
@@ -50,47 +93,56 @@ export class HoldingsController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body(new ZodValidationPipe(UpdateHoldingSchema)) updateHoldingDto: UpdateHoldingDto, @Request() req) {
-    return {
-      success: true,
-      message: "Successfully updated holding",
-      data: this.holdingsService.update(req.user.user_id, BigInt(id), updateHoldingDto),
-    };
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string, @Request() req) {
-    return {
-      success: true,
-      message: "Successfully deleted holding",
-      data: this.holdingsService.remove(req.user.user_id, BigInt(id)),
-    };
-  }
-
-  @Get('types')
-  async getHoldingTypes() {
-    const types = await this.holdingsService.getHoldingTypes();
-    return {
-      success: true,
-      message: "Successfully fetched holding types",
-      data: types,
-    };
-  }
-
-  @Get('types/:id')
-  async getHoldingType(@Param('id') id: string) {
-    const type = await this.holdingsService.getHoldingType(+id);
-    if (!type) {
+  async update(@Param('id') id: string, @Body(new ZodValidationPipe(UpdateHoldingSchema)) updateHoldingDto: UpdateHoldingDto, @Request() req) {
+    const idNum = parseInt(id, 10);
+    if (isNaN(idNum)) {
       return {
         success: false,
-        message: "Holding type not found",
+        message: "Invalid holding ID",
         data: [],
       };
     }
-    return {
-      success: true,
-      message: "Successfully fetched holding type",
-      data: type,
-    };
+    try {
+      const result = await this.holdingsService.update(req.user.user_id, BigInt(idNum), updateHoldingDto);
+      return {
+        success: true,
+        message: "Successfully updated holding",
+        data: result,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: "Failed to update holding",
+        data: [],
+      };
+    }
   }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string, @Request() req) {
+    const idNum = parseInt(id, 10);
+    if (isNaN(idNum)) {
+      return {
+        success: false,
+        message: "Invalid holding ID",
+        data: [],
+      };
+    }
+    try {
+      const result = await this.holdingsService.remove(req.user.user_id, BigInt(idNum));
+      return {
+        success: true,
+        message: "Successfully deleted holding",
+        data: result,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: "Failed to delete holding",
+        data: [],
+      };
+    }
+  }
+
+  
 }
