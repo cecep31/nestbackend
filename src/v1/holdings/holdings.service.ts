@@ -42,4 +42,14 @@ export class HoldingsService {
       where: { id, user_id },
     });
   }
+
+  async getHoldingTypes() {
+    return this.prisma.holding_types.findMany();
+  }
+
+  async getHoldingType(id: number) {
+    return this.prisma.holding_types.findUnique({
+      where: { id },
+    });
+  }
 }

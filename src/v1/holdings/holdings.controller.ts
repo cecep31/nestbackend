@@ -15,26 +15,82 @@ export class HoldingsController {
 
   @Post()
   create(@Body(new ZodValidationPipe(CreateHoldingSchema)) createHoldingDto: CreateHoldingDto, @Request() req) {
-    return this.holdingsService.create(req.user.user_id, createHoldingDto);
+    return {
+      success: true,
+      message: "Successfully created holding",
+      data: this.holdingsService.create(req.user.user_id, createHoldingDto),
+    };
   }
 
   @Get()
-  findAll(@Request() req) {
-    return this.holdingsService.findAll(req.user.user_id);
+  async findAll(@Request() req) {
+    const holdings = await this.holdingsService.findAll(req.user.user_id);
+    return {
+      success: true,
+      message: "Successfully fetched holdings",
+      data: holdings,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @Request() req) {
-    return this.holdingsService.findOne(req.user.user_id, BigInt(id));
+  async findOne(@Param('id') id: string, @Request() req) {
+    const holding = await this.holdingsService.findOne(req.user.user_id, BigInt(id));
+    if (!holding) {
+      return {
+        success: false,
+        message: "Holding not found",
+        data: [],
+      };
+    }
+    return {
+      success: true,
+      message: "Successfully fetched holding",
+      data: holding,
+    };
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body(new ZodValidationPipe(UpdateHoldingSchema)) updateHoldingDto: UpdateHoldingDto, @Request() req) {
-    return this.holdingsService.update(req.user.user_id, BigInt(id), updateHoldingDto);
+    return {
+      success: true,
+      message: "Successfully updated holding",
+      data: this.holdingsService.update(req.user.user_id, BigInt(id), updateHoldingDto),
+    };
   }
 
   @Delete(':id')
   remove(@Param('id') id: string, @Request() req) {
-    return this.holdingsService.remove(req.user.user_id, BigInt(id));
+    return {
+      success: true,
+      message: "Successfully deleted holding",
+      data: this.holdingsService.remove(req.user.user_id, BigInt(id)),
+    };
+  }
+
+  @Get('types')
+  async getHoldingTypes() {
+    const types = await this.holdingsService.getHoldingTypes();
+    return {
+      success: true,
+      message: "Successfully fetched holding types",
+      data: types,
+    };
+  }
+
+  @Get('types/:id')
+  async getHoldingType(@Param('id') id: string) {
+    const type = await this.holdingsService.getHoldingType(+id);
+    if (!type) {
+      return {
+        success: false,
+        message: "Holding type not found",
+        data: [],
+      };
+    }
+    return {
+      success: true,
+      message: "Successfully fetched holding type",
+      data: type,
+    };
   }
 }
