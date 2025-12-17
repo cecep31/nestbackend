@@ -12,8 +12,8 @@ export const CreateHoldingSchema = z.object({
   current_price: z.number().positive('Current price must be positive').optional(),
   last_updated: z.date().optional(),
   notes: z.string().optional(),
-  month: z.number().int().min(1).max(12, 'Month must be between 1 and 12').optional(),
-  year: z.number().int().min(1900).max(2100, 'Year must be between 1900 and 2100').optional(),
+  month: z.number().int().min(1).max(12, 'Month must be between 1 and 12'),
+  year: z.number().int().min(1900).max(2100, 'Year must be between 1900 and 2100'),
 });
 
 export type CreateHoldingDto = z.infer<typeof CreateHoldingSchema>;
