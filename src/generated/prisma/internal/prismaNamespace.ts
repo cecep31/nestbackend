@@ -1939,6 +1939,8 @@ export const HoldingsScalarFieldEnum = {
   current_price: 'current_price',
   last_updated: 'last_updated',
   notes: 'notes',
+  month: 'month',
+  year: 'year',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const

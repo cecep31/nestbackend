@@ -34,6 +34,8 @@ export type HoldingsAvgAggregateOutputType = {
   units: runtime.Decimal | null
   avg_buy_price: runtime.Decimal | null
   current_price: runtime.Decimal | null
+  month: number | null
+  year: number | null
 }
 
 export type HoldingsSumAggregateOutputType = {
@@ -44,6 +46,8 @@ export type HoldingsSumAggregateOutputType = {
   units: runtime.Decimal | null
   avg_buy_price: runtime.Decimal | null
   current_price: runtime.Decimal | null
+  month: number | null
+  year: number | null
 }
 
 export type HoldingsMinAggregateOutputType = {
@@ -60,6 +64,8 @@ export type HoldingsMinAggregateOutputType = {
   current_price: runtime.Decimal | null
   last_updated: Date | null
   notes: string | null
+  month: number | null
+  year: number | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -78,6 +84,8 @@ export type HoldingsMaxAggregateOutputType = {
   current_price: runtime.Decimal | null
   last_updated: Date | null
   notes: string | null
+  month: number | null
+  year: number | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -96,6 +104,8 @@ export type HoldingsCountAggregateOutputType = {
   current_price: number
   last_updated: number
   notes: number
+  month: number
+  year: number
   created_at: number
   updated_at: number
   _all: number
@@ -110,6 +120,8 @@ export type HoldingsAvgAggregateInputType = {
   units?: true
   avg_buy_price?: true
   current_price?: true
+  month?: true
+  year?: true
 }
 
 export type HoldingsSumAggregateInputType = {
@@ -120,6 +132,8 @@ export type HoldingsSumAggregateInputType = {
   units?: true
   avg_buy_price?: true
   current_price?: true
+  month?: true
+  year?: true
 }
 
 export type HoldingsMinAggregateInputType = {
@@ -136,6 +150,8 @@ export type HoldingsMinAggregateInputType = {
   current_price?: true
   last_updated?: true
   notes?: true
+  month?: true
+  year?: true
   created_at?: true
   updated_at?: true
 }
@@ -154,6 +170,8 @@ export type HoldingsMaxAggregateInputType = {
   current_price?: true
   last_updated?: true
   notes?: true
+  month?: true
+  year?: true
   created_at?: true
   updated_at?: true
 }
@@ -172,6 +190,8 @@ export type HoldingsCountAggregateInputType = {
   current_price?: true
   last_updated?: true
   notes?: true
+  month?: true
+  year?: true
   created_at?: true
   updated_at?: true
   _all?: true
@@ -277,6 +297,8 @@ export type HoldingsGroupByOutputType = {
   current_price: runtime.Decimal | null
   last_updated: Date | null
   notes: string | null
+  month: number
+  year: number
   created_at: Date
   updated_at: Date
   _count: HoldingsCountAggregateOutputType | null
@@ -318,6 +340,8 @@ export type holdingsWhereInput = {
   current_price?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.DateTimeNullableFilter<"holdings"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"holdings"> | string | null
+  month?: Prisma.IntFilter<"holdings"> | number
+  year?: Prisma.IntFilter<"holdings"> | number
   created_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
   holding_types?: Prisma.XOR<Prisma.Holding_typesScalarRelationFilter, Prisma.holding_typesWhereInput>
@@ -338,6 +362,8 @@ export type holdingsOrderByWithRelationInput = {
   current_price?: Prisma.SortOrderInput | Prisma.SortOrder
   last_updated?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   holding_types?: Prisma.holding_typesOrderByWithRelationInput
@@ -362,6 +388,8 @@ export type holdingsWhereUniqueInput = Prisma.AtLeast<{
   current_price?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.DateTimeNullableFilter<"holdings"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"holdings"> | string | null
+  month?: Prisma.IntFilter<"holdings"> | number
+  year?: Prisma.IntFilter<"holdings"> | number
   created_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
   holding_types?: Prisma.XOR<Prisma.Holding_typesScalarRelationFilter, Prisma.holding_typesWhereInput>
@@ -382,6 +410,8 @@ export type holdingsOrderByWithAggregationInput = {
   current_price?: Prisma.SortOrderInput | Prisma.SortOrder
   last_updated?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   _count?: Prisma.holdingsCountOrderByAggregateInput
@@ -408,6 +438,8 @@ export type holdingsScalarWhereWithAggregatesInput = {
   current_price?: Prisma.DecimalNullableWithAggregatesFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.DateTimeNullableWithAggregatesFilter<"holdings"> | Date | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"holdings"> | string | null
+  month?: Prisma.IntWithAggregatesFilter<"holdings"> | number
+  year?: Prisma.IntWithAggregatesFilter<"holdings"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"holdings"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"holdings"> | Date | string
 }
@@ -424,6 +456,8 @@ export type holdingsCreateInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
+  month: number
+  year: number
   created_at?: Date | string
   updated_at?: Date | string
   holding_types: Prisma.holding_typesCreateNestedOneWithoutHoldingsInput
@@ -444,6 +478,8 @@ export type holdingsUncheckedCreateInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
+  month: number
+  year: number
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -460,6 +496,8 @@ export type holdingsUpdateInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   holding_types?: Prisma.holding_typesUpdateOneRequiredWithoutHoldingsNestedInput
@@ -480,6 +518,8 @@ export type holdingsUncheckedUpdateInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -498,6 +538,8 @@ export type holdingsCreateManyInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
+  month: number
+  year: number
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -514,6 +556,8 @@ export type holdingsUpdateManyMutationInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -532,6 +576,8 @@ export type holdingsUncheckedUpdateManyInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -567,6 +613,8 @@ export type holdingsCountOrderByAggregateInput = {
   current_price?: Prisma.SortOrder
   last_updated?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -579,6 +627,8 @@ export type holdingsAvgOrderByAggregateInput = {
   units?: Prisma.SortOrder
   avg_buy_price?: Prisma.SortOrder
   current_price?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
 }
 
 export type holdingsMaxOrderByAggregateInput = {
@@ -595,6 +645,8 @@ export type holdingsMaxOrderByAggregateInput = {
   current_price?: Prisma.SortOrder
   last_updated?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -613,6 +665,8 @@ export type holdingsMinOrderByAggregateInput = {
   current_price?: Prisma.SortOrder
   last_updated?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -625,6 +679,8 @@ export type holdingsSumOrderByAggregateInput = {
   units?: Prisma.SortOrder
   avg_buy_price?: Prisma.SortOrder
   current_price?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
 }
 
 export type holdingsCreateNestedManyWithoutUsersInput = {
@@ -747,6 +803,8 @@ export type holdingsCreateWithoutUsersInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
+  month: number
+  year: number
   created_at?: Date | string
   updated_at?: Date | string
   holding_types: Prisma.holding_typesCreateNestedOneWithoutHoldingsInput
@@ -765,6 +823,8 @@ export type holdingsUncheckedCreateWithoutUsersInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
+  month: number
+  year: number
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -812,6 +872,8 @@ export type holdingsScalarWhereInput = {
   current_price?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.DateTimeNullableFilter<"holdings"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"holdings"> | string | null
+  month?: Prisma.IntFilter<"holdings"> | number
+  year?: Prisma.IntFilter<"holdings"> | number
   created_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
 }
@@ -828,6 +890,8 @@ export type holdingsCreateWithoutHolding_typesInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
+  month: number
+  year: number
   created_at?: Date | string
   updated_at?: Date | string
   users: Prisma.usersCreateNestedOneWithoutHoldingsInput
@@ -846,6 +910,8 @@ export type holdingsUncheckedCreateWithoutHolding_typesInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
+  month: number
+  year: number
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -889,6 +955,8 @@ export type holdingsCreateManyUsersInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
+  month: number
+  year: number
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -905,6 +973,8 @@ export type holdingsUpdateWithoutUsersInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   holding_types?: Prisma.holding_typesUpdateOneRequiredWithoutHoldingsNestedInput
@@ -923,6 +993,8 @@ export type holdingsUncheckedUpdateWithoutUsersInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -940,6 +1012,8 @@ export type holdingsUncheckedUpdateManyWithoutUsersInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -957,6 +1031,8 @@ export type holdingsCreateManyHolding_typesInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
+  month: number
+  year: number
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -973,6 +1049,8 @@ export type holdingsUpdateWithoutHolding_typesInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.usersUpdateOneRequiredWithoutHoldingsNestedInput
@@ -991,6 +1069,8 @@ export type holdingsUncheckedUpdateWithoutHolding_typesInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1008,6 +1088,8 @@ export type holdingsUncheckedUpdateManyWithoutHolding_typesInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1028,6 +1110,8 @@ export type holdingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   current_price?: boolean
   last_updated?: boolean
   notes?: boolean
+  month?: boolean
+  year?: boolean
   created_at?: boolean
   updated_at?: boolean
   holding_types?: boolean | Prisma.holding_typesDefaultArgs<ExtArgs>
@@ -1048,6 +1132,8 @@ export type holdingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   current_price?: boolean
   last_updated?: boolean
   notes?: boolean
+  month?: boolean
+  year?: boolean
   created_at?: boolean
   updated_at?: boolean
   holding_types?: boolean | Prisma.holding_typesDefaultArgs<ExtArgs>
@@ -1068,6 +1154,8 @@ export type holdingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   current_price?: boolean
   last_updated?: boolean
   notes?: boolean
+  month?: boolean
+  year?: boolean
   created_at?: boolean
   updated_at?: boolean
   holding_types?: boolean | Prisma.holding_typesDefaultArgs<ExtArgs>
@@ -1088,11 +1176,13 @@ export type holdingsSelectScalar = {
   current_price?: boolean
   last_updated?: boolean
   notes?: boolean
+  month?: boolean
+  year?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type holdingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "name" | "platform" | "holding_type_id" | "currency" | "invested_amount" | "current_value" | "units" | "avg_buy_price" | "current_price" | "last_updated" | "notes" | "created_at" | "updated_at", ExtArgs["result"]["holdings"]>
+export type holdingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "name" | "platform" | "holding_type_id" | "currency" | "invested_amount" | "current_value" | "units" | "avg_buy_price" | "current_price" | "last_updated" | "notes" | "month" | "year" | "created_at" | "updated_at", ExtArgs["result"]["holdings"]>
 export type holdingsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   holding_types?: boolean | Prisma.holding_typesDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
@@ -1126,6 +1216,8 @@ export type $holdingsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     current_price: runtime.Decimal | null
     last_updated: Date | null
     notes: string | null
+    month: number
+    year: number
     created_at: Date
     updated_at: Date
   }, ExtArgs["result"]["holdings"]>
@@ -1566,6 +1658,8 @@ export interface holdingsFieldRefs {
   readonly current_price: Prisma.FieldRef<"holdings", 'Decimal'>
   readonly last_updated: Prisma.FieldRef<"holdings", 'DateTime'>
   readonly notes: Prisma.FieldRef<"holdings", 'String'>
+  readonly month: Prisma.FieldRef<"holdings", 'Int'>
+  readonly year: Prisma.FieldRef<"holdings", 'Int'>
   readonly created_at: Prisma.FieldRef<"holdings", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"holdings", 'DateTime'>
 }
