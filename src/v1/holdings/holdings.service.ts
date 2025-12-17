@@ -1,7 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../prisma.service';
-import { CreateHoldingSchema, type CreateHoldingDto } from './dto/create-holding.dto';
-import { UpdateHoldingSchema, type UpdateHoldingDto } from './dto/update-holding.dto';
+import { Injectable } from "@nestjs/common";
+import { PrismaService } from "../../prisma.service";
+import {
+  CreateHoldingSchema,
+  type CreateHoldingDto,
+} from "./dto/create-holding.dto";
+import {
+  UpdateHoldingSchema,
+  type UpdateHoldingDto,
+} from "./dto/update-holding.dto";
 
 @Injectable()
 export class HoldingsService {
@@ -20,6 +26,7 @@ export class HoldingsService {
   async findAll(user_id: string) {
     return this.prisma.holdings.findMany({
       where: { user_id },
+      include: { holding_types: true },
     });
   }
 
@@ -29,7 +36,11 @@ export class HoldingsService {
     });
   }
 
-  async update(user_id: string, id: bigint, updateHoldingDto: UpdateHoldingDto) {
+  async update(
+    user_id: string,
+    id: bigint,
+    updateHoldingDto: UpdateHoldingDto
+  ) {
     const validatedData = UpdateHoldingSchema.parse(updateHoldingDto);
     return this.prisma.holdings.update({
       where: { id, user_id },
