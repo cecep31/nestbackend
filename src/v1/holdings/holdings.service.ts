@@ -70,4 +70,80 @@ export class HoldingsService {
       where: { id },
     });
   }
+
+  async duplicateMonth(
+    user_id: string,
+    body: {
+      fromMonth: number;
+      fromYear: number;
+      toMonth: number;
+      toYear: number;
+      overwrite: boolean;
+    }
+  ) {
+    const { fromMonth, fromYear, toMonth, toYear, overwrite } = body;
+
+    const source = await this.prisma.holdings.findMany({
+      where: { user_id, month: fromMonth, year: fromYear },
+    });
+
+    if (!source.length) {
+      return {
+        createdCount: 0,
+        skipped: true,
+        targetMonth: toMonth,
+        targetYear: toYear,
+      };
+    }
+
+    const toNumber = (value: unknown) => {
+      if (value === null || value === undefined) return null;
+      if (
+        typeof value === "object" &&
+        value !== null &&
+        "toNumber" in value &&
+        typeof (value as any).toNumber === "function"
+      ) {
+        return (value as any).toNumber();
+      }
+      return value as number;
+    };
+
+    const rows = source.map((h) => ({
+      user_id,
+      name: h.name,
+      platform: h.platform,
+      holding_type_id: h.holding_type_id,
+      currency: h.currency,
+      invested_amount: toNumber(h.invested_amount) ?? 0,
+      current_value: toNumber(h.current_value) ?? 0,
+      units: toNumber(h.units),
+      avg_buy_price: toNumber(h.avg_buy_price),
+      current_price: toNumber(h.current_price),
+      last_updated: h.last_updated,
+      notes: h.notes,
+      month: toMonth,
+      year: toYear,
+    }));
+
+    const result = await this.prisma.$transaction(async (tx) => {
+      if (overwrite) {
+        await tx.holdings.deleteMany({
+          where: { user_id, month: toMonth, year: toYear },
+        });
+      }
+
+      return tx.holdings.createMany({
+        data: rows,
+        skipDuplicates: !overwrite,
+      });
+    });
+
+    return {
+      createdCount: result.count,
+      skipped: false,
+      targetMonth: toMonth,
+      targetYear: toYear,
+    };
+  }
 }

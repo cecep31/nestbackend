@@ -19,6 +19,10 @@ import {
   UpdateHoldingSchema,
   type UpdateHoldingDto,
 } from "./dto/update-holding.dto";
+import {
+  DuplicateHoldingSchema,
+  type DuplicateHoldingDto,
+} from "./dto/duplicate-holding.dto";
 import { ZodValidationPipe } from "../../common/pipes/zod-validation.pipe";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
@@ -43,11 +47,28 @@ export class HoldingsController {
     };
   }
 
+  @Post("duplicate")
+  async duplicateMonth(
+    @Request() req,
+    @Body(new ZodValidationPipe(DuplicateHoldingSchema))
+    body: DuplicateHoldingDto
+  ) {
+    const result = await this.holdingsService.duplicateMonth(
+      req.user.user_id,
+      body
+    );
+    return {
+      success: true,
+      message: "Successfully duplicated holdings",
+      data: result,
+    };
+  }
+
   @Get()
   async findAll(
     @Request() req,
-    @Query('month') month?: string,
-    @Query('year') year?: string
+    @Query("month") month?: string,
+    @Query("year") year?: string
   ) {
     const monthNum = month ? parseInt(month, 10) : undefined;
     const yearNum = year ? parseInt(year, 10) : undefined;
