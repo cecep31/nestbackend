@@ -23,9 +23,16 @@ export class HoldingsService {
     });
   }
 
-  async findAll(user_id: string) {
+  async findAll(user_id: string, month?: number, year?: number) {
+    const where: any = { user_id };
+    if (month !== undefined) {
+      where.month = month;
+    }
+    if (year !== undefined) {
+      where.year = year;
+    }
     return this.prisma.holdings.findMany({
-      where: { user_id },
+      where,
       include: { holding_types: true },
     });
   }
