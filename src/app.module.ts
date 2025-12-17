@@ -14,6 +14,7 @@ import { EmailModule } from "./common/email/email.module";
 import { TagsModule } from "./v1/tags/tags.module";
 import { WriterModule } from "./v1/writer/writer.module";
 import { ChatModule } from "./v1/chat/chat.module";
+import { HoldingsModule } from "./v1/holdings/holdings.module";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
@@ -46,6 +47,7 @@ import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
     TagsModule,
     WriterModule,
     ChatModule,
+    HoldingsModule,
   ],
   controllers: [AppController],
   providers: [

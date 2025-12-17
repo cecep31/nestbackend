@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.0.1
- * Query Engine version: f09f2815f091dbba658cdcd2264306d88bb5bda6
+ * Prisma Client JS version: 7.1.0
+ * Query Engine version: ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.0.1",
-  engine: "f09f2815f091dbba658cdcd2264306d88bb5bda6"
+  client: "7.1.0",
+  engine: "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba"
 }
 
 /**
@@ -398,7 +398,9 @@ export const ModelName = {
   post_likes: 'post_likes',
   post_views: 'post_views',
   post_bookmarks: 'post_bookmarks',
-  sessions: 'sessions'
+  sessions: 'sessions',
+  holding_types: 'holding_types',
+  holdings: 'holdings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "post_comments" | "posts" | "users" | "posts_to_tags" | "tags" | "files" | "likes" | "profiles" | "chat_conversations" | "chat_messages" | "user_follows" | "post_likes" | "post_views" | "post_bookmarks" | "sessions"
+    modelProps: "post_comments" | "posts" | "users" | "posts_to_tags" | "tags" | "files" | "likes" | "profiles" | "chat_conversations" | "chat_messages" | "user_follows" | "post_likes" | "post_views" | "post_bookmarks" | "sessions" | "holding_types" | "holdings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1528,6 +1530,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    holding_types: {
+      payload: Prisma.$holding_typesPayload<ExtArgs>
+      fields: Prisma.holding_typesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.holding_typesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.holding_typesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload>
+        }
+        findFirst: {
+          args: Prisma.holding_typesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.holding_typesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload>
+        }
+        findMany: {
+          args: Prisma.holding_typesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload>[]
+        }
+        create: {
+          args: Prisma.holding_typesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload>
+        }
+        createMany: {
+          args: Prisma.holding_typesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.holding_typesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload>[]
+        }
+        delete: {
+          args: Prisma.holding_typesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload>
+        }
+        update: {
+          args: Prisma.holding_typesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload>
+        }
+        deleteMany: {
+          args: Prisma.holding_typesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.holding_typesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.holding_typesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload>[]
+        }
+        upsert: {
+          args: Prisma.holding_typesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holding_typesPayload>
+        }
+        aggregate: {
+          args: Prisma.Holding_typesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHolding_types>
+        }
+        groupBy: {
+          args: Prisma.holding_typesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Holding_typesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.holding_typesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Holding_typesCountAggregateOutputType> | number
+        }
+      }
+    }
+    holdings: {
+      payload: Prisma.$holdingsPayload<ExtArgs>
+      fields: Prisma.holdingsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.holdingsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.holdingsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload>
+        }
+        findFirst: {
+          args: Prisma.holdingsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.holdingsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload>
+        }
+        findMany: {
+          args: Prisma.holdingsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload>[]
+        }
+        create: {
+          args: Prisma.holdingsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload>
+        }
+        createMany: {
+          args: Prisma.holdingsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.holdingsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload>[]
+        }
+        delete: {
+          args: Prisma.holdingsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload>
+        }
+        update: {
+          args: Prisma.holdingsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload>
+        }
+        deleteMany: {
+          args: Prisma.holdingsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.holdingsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.holdingsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload>[]
+        }
+        upsert: {
+          args: Prisma.holdingsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$holdingsPayload>
+        }
+        aggregate: {
+          args: Prisma.HoldingsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHoldings>
+        }
+        groupBy: {
+          args: Prisma.holdingsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HoldingsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.holdingsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HoldingsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1765,6 +1915,37 @@ export const SessionsScalarFieldEnum = {
 export type SessionsScalarFieldEnum = (typeof SessionsScalarFieldEnum)[keyof typeof SessionsScalarFieldEnum]
 
 
+export const Holding_typesScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  notes: 'notes'
+} as const
+
+export type Holding_typesScalarFieldEnum = (typeof Holding_typesScalarFieldEnum)[keyof typeof Holding_typesScalarFieldEnum]
+
+
+export const HoldingsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  name: 'name',
+  platform: 'platform',
+  holding_type_id: 'holding_type_id',
+  currency: 'currency',
+  invested_amount: 'invested_amount',
+  current_value: 'current_value',
+  units: 'units',
+  avg_buy_price: 'avg_buy_price',
+  current_price: 'current_price',
+  last_updated: 'last_updated',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type HoldingsScalarFieldEnum = (typeof HoldingsScalarFieldEnum)[keyof typeof HoldingsScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1859,6 +2040,20 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1920,7 +2115,7 @@ export type PrismaClientOptions = ({
    *  { emit: 'stdout', level: 'error' }
    * 
    * ```
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+   * Read more in our [docs](https://pris.ly/d/logging).
    */
   log?: (LogLevel | LogDefinition)[]
   /**
@@ -1948,6 +2143,22 @@ export type PrismaClientOptions = ({
    * ```
    */
   omit?: GlobalOmitConfig
+  /**
+   * SQL commenter plugins that add metadata to SQL queries as comments.
+   * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
+   * 
+   * @example
+   * ```
+   * const prisma = new PrismaClient({
+   *   adapter,
+   *   comments: [
+   *     traceContext(),
+   *     queryInsights(),
+   *   ],
+   * })
+   * ```
+   */
+  comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
   post_comments?: Prisma.post_commentsOmit
@@ -1965,6 +2176,8 @@ export type GlobalOmitConfig = {
   post_views?: Prisma.post_viewsOmit
   post_bookmarks?: Prisma.post_bookmarksOmit
   sessions?: Prisma.sessionsOmit
+  holding_types?: Prisma.holding_typesOmit
+  holdings?: Prisma.holdingsOmit
 }
 
 /* Types for Logging */

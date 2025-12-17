@@ -62,6 +62,7 @@ model users {
   followers_count BigInt?          @default(0)
   following_count BigInt?          @default(0)
   files           files[]
+  holdings        holdings[]
   likes           likes[]
   post_bookmarks  post_bookmarks[]
   post_comments   post_comments[]
@@ -226,4 +227,35 @@ model sessions {
   user_agent    String?
   expires_at    DateTime? @db.Timestamptz(6)
   users         users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "sessions_user_id_users_id_fk")
+}
+
+model holding_types {
+  id       Int        @id @default(autoincrement()) @db.SmallInt
+  code     String     @unique
+  name     String
+  notes    String?
+  holdings holdings[]
+}
+
+model holdings {
+  id              BigInt        @id @default(autoincrement())
+  user_id         String        @db.Uuid
+  name            String
+  platform        String
+  holding_type_id Int           @db.SmallInt
+  currency        String        @db.Char(3)
+  invested_amount Decimal       @default(0) @db.Decimal(18, 2)
+  current_value   Decimal       @default(0) @db.Decimal(18, 2)
+  units           Decimal?      @db.Decimal(24, 10)
+  avg_buy_price   Decimal?      @db.Decimal(18, 8)
+  current_price   Decimal?      @db.Decimal(18, 8)
+  last_updated    DateTime?     @db.Timestamptz(6)
+  notes           String?
+  created_at      DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime      @default(now()) @db.Timestamptz(6)
+  holding_types   holding_types @relation(fields: [holding_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users           users         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([user_id, platform, name, currency], map: "uq_holdings_user_platform_name_currency")
+  @@index([user_id], map: "idx_holdings_user")
 }

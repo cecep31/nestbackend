@@ -65,7 +65,9 @@ export const ModelName = {
   post_likes: 'post_likes',
   post_views: 'post_views',
   post_bookmarks: 'post_bookmarks',
-  sessions: 'sessions'
+  sessions: 'sessions',
+  holding_types: 'holding_types',
+  holdings: 'holdings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -280,6 +282,37 @@ export const SessionsScalarFieldEnum = {
 } as const
 
 export type SessionsScalarFieldEnum = (typeof SessionsScalarFieldEnum)[keyof typeof SessionsScalarFieldEnum]
+
+
+export const Holding_typesScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  notes: 'notes'
+} as const
+
+export type Holding_typesScalarFieldEnum = (typeof Holding_typesScalarFieldEnum)[keyof typeof Holding_typesScalarFieldEnum]
+
+
+export const HoldingsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  name: 'name',
+  platform: 'platform',
+  holding_type_id: 'holding_type_id',
+  currency: 'currency',
+  invested_amount: 'invested_amount',
+  current_value: 'current_value',
+  units: 'units',
+  avg_buy_price: 'avg_buy_price',
+  current_price: 'current_price',
+  last_updated: 'last_updated',
+  notes: 'notes',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type HoldingsScalarFieldEnum = (typeof HoldingsScalarFieldEnum)[keyof typeof HoldingsScalarFieldEnum]
 
 
 export const SortOrder = {

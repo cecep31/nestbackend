@@ -297,6 +297,7 @@ export type usersWhereInput = {
   followers_count?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
   following_count?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
   files?: Prisma.FilesListRelationFilter
+  holdings?: Prisma.HoldingsListRelationFilter
   likes?: Prisma.LikesListRelationFilter
   post_bookmarks?: Prisma.Post_bookmarksListRelationFilter
   post_comments?: Prisma.Post_commentsListRelationFilter
@@ -325,6 +326,7 @@ export type usersOrderByWithRelationInput = {
   followers_count?: Prisma.SortOrderInput | Prisma.SortOrder
   following_count?: Prisma.SortOrderInput | Prisma.SortOrder
   files?: Prisma.filesOrderByRelationAggregateInput
+  holdings?: Prisma.holdingsOrderByRelationAggregateInput
   likes?: Prisma.likesOrderByRelationAggregateInput
   post_bookmarks?: Prisma.post_bookmarksOrderByRelationAggregateInput
   post_comments?: Prisma.post_commentsOrderByRelationAggregateInput
@@ -356,6 +358,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   followers_count?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
   following_count?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
   files?: Prisma.FilesListRelationFilter
+  holdings?: Prisma.HoldingsListRelationFilter
   likes?: Prisma.LikesListRelationFilter
   post_bookmarks?: Prisma.Post_bookmarksListRelationFilter
   post_comments?: Prisma.Post_commentsListRelationFilter
@@ -426,6 +429,7 @@ export type usersCreateInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
@@ -454,6 +458,7 @@ export type usersUncheckedCreateInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
@@ -482,6 +487,7 @@ export type usersUpdateInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
@@ -510,6 +516,7 @@ export type usersUncheckedUpdateInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
@@ -810,6 +817,20 @@ export type usersUpdateOneRequiredWithoutSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutSessionsInput, Prisma.usersUpdateWithoutSessionsInput>, Prisma.usersUncheckedUpdateWithoutSessionsInput>
 }
 
+export type usersCreateNestedOneWithoutHoldingsInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutHoldingsInput, Prisma.usersUncheckedCreateWithoutHoldingsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutHoldingsInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutHoldingsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutHoldingsInput, Prisma.usersUncheckedCreateWithoutHoldingsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutHoldingsInput
+  upsert?: Prisma.usersUpsertWithoutHoldingsInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutHoldingsInput, Prisma.usersUpdateWithoutHoldingsInput>, Prisma.usersUncheckedUpdateWithoutHoldingsInput>
+}
+
 export type usersCreateWithoutPost_commentsInput = {
   id?: string
   created_at?: Date | string | null
@@ -826,6 +847,7 @@ export type usersCreateWithoutPost_commentsInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
@@ -853,6 +875,7 @@ export type usersUncheckedCreateWithoutPost_commentsInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
@@ -896,6 +919,7 @@ export type usersUpdateWithoutPost_commentsInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
@@ -923,6 +947,7 @@ export type usersUncheckedUpdateWithoutPost_commentsInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
@@ -950,6 +975,7 @@ export type usersCreateWithoutPostsInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
@@ -977,6 +1003,7 @@ export type usersUncheckedCreateWithoutPostsInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
@@ -1020,6 +1047,7 @@ export type usersUpdateWithoutPostsInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
@@ -1047,6 +1075,7 @@ export type usersUncheckedUpdateWithoutPostsInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
@@ -1073,6 +1102,7 @@ export type usersCreateWithoutFilesInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
@@ -1100,6 +1130,7 @@ export type usersUncheckedCreateWithoutFilesInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
@@ -1143,6 +1174,7 @@ export type usersUpdateWithoutFilesInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
@@ -1170,6 +1202,7 @@ export type usersUncheckedUpdateWithoutFilesInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
@@ -1198,6 +1231,7 @@ export type usersCreateWithoutLikesInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
@@ -1225,6 +1259,7 @@ export type usersUncheckedCreateWithoutLikesInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
@@ -1268,6 +1303,7 @@ export type usersUpdateWithoutLikesInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
@@ -1295,6 +1331,7 @@ export type usersUncheckedUpdateWithoutLikesInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
@@ -1322,6 +1359,7 @@ export type usersCreateWithoutProfileInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
@@ -1349,6 +1387,7 @@ export type usersUncheckedCreateWithoutProfileInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
@@ -1392,6 +1431,7 @@ export type usersUpdateWithoutProfileInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
@@ -1419,6 +1459,7 @@ export type usersUncheckedUpdateWithoutProfileInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
@@ -1446,6 +1487,7 @@ export type usersCreateWithoutFollowersInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
@@ -1473,6 +1515,7 @@ export type usersUncheckedCreateWithoutFollowersInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
@@ -1505,6 +1548,7 @@ export type usersCreateWithoutFollowingInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
@@ -1532,6 +1576,7 @@ export type usersUncheckedCreateWithoutFollowingInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
@@ -1575,6 +1620,7 @@ export type usersUpdateWithoutFollowersInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
@@ -1602,6 +1648,7 @@ export type usersUncheckedUpdateWithoutFollowersInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
@@ -1640,6 +1687,7 @@ export type usersUpdateWithoutFollowingInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
@@ -1667,6 +1715,7 @@ export type usersUncheckedUpdateWithoutFollowingInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
@@ -1694,6 +1743,7 @@ export type usersCreateWithoutPost_likesInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
@@ -1721,6 +1771,7 @@ export type usersUncheckedCreateWithoutPost_likesInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
@@ -1764,6 +1815,7 @@ export type usersUpdateWithoutPost_likesInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
@@ -1791,6 +1843,7 @@ export type usersUncheckedUpdateWithoutPost_likesInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
@@ -1818,6 +1871,7 @@ export type usersCreateWithoutPost_viewsInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
@@ -1845,6 +1899,7 @@ export type usersUncheckedCreateWithoutPost_viewsInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
@@ -1888,6 +1943,7 @@ export type usersUpdateWithoutPost_viewsInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
@@ -1915,6 +1971,7 @@ export type usersUncheckedUpdateWithoutPost_viewsInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
@@ -1942,6 +1999,7 @@ export type usersCreateWithoutPost_bookmarksInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
@@ -1969,6 +2027,7 @@ export type usersUncheckedCreateWithoutPost_bookmarksInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
@@ -2012,6 +2071,7 @@ export type usersUpdateWithoutPost_bookmarksInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
@@ -2039,6 +2099,7 @@ export type usersUncheckedUpdateWithoutPost_bookmarksInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
@@ -2066,6 +2127,7 @@ export type usersCreateWithoutSessionsInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
@@ -2093,6 +2155,7 @@ export type usersUncheckedCreateWithoutSessionsInput = {
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
   files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
   likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
   post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
@@ -2136,6 +2199,7 @@ export type usersUpdateWithoutSessionsInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
@@ -2163,6 +2227,7 @@ export type usersUncheckedUpdateWithoutSessionsInput = {
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
   likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
   post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
@@ -2174,6 +2239,134 @@ export type usersUncheckedUpdateWithoutSessionsInput = {
   following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
 }
 
+export type usersCreateWithoutHoldingsInput = {
+  id?: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
+  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
+  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
+}
+
+export type usersUncheckedCreateWithoutHoldingsInput = {
+  id?: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
+  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
+  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
+}
+
+export type usersCreateOrConnectWithoutHoldingsInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutHoldingsInput, Prisma.usersUncheckedCreateWithoutHoldingsInput>
+}
+
+export type usersUpsertWithoutHoldingsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutHoldingsInput, Prisma.usersUncheckedUpdateWithoutHoldingsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutHoldingsInput, Prisma.usersUncheckedCreateWithoutHoldingsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutHoldingsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutHoldingsInput, Prisma.usersUncheckedUpdateWithoutHoldingsInput>
+}
+
+export type usersUpdateWithoutHoldingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
+  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
+  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
+}
+
+export type usersUncheckedUpdateWithoutHoldingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
+  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
+  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
+}
+
 
 /**
  * Count Type UsersCountOutputType
@@ -2181,6 +2374,7 @@ export type usersUncheckedUpdateWithoutSessionsInput = {
 
 export type UsersCountOutputType = {
   files: number
+  holdings: number
   likes: number
   post_bookmarks: number
   post_comments: number
@@ -2194,6 +2388,7 @@ export type UsersCountOutputType = {
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   files?: boolean | UsersCountOutputTypeCountFilesArgs
+  holdings?: boolean | UsersCountOutputTypeCountHoldingsArgs
   likes?: boolean | UsersCountOutputTypeCountLikesArgs
   post_bookmarks?: boolean | UsersCountOutputTypeCountPost_bookmarksArgs
   post_comments?: boolean | UsersCountOutputTypeCountPost_commentsArgs
@@ -2220,6 +2415,13 @@ export type UsersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
  */
 export type UsersCountOutputTypeCountFilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.filesWhereInput
+}
+
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountHoldingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.holdingsWhereInput
 }
 
 /**
@@ -2302,6 +2504,7 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   followers_count?: boolean
   following_count?: boolean
   files?: boolean | Prisma.users$filesArgs<ExtArgs>
+  holdings?: boolean | Prisma.users$holdingsArgs<ExtArgs>
   likes?: boolean | Prisma.users$likesArgs<ExtArgs>
   post_bookmarks?: boolean | Prisma.users$post_bookmarksArgs<ExtArgs>
   post_comments?: boolean | Prisma.users$post_commentsArgs<ExtArgs>
@@ -2369,6 +2572,7 @@ export type usersSelectScalar = {
 export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "updated_at" | "deleted_at" | "first_name" | "last_name" | "email" | "password" | "image" | "is_super_admin" | "username" | "github_id" | "followers_count" | "following_count", ExtArgs["result"]["users"]>
 export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   files?: boolean | Prisma.users$filesArgs<ExtArgs>
+  holdings?: boolean | Prisma.users$holdingsArgs<ExtArgs>
   likes?: boolean | Prisma.users$likesArgs<ExtArgs>
   post_bookmarks?: boolean | Prisma.users$post_bookmarksArgs<ExtArgs>
   post_comments?: boolean | Prisma.users$post_commentsArgs<ExtArgs>
@@ -2388,6 +2592,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "users"
   objects: {
     files: Prisma.$filesPayload<ExtArgs>[]
+    holdings: Prisma.$holdingsPayload<ExtArgs>[]
     likes: Prisma.$likesPayload<ExtArgs>[]
     post_bookmarks: Prisma.$post_bookmarksPayload<ExtArgs>[]
     post_comments: Prisma.$post_commentsPayload<ExtArgs>[]
@@ -2809,6 +3014,7 @@ readonly fields: usersFieldRefs;
 export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   files<T extends Prisma.users$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$filesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  holdings<T extends Prisma.users$holdingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$holdingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$holdingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   likes<T extends Prisma.users$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_bookmarks<T extends Prisma.users$post_bookmarksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$post_bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_bookmarksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_comments<T extends Prisma.users$post_commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$post_commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3271,6 +3477,30 @@ export type users$filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.FilesScalarFieldEnum | Prisma.FilesScalarFieldEnum[]
+}
+
+/**
+ * users.holdings
+ */
+export type users$holdingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the holdings
+   */
+  select?: Prisma.holdingsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the holdings
+   */
+  omit?: Prisma.holdingsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.holdingsInclude<ExtArgs> | null
+  where?: Prisma.holdingsWhereInput
+  orderBy?: Prisma.holdingsOrderByWithRelationInput | Prisma.holdingsOrderByWithRelationInput[]
+  cursor?: Prisma.holdingsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HoldingsScalarFieldEnum | Prisma.HoldingsScalarFieldEnum[]
 }
 
 /**

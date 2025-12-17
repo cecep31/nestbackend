@@ -92,3 +92,13 @@ export type post_bookmarks = Prisma.post_bookmarksModel
  * 
  */
 export type sessions = Prisma.sessionsModel
+/**
+ * Model holding_types
+ * 
+ */
+export type holding_types = Prisma.holding_typesModel
+/**
+ * Model holdings
+ * 
+ */
+export type holdings = Prisma.holdingsModel
