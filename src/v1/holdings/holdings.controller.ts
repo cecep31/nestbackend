@@ -5,7 +5,10 @@ import { UpdateHoldingSchema, type UpdateHoldingDto } from './dto/update-holding
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('holdings')
+@Controller({
+  version: "1",
+  path: "holdings",
+})
 @UseGuards(JwtAuthGuard)
 export class HoldingsController {
   constructor(private readonly holdingsService: HoldingsService) {}
