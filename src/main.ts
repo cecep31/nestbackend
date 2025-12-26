@@ -1,15 +1,14 @@
-import { ValidationPipe, VersioningType, Logger } from "@nestjs/common";
+import { ValidationPipe, VersioningType, Logger, INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
 import { AppModule } from "./app.module";
 
-const DEFAULT_PORT = 3001;
 const DEFAULT_HOST = "0.0.0.0";
 
 /**
  * Configure global application settings
  */
-function configureApp(app: any) {
+function configureApp(app: INestApplication) {
   // Enable API versioning
   app.enableVersioning({ type: VersioningType.URI });
 
@@ -27,25 +26,6 @@ function configureApp(app: any) {
       transform: true,
     })
   );
-}
-
-/**
- * Setup graceful shutdown handlers
- */
-function setupShutdownHandlers(app: any, logger: Logger) {
-  const shutdown = async () => {
-    try {
-      await app.close();
-      logger.log("Application is shutting down...");
-      process.exit(0);
-    } catch (error) {
-      logger.error("Error during shutdown", error);
-      process.exit(1);
-    }
-  };
-
-  process.on("SIGTERM", shutdown);
-  process.on("SIGINT", shutdown);
 }
 
 /**
@@ -76,15 +56,17 @@ async function bootstrap() {
 
     // Configure application
     configureApp(app);
+    
+    // Enable graceful shutdown hooks
+    app.enableShutdownHooks();
 
     // Get configuration service
     const configService = app.get(ConfigService);
     const nodeEnv = configService.get<string>("NODE_ENV") || "development";
-    const port = configService.get<number>("port") || DEFAULT_PORT;
+    const port = configService.get<number>("port") || 3001;
     const host = configService.get<string>("host") || DEFAULT_HOST;
 
-    // Setup shutdown and error handlers
-    setupShutdownHandlers(app, logger);
+    // Setup error handlers
     setupErrorHandlers(logger);
 
     // Start the application
