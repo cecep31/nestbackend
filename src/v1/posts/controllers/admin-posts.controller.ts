@@ -169,7 +169,7 @@ export class AdminPostsController {
     @Query("published") published: boolean = true
   ) {
     try {
-      const post = await this.postsService.updatePublishPost(id, published);
+      const post = await this.postsService.patchPost(id, { published });
 
       return {
         success: true,

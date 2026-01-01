@@ -23,9 +23,9 @@ import { LikePostDto, LikePostSchema } from "../dto/like-post.dto";
 import { BookmarkPostDto, BookmarkPostSchema } from "../dto/bookmark-post.dto";
 import { type RecordViewDto, RecordViewSchema } from "../dto/record-view.dto";
 import {
-  type UpdatePublishedDto,
-  UpdatePublishedSchema,
-} from "../dto/update-published.dto";
+  type PatchPostDto,
+  PatchPostSchema,
+} from "../dto/patch-post.dto";
 import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import { ZodValidationPipe } from "../../../common/pipes/zod-validation.pipe";
 
@@ -154,19 +154,19 @@ export class PostsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch("/:id/published")
-  async updatePublishPost(
+  @Patch("/:id")
+  async patchPost(
     @Param("id") id: string,
-    @Body(new ZodValidationPipe(UpdatePublishedSchema))
-    updatePublishedDto: UpdatePublishedDto,
+    @Body(new ZodValidationPipe(PatchPostSchema))
+    patchPostDto: PatchPostDto,
     @Request() req
   ) {
     return {
       success: true,
       message: "Successfully updated post",
-      data: await this.postsService.updatePublishPost(
+      data: await this.postsService.patchPost(
         id,
-        updatePublishedDto.published,
+        patchPostDto,
         req.user.user_id
       ),
     };

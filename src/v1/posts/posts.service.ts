@@ -255,9 +255,14 @@ export class PostsService {
 
     return post;
   }
-  async updatePublishPost(
+  async patchPost(
     post_id: string,
-    published: boolean,
+    updateData: {
+      published?: boolean;
+      title?: string;
+      body?: string;
+      slug?: string;
+    },
     user_id?: string
   ) {
     const post = await this.prisma.posts.findUnique({
@@ -269,9 +274,26 @@ export class PostsService {
     if (user_id && post.created_by !== user_id) {
       throw new ForbiddenException("You can only update your own posts");
     }
+
+    // Check slug uniqueness if changed
+    if (updateData.slug && updateData.slug !== post.slug) {
+      const existingSlug = await this.prisma.posts.findFirst({
+        where: { slug: updateData.slug, NOT: { id: post_id } },
+      });
+      if (existingSlug) {
+        throw new BadRequestException("Post with this slug already exists");
+      }
+    }
+
     const updatedPost = await this.prisma.posts.update({
       where: { id: post_id },
-      data: { published },
+      data: {
+        ...(updateData.published !== undefined && { published: updateData.published }),
+        ...(updateData.title && { title: updateData.title }),
+        ...(updateData.body && { body: updateData.body }),
+        ...(updateData.slug && { slug: updateData.slug }),
+        updated_at: new Date(),
+      },
     });
     return updatedPost;
   }
