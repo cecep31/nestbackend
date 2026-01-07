@@ -22,10 +22,7 @@ import { type UpdatePostDto, updatePostSchema } from "../dto/update-post.dto";
 import { LikePostDto, LikePostSchema } from "../dto/like-post.dto";
 import { BookmarkPostDto, BookmarkPostSchema } from "../dto/bookmark-post.dto";
 import { type RecordViewDto, RecordViewSchema } from "../dto/record-view.dto";
-import {
-  type PatchPostDto,
-  PatchPostSchema,
-} from "../dto/patch-post.dto";
+import { type PatchPostDto, PatchPostSchema } from "../dto/patch-post.dto";
 import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import { ZodValidationPipe } from "../../../common/pipes/zod-validation.pipe";
 
@@ -294,8 +291,9 @@ export class PostsController {
     // Populate optional fields from request
     const enrichedDto: RecordViewDto = {
       ...recordViewDto,
-      ip_address: recordViewDto.ip_address || req.ip || req.connection?.remoteAddress,
-      user_agent: recordViewDto.user_agent || req.get('User-Agent'),
+      ip_address:
+        recordViewDto.ip_address || req.ip || req.connection?.remoteAddress,
+      user_agent: recordViewDto.user_agent || req.get("User-Agent"),
     };
 
     return {
