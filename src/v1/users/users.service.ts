@@ -8,6 +8,7 @@ import {
   UpdateUserDto,
   ResetPasswordDto,
 } from './dto/user.schema';
+import { randomUUID } from 'crypto';
 import { hash } from 'bcrypt';
 import { PrismaService } from '../../prisma.service';
 import { UserRepository } from './users.repository';
@@ -29,6 +30,7 @@ export class UsersService {
       const hashedPassword = await this.hashPassword(createUserDto.password);
       const user = await this.prisma.users.create({
         data: {
+          id: randomUUID(),
           ...createUserDto,
           password: hashedPassword,
         },
@@ -72,7 +74,7 @@ export class UsersService {
         last_name: true,
         password: false,
         is_super_admin: true,
-        profile: true,
+        profiles: true,
       },
     });
     if (!user) {
@@ -314,7 +316,7 @@ export class UsersService {
     const followers = await this.prisma.user_follows.findMany({
       where: { following_id: userId },
       include: {
-        follower: {
+        users_user_follows_follower_idTousers: {
           select: {
             id: true,
             username: true,
@@ -335,7 +337,7 @@ export class UsersService {
     });
 
     return {
-      followers: followers.map((f) => f.follower),
+      followers: followers.map((f) => f.users_user_follows_follower_idTousers),
       metadata: {
         totalItems: total,
         offset,
@@ -348,7 +350,7 @@ export class UsersService {
     const following = await this.prisma.user_follows.findMany({
       where: { follower_id: userId },
       include: {
-        following: {
+        users_user_follows_following_idTousers: {
           select: {
             id: true,
             username: true,
@@ -369,7 +371,7 @@ export class UsersService {
     });
 
     return {
-      following: following.map((f) => f.following),
+      following: following.map((f) => f.users_user_follows_following_idTousers),
       metadata: {
         totalItems: total,
         offset,
@@ -402,7 +404,7 @@ export class UsersService {
         ],
       },
       include: {
-        following: {
+        users_user_follows_following_idTousers: {
           select: {
             id: true,
             username: true,
@@ -418,7 +420,7 @@ export class UsersService {
     });
 
     return {
-      mutual_follows: mutualFollows.map((f) => f.following),
+      mutual_follows: mutualFollows.map((f) => f.users_user_follows_following_idTousers),
       metadata: {
         totalItems: mutualFollows.length,
         offset,

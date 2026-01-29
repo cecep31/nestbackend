@@ -305,16 +305,6 @@ export type post_bookmarksUncheckedUpdateManyInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type Post_bookmarksListRelationFilter = {
-  every?: Prisma.post_bookmarksWhereInput
-  some?: Prisma.post_bookmarksWhereInput
-  none?: Prisma.post_bookmarksWhereInput
-}
-
-export type post_bookmarksOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type post_bookmarksPost_idUser_idCompoundUniqueInput = {
   post_id: string
   user_id: string
@@ -345,6 +335,16 @@ export type post_bookmarksMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+}
+
+export type Post_bookmarksListRelationFilter = {
+  every?: Prisma.post_bookmarksWhereInput
+  some?: Prisma.post_bookmarksWhereInput
+  none?: Prisma.post_bookmarksWhereInput
+}
+
+export type post_bookmarksOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type post_bookmarksCreateNestedManyWithoutPostsInput = {

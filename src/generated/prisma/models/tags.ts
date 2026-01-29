@@ -243,27 +243,27 @@ export type tagsScalarWhereWithAggregatesInput = {
 export type tagsCreateInput = {
   name?: string | null
   created_at?: Date | string | null
-  posts_to_tags?: Prisma.posts_to_tagsCreateNestedManyWithoutTagInput
+  posts_to_tags?: Prisma.posts_to_tagsCreateNestedManyWithoutTagsInput
 }
 
 export type tagsUncheckedCreateInput = {
   id?: number
   name?: string | null
   created_at?: Date | string | null
-  posts_to_tags?: Prisma.posts_to_tagsUncheckedCreateNestedManyWithoutTagInput
+  posts_to_tags?: Prisma.posts_to_tagsUncheckedCreateNestedManyWithoutTagsInput
 }
 
 export type tagsUpdateInput = {
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  posts_to_tags?: Prisma.posts_to_tagsUpdateManyWithoutTagNestedInput
+  posts_to_tags?: Prisma.posts_to_tagsUpdateManyWithoutTagsNestedInput
 }
 
 export type tagsUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  posts_to_tags?: Prisma.posts_to_tagsUncheckedUpdateManyWithoutTagNestedInput
+  posts_to_tags?: Prisma.posts_to_tagsUncheckedUpdateManyWithoutTagsNestedInput
 }
 
 export type tagsCreateManyInput = {

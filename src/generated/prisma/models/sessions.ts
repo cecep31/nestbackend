@@ -283,16 +283,6 @@ export type sessionsUncheckedUpdateManyInput = {
   expires_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type SessionsListRelationFilter = {
-  every?: Prisma.sessionsWhereInput
-  some?: Prisma.sessionsWhereInput
-  none?: Prisma.sessionsWhereInput
-}
-
-export type sessionsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type sessionsCountOrderByAggregateInput = {
   refresh_token?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
@@ -315,6 +305,16 @@ export type sessionsMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   user_agent?: Prisma.SortOrder
   expires_at?: Prisma.SortOrder
+}
+
+export type SessionsListRelationFilter = {
+  every?: Prisma.sessionsWhereInput
+  some?: Prisma.sessionsWhereInput
+  none?: Prisma.sessionsWhereInput
+}
+
+export type sessionsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type sessionsCreateNestedManyWithoutUsersInput = {

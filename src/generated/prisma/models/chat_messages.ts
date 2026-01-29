@@ -272,7 +272,8 @@ export type chat_messagesWhereInput = {
   prompt_tokens?: Prisma.IntNullableFilter<"chat_messages"> | number | null
   completion_tokens?: Prisma.IntNullableFilter<"chat_messages"> | number | null
   total_tokens?: Prisma.IntNullableFilter<"chat_messages"> | number | null
-  conversation?: Prisma.XOR<Prisma.Chat_conversationsScalarRelationFilter, Prisma.chat_conversationsWhereInput>
+  chat_conversations?: Prisma.XOR<Prisma.Chat_conversationsScalarRelationFilter, Prisma.chat_conversationsWhereInput>
+  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }
 
 export type chat_messagesOrderByWithRelationInput = {
@@ -287,7 +288,8 @@ export type chat_messagesOrderByWithRelationInput = {
   prompt_tokens?: Prisma.SortOrderInput | Prisma.SortOrder
   completion_tokens?: Prisma.SortOrderInput | Prisma.SortOrder
   total_tokens?: Prisma.SortOrderInput | Prisma.SortOrder
-  conversation?: Prisma.chat_conversationsOrderByWithRelationInput
+  chat_conversations?: Prisma.chat_conversationsOrderByWithRelationInput
+  users?: Prisma.usersOrderByWithRelationInput
 }
 
 export type chat_messagesWhereUniqueInput = Prisma.AtLeast<{
@@ -305,7 +307,8 @@ export type chat_messagesWhereUniqueInput = Prisma.AtLeast<{
   prompt_tokens?: Prisma.IntNullableFilter<"chat_messages"> | number | null
   completion_tokens?: Prisma.IntNullableFilter<"chat_messages"> | number | null
   total_tokens?: Prisma.IntNullableFilter<"chat_messages"> | number | null
-  conversation?: Prisma.XOR<Prisma.Chat_conversationsScalarRelationFilter, Prisma.chat_conversationsWhereInput>
+  chat_conversations?: Prisma.XOR<Prisma.Chat_conversationsScalarRelationFilter, Prisma.chat_conversationsWhereInput>
+  users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }, "id">
 
 export type chat_messagesOrderByWithAggregationInput = {
@@ -348,14 +351,14 @@ export type chat_messagesCreateInput = {
   id?: string
   created_at?: Date | string
   updated_at?: Date | string
-  user_id: string
   role: string
   content: string
   model?: string | null
   prompt_tokens?: number | null
   completion_tokens?: number | null
   total_tokens?: number | null
-  conversation: Prisma.chat_conversationsCreateNestedOneWithoutMessagesInput
+  chat_conversations: Prisma.chat_conversationsCreateNestedOneWithoutChat_messagesInput
+  users: Prisma.usersCreateNestedOneWithoutChat_messagesInput
 }
 
 export type chat_messagesUncheckedCreateInput = {
@@ -376,14 +379,14 @@ export type chat_messagesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   prompt_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   completion_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  conversation?: Prisma.chat_conversationsUpdateOneRequiredWithoutMessagesNestedInput
+  chat_conversations?: Prisma.chat_conversationsUpdateOneRequiredWithoutChat_messagesNestedInput
+  users?: Prisma.usersUpdateOneRequiredWithoutChat_messagesNestedInput
 }
 
 export type chat_messagesUncheckedUpdateInput = {
@@ -418,7 +421,6 @@ export type chat_messagesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -505,49 +507,116 @@ export type chat_messagesSumOrderByAggregateInput = {
   total_tokens?: Prisma.SortOrder
 }
 
-export type chat_messagesCreateNestedManyWithoutConversationInput = {
-  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutConversationInput, Prisma.chat_messagesUncheckedCreateWithoutConversationInput> | Prisma.chat_messagesCreateWithoutConversationInput[] | Prisma.chat_messagesUncheckedCreateWithoutConversationInput[]
-  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutConversationInput | Prisma.chat_messagesCreateOrConnectWithoutConversationInput[]
-  createMany?: Prisma.chat_messagesCreateManyConversationInputEnvelope
+export type chat_messagesCreateNestedManyWithoutChat_conversationsInput = {
+  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutChat_conversationsInput, Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput> | Prisma.chat_messagesCreateWithoutChat_conversationsInput[] | Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput[]
+  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutChat_conversationsInput | Prisma.chat_messagesCreateOrConnectWithoutChat_conversationsInput[]
+  createMany?: Prisma.chat_messagesCreateManyChat_conversationsInputEnvelope
   connect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
 }
 
-export type chat_messagesUncheckedCreateNestedManyWithoutConversationInput = {
-  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutConversationInput, Prisma.chat_messagesUncheckedCreateWithoutConversationInput> | Prisma.chat_messagesCreateWithoutConversationInput[] | Prisma.chat_messagesUncheckedCreateWithoutConversationInput[]
-  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutConversationInput | Prisma.chat_messagesCreateOrConnectWithoutConversationInput[]
-  createMany?: Prisma.chat_messagesCreateManyConversationInputEnvelope
+export type chat_messagesUncheckedCreateNestedManyWithoutChat_conversationsInput = {
+  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutChat_conversationsInput, Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput> | Prisma.chat_messagesCreateWithoutChat_conversationsInput[] | Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput[]
+  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutChat_conversationsInput | Prisma.chat_messagesCreateOrConnectWithoutChat_conversationsInput[]
+  createMany?: Prisma.chat_messagesCreateManyChat_conversationsInputEnvelope
   connect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
 }
 
-export type chat_messagesUpdateManyWithoutConversationNestedInput = {
-  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutConversationInput, Prisma.chat_messagesUncheckedCreateWithoutConversationInput> | Prisma.chat_messagesCreateWithoutConversationInput[] | Prisma.chat_messagesUncheckedCreateWithoutConversationInput[]
-  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutConversationInput | Prisma.chat_messagesCreateOrConnectWithoutConversationInput[]
-  upsert?: Prisma.chat_messagesUpsertWithWhereUniqueWithoutConversationInput | Prisma.chat_messagesUpsertWithWhereUniqueWithoutConversationInput[]
-  createMany?: Prisma.chat_messagesCreateManyConversationInputEnvelope
+export type chat_messagesUpdateManyWithoutChat_conversationsNestedInput = {
+  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutChat_conversationsInput, Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput> | Prisma.chat_messagesCreateWithoutChat_conversationsInput[] | Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput[]
+  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutChat_conversationsInput | Prisma.chat_messagesCreateOrConnectWithoutChat_conversationsInput[]
+  upsert?: Prisma.chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput | Prisma.chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput[]
+  createMany?: Prisma.chat_messagesCreateManyChat_conversationsInputEnvelope
   set?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
   disconnect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
   delete?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
   connect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
-  update?: Prisma.chat_messagesUpdateWithWhereUniqueWithoutConversationInput | Prisma.chat_messagesUpdateWithWhereUniqueWithoutConversationInput[]
-  updateMany?: Prisma.chat_messagesUpdateManyWithWhereWithoutConversationInput | Prisma.chat_messagesUpdateManyWithWhereWithoutConversationInput[]
+  update?: Prisma.chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput | Prisma.chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput[]
+  updateMany?: Prisma.chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput | Prisma.chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput[]
   deleteMany?: Prisma.chat_messagesScalarWhereInput | Prisma.chat_messagesScalarWhereInput[]
 }
 
-export type chat_messagesUncheckedUpdateManyWithoutConversationNestedInput = {
-  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutConversationInput, Prisma.chat_messagesUncheckedCreateWithoutConversationInput> | Prisma.chat_messagesCreateWithoutConversationInput[] | Prisma.chat_messagesUncheckedCreateWithoutConversationInput[]
-  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutConversationInput | Prisma.chat_messagesCreateOrConnectWithoutConversationInput[]
-  upsert?: Prisma.chat_messagesUpsertWithWhereUniqueWithoutConversationInput | Prisma.chat_messagesUpsertWithWhereUniqueWithoutConversationInput[]
-  createMany?: Prisma.chat_messagesCreateManyConversationInputEnvelope
+export type chat_messagesUncheckedUpdateManyWithoutChat_conversationsNestedInput = {
+  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutChat_conversationsInput, Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput> | Prisma.chat_messagesCreateWithoutChat_conversationsInput[] | Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput[]
+  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutChat_conversationsInput | Prisma.chat_messagesCreateOrConnectWithoutChat_conversationsInput[]
+  upsert?: Prisma.chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput | Prisma.chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput[]
+  createMany?: Prisma.chat_messagesCreateManyChat_conversationsInputEnvelope
   set?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
   disconnect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
   delete?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
   connect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
-  update?: Prisma.chat_messagesUpdateWithWhereUniqueWithoutConversationInput | Prisma.chat_messagesUpdateWithWhereUniqueWithoutConversationInput[]
-  updateMany?: Prisma.chat_messagesUpdateManyWithWhereWithoutConversationInput | Prisma.chat_messagesUpdateManyWithWhereWithoutConversationInput[]
+  update?: Prisma.chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput | Prisma.chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput[]
+  updateMany?: Prisma.chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput | Prisma.chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput[]
   deleteMany?: Prisma.chat_messagesScalarWhereInput | Prisma.chat_messagesScalarWhereInput[]
 }
 
-export type chat_messagesCreateWithoutConversationInput = {
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type chat_messagesCreateNestedManyWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutUsersInput, Prisma.chat_messagesUncheckedCreateWithoutUsersInput> | Prisma.chat_messagesCreateWithoutUsersInput[] | Prisma.chat_messagesUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutUsersInput | Prisma.chat_messagesCreateOrConnectWithoutUsersInput[]
+  createMany?: Prisma.chat_messagesCreateManyUsersInputEnvelope
+  connect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+}
+
+export type chat_messagesUncheckedCreateNestedManyWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutUsersInput, Prisma.chat_messagesUncheckedCreateWithoutUsersInput> | Prisma.chat_messagesCreateWithoutUsersInput[] | Prisma.chat_messagesUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutUsersInput | Prisma.chat_messagesCreateOrConnectWithoutUsersInput[]
+  createMany?: Prisma.chat_messagesCreateManyUsersInputEnvelope
+  connect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+}
+
+export type chat_messagesUpdateManyWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutUsersInput, Prisma.chat_messagesUncheckedCreateWithoutUsersInput> | Prisma.chat_messagesCreateWithoutUsersInput[] | Prisma.chat_messagesUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutUsersInput | Prisma.chat_messagesCreateOrConnectWithoutUsersInput[]
+  upsert?: Prisma.chat_messagesUpsertWithWhereUniqueWithoutUsersInput | Prisma.chat_messagesUpsertWithWhereUniqueWithoutUsersInput[]
+  createMany?: Prisma.chat_messagesCreateManyUsersInputEnvelope
+  set?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+  disconnect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+  delete?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+  connect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+  update?: Prisma.chat_messagesUpdateWithWhereUniqueWithoutUsersInput | Prisma.chat_messagesUpdateWithWhereUniqueWithoutUsersInput[]
+  updateMany?: Prisma.chat_messagesUpdateManyWithWhereWithoutUsersInput | Prisma.chat_messagesUpdateManyWithWhereWithoutUsersInput[]
+  deleteMany?: Prisma.chat_messagesScalarWhereInput | Prisma.chat_messagesScalarWhereInput[]
+}
+
+export type chat_messagesUncheckedUpdateManyWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.chat_messagesCreateWithoutUsersInput, Prisma.chat_messagesUncheckedCreateWithoutUsersInput> | Prisma.chat_messagesCreateWithoutUsersInput[] | Prisma.chat_messagesUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.chat_messagesCreateOrConnectWithoutUsersInput | Prisma.chat_messagesCreateOrConnectWithoutUsersInput[]
+  upsert?: Prisma.chat_messagesUpsertWithWhereUniqueWithoutUsersInput | Prisma.chat_messagesUpsertWithWhereUniqueWithoutUsersInput[]
+  createMany?: Prisma.chat_messagesCreateManyUsersInputEnvelope
+  set?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+  disconnect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+  delete?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+  connect?: Prisma.chat_messagesWhereUniqueInput | Prisma.chat_messagesWhereUniqueInput[]
+  update?: Prisma.chat_messagesUpdateWithWhereUniqueWithoutUsersInput | Prisma.chat_messagesUpdateWithWhereUniqueWithoutUsersInput[]
+  updateMany?: Prisma.chat_messagesUpdateManyWithWhereWithoutUsersInput | Prisma.chat_messagesUpdateManyWithWhereWithoutUsersInput[]
+  deleteMany?: Prisma.chat_messagesScalarWhereInput | Prisma.chat_messagesScalarWhereInput[]
+}
+
+export type chat_messagesCreateWithoutChat_conversationsInput = {
+  id?: string
+  created_at?: Date | string
+  updated_at?: Date | string
+  role: string
+  content: string
+  model?: string | null
+  prompt_tokens?: number | null
+  completion_tokens?: number | null
+  total_tokens?: number | null
+  users: Prisma.usersCreateNestedOneWithoutChat_messagesInput
+}
+
+export type chat_messagesUncheckedCreateWithoutChat_conversationsInput = {
   id?: string
   created_at?: Date | string
   updated_at?: Date | string
@@ -560,43 +629,30 @@ export type chat_messagesCreateWithoutConversationInput = {
   total_tokens?: number | null
 }
 
-export type chat_messagesUncheckedCreateWithoutConversationInput = {
-  id?: string
-  created_at?: Date | string
-  updated_at?: Date | string
-  user_id: string
-  role: string
-  content: string
-  model?: string | null
-  prompt_tokens?: number | null
-  completion_tokens?: number | null
-  total_tokens?: number | null
-}
-
-export type chat_messagesCreateOrConnectWithoutConversationInput = {
+export type chat_messagesCreateOrConnectWithoutChat_conversationsInput = {
   where: Prisma.chat_messagesWhereUniqueInput
-  create: Prisma.XOR<Prisma.chat_messagesCreateWithoutConversationInput, Prisma.chat_messagesUncheckedCreateWithoutConversationInput>
+  create: Prisma.XOR<Prisma.chat_messagesCreateWithoutChat_conversationsInput, Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput>
 }
 
-export type chat_messagesCreateManyConversationInputEnvelope = {
-  data: Prisma.chat_messagesCreateManyConversationInput | Prisma.chat_messagesCreateManyConversationInput[]
+export type chat_messagesCreateManyChat_conversationsInputEnvelope = {
+  data: Prisma.chat_messagesCreateManyChat_conversationsInput | Prisma.chat_messagesCreateManyChat_conversationsInput[]
   skipDuplicates?: boolean
 }
 
-export type chat_messagesUpsertWithWhereUniqueWithoutConversationInput = {
+export type chat_messagesUpsertWithWhereUniqueWithoutChat_conversationsInput = {
   where: Prisma.chat_messagesWhereUniqueInput
-  update: Prisma.XOR<Prisma.chat_messagesUpdateWithoutConversationInput, Prisma.chat_messagesUncheckedUpdateWithoutConversationInput>
-  create: Prisma.XOR<Prisma.chat_messagesCreateWithoutConversationInput, Prisma.chat_messagesUncheckedCreateWithoutConversationInput>
+  update: Prisma.XOR<Prisma.chat_messagesUpdateWithoutChat_conversationsInput, Prisma.chat_messagesUncheckedUpdateWithoutChat_conversationsInput>
+  create: Prisma.XOR<Prisma.chat_messagesCreateWithoutChat_conversationsInput, Prisma.chat_messagesUncheckedCreateWithoutChat_conversationsInput>
 }
 
-export type chat_messagesUpdateWithWhereUniqueWithoutConversationInput = {
+export type chat_messagesUpdateWithWhereUniqueWithoutChat_conversationsInput = {
   where: Prisma.chat_messagesWhereUniqueInput
-  data: Prisma.XOR<Prisma.chat_messagesUpdateWithoutConversationInput, Prisma.chat_messagesUncheckedUpdateWithoutConversationInput>
+  data: Prisma.XOR<Prisma.chat_messagesUpdateWithoutChat_conversationsInput, Prisma.chat_messagesUncheckedUpdateWithoutChat_conversationsInput>
 }
 
-export type chat_messagesUpdateManyWithWhereWithoutConversationInput = {
+export type chat_messagesUpdateManyWithWhereWithoutChat_conversationsInput = {
   where: Prisma.chat_messagesScalarWhereInput
-  data: Prisma.XOR<Prisma.chat_messagesUpdateManyMutationInput, Prisma.chat_messagesUncheckedUpdateManyWithoutConversationInput>
+  data: Prisma.XOR<Prisma.chat_messagesUpdateManyMutationInput, Prisma.chat_messagesUncheckedUpdateManyWithoutChat_conversationsInput>
 }
 
 export type chat_messagesScalarWhereInput = {
@@ -616,7 +672,59 @@ export type chat_messagesScalarWhereInput = {
   total_tokens?: Prisma.IntNullableFilter<"chat_messages"> | number | null
 }
 
-export type chat_messagesCreateManyConversationInput = {
+export type chat_messagesCreateWithoutUsersInput = {
+  id?: string
+  created_at?: Date | string
+  updated_at?: Date | string
+  role: string
+  content: string
+  model?: string | null
+  prompt_tokens?: number | null
+  completion_tokens?: number | null
+  total_tokens?: number | null
+  chat_conversations: Prisma.chat_conversationsCreateNestedOneWithoutChat_messagesInput
+}
+
+export type chat_messagesUncheckedCreateWithoutUsersInput = {
+  id?: string
+  created_at?: Date | string
+  updated_at?: Date | string
+  conversation_id: string
+  role: string
+  content: string
+  model?: string | null
+  prompt_tokens?: number | null
+  completion_tokens?: number | null
+  total_tokens?: number | null
+}
+
+export type chat_messagesCreateOrConnectWithoutUsersInput = {
+  where: Prisma.chat_messagesWhereUniqueInput
+  create: Prisma.XOR<Prisma.chat_messagesCreateWithoutUsersInput, Prisma.chat_messagesUncheckedCreateWithoutUsersInput>
+}
+
+export type chat_messagesCreateManyUsersInputEnvelope = {
+  data: Prisma.chat_messagesCreateManyUsersInput | Prisma.chat_messagesCreateManyUsersInput[]
+  skipDuplicates?: boolean
+}
+
+export type chat_messagesUpsertWithWhereUniqueWithoutUsersInput = {
+  where: Prisma.chat_messagesWhereUniqueInput
+  update: Prisma.XOR<Prisma.chat_messagesUpdateWithoutUsersInput, Prisma.chat_messagesUncheckedUpdateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.chat_messagesCreateWithoutUsersInput, Prisma.chat_messagesUncheckedCreateWithoutUsersInput>
+}
+
+export type chat_messagesUpdateWithWhereUniqueWithoutUsersInput = {
+  where: Prisma.chat_messagesWhereUniqueInput
+  data: Prisma.XOR<Prisma.chat_messagesUpdateWithoutUsersInput, Prisma.chat_messagesUncheckedUpdateWithoutUsersInput>
+}
+
+export type chat_messagesUpdateManyWithWhereWithoutUsersInput = {
+  where: Prisma.chat_messagesScalarWhereInput
+  data: Prisma.XOR<Prisma.chat_messagesUpdateManyMutationInput, Prisma.chat_messagesUncheckedUpdateManyWithoutUsersInput>
+}
+
+export type chat_messagesCreateManyChat_conversationsInput = {
   id?: string
   created_at?: Date | string
   updated_at?: Date | string
@@ -629,7 +737,20 @@ export type chat_messagesCreateManyConversationInput = {
   total_tokens?: number | null
 }
 
-export type chat_messagesUpdateWithoutConversationInput = {
+export type chat_messagesUpdateWithoutChat_conversationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prompt_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  completion_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  total_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  users?: Prisma.usersUpdateOneRequiredWithoutChat_messagesNestedInput
+}
+
+export type chat_messagesUncheckedUpdateWithoutChat_conversationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -642,7 +763,7 @@ export type chat_messagesUpdateWithoutConversationInput = {
   total_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
-export type chat_messagesUncheckedUpdateWithoutConversationInput = {
+export type chat_messagesUncheckedUpdateManyWithoutChat_conversationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -655,11 +776,50 @@ export type chat_messagesUncheckedUpdateWithoutConversationInput = {
   total_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
-export type chat_messagesUncheckedUpdateManyWithoutConversationInput = {
+export type chat_messagesCreateManyUsersInput = {
+  id?: string
+  created_at?: Date | string
+  updated_at?: Date | string
+  conversation_id: string
+  role: string
+  content: string
+  model?: string | null
+  prompt_tokens?: number | null
+  completion_tokens?: number | null
+  total_tokens?: number | null
+}
+
+export type chat_messagesUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prompt_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  completion_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  total_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateOneRequiredWithoutChat_messagesNestedInput
+}
+
+export type chat_messagesUncheckedUpdateWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  conversation_id?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  prompt_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  completion_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  total_tokens?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
+export type chat_messagesUncheckedUpdateManyWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  conversation_id?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -682,7 +842,8 @@ export type chat_messagesSelect<ExtArgs extends runtime.Types.Extensions.Interna
   prompt_tokens?: boolean
   completion_tokens?: boolean
   total_tokens?: boolean
-  conversation?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  chat_conversations?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chat_messages"]>
 
 export type chat_messagesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -697,7 +858,8 @@ export type chat_messagesSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   prompt_tokens?: boolean
   completion_tokens?: boolean
   total_tokens?: boolean
-  conversation?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  chat_conversations?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chat_messages"]>
 
 export type chat_messagesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -712,7 +874,8 @@ export type chat_messagesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   prompt_tokens?: boolean
   completion_tokens?: boolean
   total_tokens?: boolean
-  conversation?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  chat_conversations?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["chat_messages"]>
 
 export type chat_messagesSelectScalar = {
@@ -731,19 +894,23 @@ export type chat_messagesSelectScalar = {
 
 export type chat_messagesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "updated_at" | "conversation_id" | "user_id" | "role" | "content" | "model" | "prompt_tokens" | "completion_tokens" | "total_tokens", ExtArgs["result"]["chat_messages"]>
 export type chat_messagesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  conversation?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  chat_conversations?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type chat_messagesIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  conversation?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  chat_conversations?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type chat_messagesIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  conversation?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  chat_conversations?: boolean | Prisma.chat_conversationsDefaultArgs<ExtArgs>
+  users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 
 export type $chat_messagesPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "chat_messages"
   objects: {
-    conversation: Prisma.$chat_conversationsPayload<ExtArgs>
+    chat_conversations: Prisma.$chat_conversationsPayload<ExtArgs>
+    users: Prisma.$usersPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1151,7 +1318,8 @@ readonly fields: chat_messagesFieldRefs;
  */
 export interface Prisma__chat_messagesClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  conversation<T extends Prisma.chat_conversationsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.chat_conversationsDefaultArgs<ExtArgs>>): Prisma.Prisma__chat_conversationsClient<runtime.Types.Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  chat_conversations<T extends Prisma.chat_conversationsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.chat_conversationsDefaultArgs<ExtArgs>>): Prisma.Prisma__chat_conversationsClient<runtime.Types.Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  users<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../prisma.service';
-import { randomBytes } from 'crypto';
+import { randomBytes, randomUUID } from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -49,6 +49,7 @@ export class AuthService {
       try {
         user = await this.prisma.users.create({
           data: {
+            id: randomUUID(),
             username: username || provider + '_' + providerId,
             email: email || `${providerId}@${provider}.oauth`,
             password: oauthPassword, // Secure hashed password for OAuth users
@@ -58,6 +59,7 @@ export class AuthService {
       } catch (error) {
         user = await this.prisma.users.create({
           data: {
+            id: randomUUID(),
             username: provider + '_' + providerId,
             email: email || `${providerId}@${provider}.oauth`,
             password: oauthPassword, // Secure hashed password for OAuth users
@@ -181,6 +183,7 @@ export class AuthService {
 
     const user = await this.prisma.users.create({
       data: {
+        id: randomUUID(),
         username,
         email,
         password: hashedPassword,

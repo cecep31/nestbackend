@@ -48,7 +48,7 @@ export class PostsService {
       offset,
       take: limit,
       include: {
-        creator: {
+        user: {
           select: {
             id: true,
             username: true,
@@ -57,9 +57,9 @@ export class PostsService {
             image: true,
           },
         },
-        tags: {
+        posts_to_tags: {
           include: {
-            tag: true,
+            tags: true,
           },
         },
       },
@@ -81,7 +81,7 @@ export class PostsService {
       postsData: postsData.map((post) => ({
         ...post,
         body: this.truncateBody(post.body ?? ""),
-        tags: post.tags.map((tagRelation) => tagRelation.tag),
+        tags: post.posts_to_tags?.map((pt) => pt.tags) ?? [],
       })),
       metadata: {
         total_items: totalposts,
@@ -102,7 +102,7 @@ export class PostsService {
     const postsData = posts.map((post) => ({
       ...post,
       body: this.truncateBody(post.body ?? ""),
-      tags: post.tags.map((tagRelation) => tagRelation.tag),
+      tags: post.posts_to_tags?.map((pt) => pt.tags) ?? [],
     }));
     // count total items
     const totalItems = await this.postsRepository.getPostsByCreatorCount(
@@ -137,10 +137,10 @@ export class PostsService {
 
   getAllComments(postId: string): Promise<post_comments[]> {
     return this.prisma.post_comments.findMany({
-      where: { post_id: postId, parrent_comment_id: null },
+      where: { post_id: postId, parent_comment_id: null },
       orderBy: { created_at: "asc" },
       include: {
-        creator: {
+        user: {
           select: {
             id: true,
             username: true,
@@ -311,7 +311,7 @@ export class PostsService {
     }
 
     // Check if user already liked the post
-    const existingLike = await this.prisma.likes.findFirst({
+    const existingLike = await this.prisma.post_likes.findFirst({
       where: {
         post_id,
         user_id,
@@ -323,7 +323,7 @@ export class PostsService {
     }
 
     // Create a new like
-    const like = await this.prisma.likes.create({
+    const like = await this.prisma.post_likes.create({
       data: {
         post_id,
         user_id,
@@ -345,7 +345,7 @@ export class PostsService {
     }
 
     // Find the like
-    const existingLike = await this.prisma.likes.findFirst({
+    const existingLike = await this.prisma.post_likes.findFirst({
       where: {
         post_id,
         user_id,
@@ -357,7 +357,7 @@ export class PostsService {
     }
 
     // Delete the like
-    await this.prisma.likes.delete({
+    await this.prisma.post_likes.delete({
       where: { id: existingLike.id },
     });
 
@@ -375,12 +375,12 @@ export class PostsService {
     }
 
     // Get likes count
-    const likesCount = await this.prisma.likes.count({
+    const likesCount = await this.prisma.post_likes.count({
       where: { post_id },
     });
 
     // Get users who liked the post
-    const likes = await this.prisma.likes.findMany({
+    const likes = await this.prisma.post_likes.findMany({
       where: { post_id },
       include: {
         users: {
@@ -403,7 +403,7 @@ export class PostsService {
   }
 
   async checkUserLiked(post_id: string, user_id: string) {
-    const like = await this.prisma.likes.findFirst({
+    const like = await this.prisma.post_likes.findFirst({
       where: {
         post_id,
         user_id,
@@ -507,8 +507,8 @@ export class PostsService {
     // Transform the data to match the expected format
     const postsData = bookmarks.map((bookmark) => ({
       ...bookmark.posts,
-      body: this.truncateBody(bookmark.posts.body ?? ""),
-      tags: bookmark.posts.tags.map((tagRelation) => tagRelation.tag),
+      body: this.truncateBody(bookmark.posts?.body ?? ""),
+      tags: bookmark.posts?.posts_to_tags?.map((pt) => pt.tags) ?? [],
       bookmarked_at: bookmark.created_at,
     }));
 
@@ -566,9 +566,9 @@ export class PostsService {
 
     // Handle tags filter
     if (tags && tags.length > 0) {
-      where.tags = {
+      where.posts_to_tags = {
         some: {
-          tag: {
+          tags: {
             name: {
               in: tags,
             },
@@ -588,7 +588,7 @@ export class PostsService {
         take: limit,
         orderBy,
         include: {
-          creator: {
+          user: {
             select: {
               id: true,
               username: true,
@@ -598,9 +598,9 @@ export class PostsService {
               image: true,
             },
           },
-          tags: {
+          posts_to_tags: {
             include: {
-              tag: true,
+              tags: true,
             },
           },
           _count: {
@@ -620,7 +620,7 @@ export class PostsService {
       posts: posts.map((post) => ({
         ...post,
         body: this.truncateBody(post.body ?? ""),
-        tags: post.tags.map((tagRelation) => tagRelation.tag),
+        tags: post.posts_to_tags?.map((pt) => pt.tags) ?? [],
         stats: {
           likes: post.like_count,
           comments: post.view_count,
@@ -704,7 +704,7 @@ export class PostsService {
     // Check if post exists
     const existingPost = await this.prisma.posts.findUnique({
       where: { id },
-      include: { tags: { include: { tag: true } } },
+      include: { posts_to_tags: { include: { tags: true } } },
     });
 
     if (!existingPost) {

@@ -25,9 +25,9 @@ export class PostsRepository {
       orderBy,
       include: {
         ...include,
-        tags: {
+        posts_to_tags: {
           include: {
-            tag: true,
+            tags: true,
           },
         },
       },
@@ -51,12 +51,12 @@ export class PostsRepository {
         deleted_at: null,
       },
       include: {
-        tags: {
+        posts_to_tags: {
           include: {
-            tag: true,
+            tags: true,
           },
         },
-        creator: {
+        user: {
           select: {
             id: true,
             username: true,
@@ -88,16 +88,16 @@ export class PostsRepository {
     return this.prisma.posts.findFirst({
       where: { slug },
       include: {
-        creator: {
+        user: {
           select: {
             id: true,
             username: true,
             email: true,
           },
         },
-        tags: {
+        posts_to_tags: {
           include: {
-            tag: true,
+            tags: true,
           },
         },
       },
@@ -109,18 +109,18 @@ export class PostsRepository {
     slug: string
   ): Promise<posts | null> {
     return this.prisma.posts.findFirst({
-      where: { creator: { username }, slug: slug },
+      where: { user: { username }, slug: slug },
       include: {
-        creator: {
+        user: {
           select: {
             id: true,
             username: true,
             email: true,
           },
         },
-        tags: {
+        posts_to_tags: {
           include: {
-            tag: true,
+            tags: true,
           },
         },
       },
@@ -182,7 +182,7 @@ export class PostsRepository {
       take,
       orderBy,
       include: {
-        creator: {
+        user: {
           select: {
             id: true,
             username: true,
@@ -194,9 +194,9 @@ export class PostsRepository {
         },
         post_likes: true,
         post_comments: false,
-        tags: {
+        posts_to_tags: {
           include: {
-            tag: true,
+            tags: true,
           },
         },
       },
@@ -249,7 +249,7 @@ export class PostsRepository {
       include: {
         posts: {
           include: {
-            creator: {
+            user: {
               select: {
                 id: true,
                 username: true,
@@ -259,9 +259,9 @@ export class PostsRepository {
                 image: true,
               },
             },
-            tags: {
+            posts_to_tags: {
               include: {
-                tag: true,
+                tags: true,
               },
             },
           },

@@ -307,7 +307,7 @@ export type profilesCreateInput = {
   website?: string | null
   phone?: string | null
   location?: string | null
-  users: Prisma.usersCreateNestedOneWithoutProfileInput
+  users: Prisma.usersCreateNestedOneWithoutProfilesInput
 }
 
 export type profilesUncheckedCreateInput = {
@@ -328,7 +328,7 @@ export type profilesUpdateInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  users?: Prisma.usersUpdateOneRequiredWithoutProfileNestedInput
+  users?: Prisma.usersUpdateOneRequiredWithoutProfilesNestedInput
 }
 
 export type profilesUncheckedUpdateInput = {
@@ -373,11 +373,6 @@ export type profilesUncheckedUpdateManyInput = {
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type ProfilesNullableScalarRelationFilter = {
-  is?: Prisma.profilesWhereInput | null
-  isNot?: Prisma.profilesWhereInput | null
-}
-
 export type profilesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
@@ -417,6 +412,11 @@ export type profilesMinOrderByAggregateInput = {
 
 export type profilesSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+}
+
+export type ProfilesNullableScalarRelationFilter = {
+  is?: Prisma.profilesWhereInput | null
+  isNot?: Prisma.profilesWhereInput | null
 }
 
 export type profilesCreateNestedOneWithoutUsersInput = {

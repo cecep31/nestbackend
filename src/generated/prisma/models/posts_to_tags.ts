@@ -193,14 +193,14 @@ export type posts_to_tagsWhereInput = {
   post_id?: Prisma.UuidFilter<"posts_to_tags"> | string
   tag_id?: Prisma.IntFilter<"posts_to_tags"> | number
   posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
-  tag?: Prisma.XOR<Prisma.TagsScalarRelationFilter, Prisma.tagsWhereInput>
+  tags?: Prisma.XOR<Prisma.TagsScalarRelationFilter, Prisma.tagsWhereInput>
 }
 
 export type posts_to_tagsOrderByWithRelationInput = {
   post_id?: Prisma.SortOrder
   tag_id?: Prisma.SortOrder
   posts?: Prisma.postsOrderByWithRelationInput
-  tag?: Prisma.tagsOrderByWithRelationInput
+  tags?: Prisma.tagsOrderByWithRelationInput
 }
 
 export type posts_to_tagsWhereUniqueInput = Prisma.AtLeast<{
@@ -211,7 +211,7 @@ export type posts_to_tagsWhereUniqueInput = Prisma.AtLeast<{
   post_id?: Prisma.UuidFilter<"posts_to_tags"> | string
   tag_id?: Prisma.IntFilter<"posts_to_tags"> | number
   posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
-  tag?: Prisma.XOR<Prisma.TagsScalarRelationFilter, Prisma.tagsWhereInput>
+  tags?: Prisma.XOR<Prisma.TagsScalarRelationFilter, Prisma.tagsWhereInput>
 }, "post_id_tag_id">
 
 export type posts_to_tagsOrderByWithAggregationInput = {
@@ -233,8 +233,8 @@ export type posts_to_tagsScalarWhereWithAggregatesInput = {
 }
 
 export type posts_to_tagsCreateInput = {
-  posts: Prisma.postsCreateNestedOneWithoutTagsInput
-  tag: Prisma.tagsCreateNestedOneWithoutPosts_to_tagsInput
+  posts: Prisma.postsCreateNestedOneWithoutPosts_to_tagsInput
+  tags: Prisma.tagsCreateNestedOneWithoutPosts_to_tagsInput
 }
 
 export type posts_to_tagsUncheckedCreateInput = {
@@ -243,8 +243,8 @@ export type posts_to_tagsUncheckedCreateInput = {
 }
 
 export type posts_to_tagsUpdateInput = {
-  posts?: Prisma.postsUpdateOneRequiredWithoutTagsNestedInput
-  tag?: Prisma.tagsUpdateOneRequiredWithoutPosts_to_tagsNestedInput
+  posts?: Prisma.postsUpdateOneRequiredWithoutPosts_to_tagsNestedInput
+  tags?: Prisma.tagsUpdateOneRequiredWithoutPosts_to_tagsNestedInput
 }
 
 export type posts_to_tagsUncheckedUpdateInput = {
@@ -346,58 +346,50 @@ export type posts_to_tagsUncheckedUpdateManyWithoutPostsNestedInput = {
   deleteMany?: Prisma.posts_to_tagsScalarWhereInput | Prisma.posts_to_tagsScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type posts_to_tagsCreateNestedManyWithoutTagInput = {
-  create?: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagInput> | Prisma.posts_to_tagsCreateWithoutTagInput[] | Prisma.posts_to_tagsUncheckedCreateWithoutTagInput[]
-  connectOrCreate?: Prisma.posts_to_tagsCreateOrConnectWithoutTagInput | Prisma.posts_to_tagsCreateOrConnectWithoutTagInput[]
-  createMany?: Prisma.posts_to_tagsCreateManyTagInputEnvelope
+export type posts_to_tagsCreateNestedManyWithoutTagsInput = {
+  create?: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagsInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput> | Prisma.posts_to_tagsCreateWithoutTagsInput[] | Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput[]
+  connectOrCreate?: Prisma.posts_to_tagsCreateOrConnectWithoutTagsInput | Prisma.posts_to_tagsCreateOrConnectWithoutTagsInput[]
+  createMany?: Prisma.posts_to_tagsCreateManyTagsInputEnvelope
   connect?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
 }
 
-export type posts_to_tagsUncheckedCreateNestedManyWithoutTagInput = {
-  create?: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagInput> | Prisma.posts_to_tagsCreateWithoutTagInput[] | Prisma.posts_to_tagsUncheckedCreateWithoutTagInput[]
-  connectOrCreate?: Prisma.posts_to_tagsCreateOrConnectWithoutTagInput | Prisma.posts_to_tagsCreateOrConnectWithoutTagInput[]
-  createMany?: Prisma.posts_to_tagsCreateManyTagInputEnvelope
+export type posts_to_tagsUncheckedCreateNestedManyWithoutTagsInput = {
+  create?: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagsInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput> | Prisma.posts_to_tagsCreateWithoutTagsInput[] | Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput[]
+  connectOrCreate?: Prisma.posts_to_tagsCreateOrConnectWithoutTagsInput | Prisma.posts_to_tagsCreateOrConnectWithoutTagsInput[]
+  createMany?: Prisma.posts_to_tagsCreateManyTagsInputEnvelope
   connect?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
 }
 
-export type posts_to_tagsUpdateManyWithoutTagNestedInput = {
-  create?: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagInput> | Prisma.posts_to_tagsCreateWithoutTagInput[] | Prisma.posts_to_tagsUncheckedCreateWithoutTagInput[]
-  connectOrCreate?: Prisma.posts_to_tagsCreateOrConnectWithoutTagInput | Prisma.posts_to_tagsCreateOrConnectWithoutTagInput[]
-  upsert?: Prisma.posts_to_tagsUpsertWithWhereUniqueWithoutTagInput | Prisma.posts_to_tagsUpsertWithWhereUniqueWithoutTagInput[]
-  createMany?: Prisma.posts_to_tagsCreateManyTagInputEnvelope
+export type posts_to_tagsUpdateManyWithoutTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagsInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput> | Prisma.posts_to_tagsCreateWithoutTagsInput[] | Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput[]
+  connectOrCreate?: Prisma.posts_to_tagsCreateOrConnectWithoutTagsInput | Prisma.posts_to_tagsCreateOrConnectWithoutTagsInput[]
+  upsert?: Prisma.posts_to_tagsUpsertWithWhereUniqueWithoutTagsInput | Prisma.posts_to_tagsUpsertWithWhereUniqueWithoutTagsInput[]
+  createMany?: Prisma.posts_to_tagsCreateManyTagsInputEnvelope
   set?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
   disconnect?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
   delete?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
   connect?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
-  update?: Prisma.posts_to_tagsUpdateWithWhereUniqueWithoutTagInput | Prisma.posts_to_tagsUpdateWithWhereUniqueWithoutTagInput[]
-  updateMany?: Prisma.posts_to_tagsUpdateManyWithWhereWithoutTagInput | Prisma.posts_to_tagsUpdateManyWithWhereWithoutTagInput[]
+  update?: Prisma.posts_to_tagsUpdateWithWhereUniqueWithoutTagsInput | Prisma.posts_to_tagsUpdateWithWhereUniqueWithoutTagsInput[]
+  updateMany?: Prisma.posts_to_tagsUpdateManyWithWhereWithoutTagsInput | Prisma.posts_to_tagsUpdateManyWithWhereWithoutTagsInput[]
   deleteMany?: Prisma.posts_to_tagsScalarWhereInput | Prisma.posts_to_tagsScalarWhereInput[]
 }
 
-export type posts_to_tagsUncheckedUpdateManyWithoutTagNestedInput = {
-  create?: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagInput> | Prisma.posts_to_tagsCreateWithoutTagInput[] | Prisma.posts_to_tagsUncheckedCreateWithoutTagInput[]
-  connectOrCreate?: Prisma.posts_to_tagsCreateOrConnectWithoutTagInput | Prisma.posts_to_tagsCreateOrConnectWithoutTagInput[]
-  upsert?: Prisma.posts_to_tagsUpsertWithWhereUniqueWithoutTagInput | Prisma.posts_to_tagsUpsertWithWhereUniqueWithoutTagInput[]
-  createMany?: Prisma.posts_to_tagsCreateManyTagInputEnvelope
+export type posts_to_tagsUncheckedUpdateManyWithoutTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagsInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput> | Prisma.posts_to_tagsCreateWithoutTagsInput[] | Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput[]
+  connectOrCreate?: Prisma.posts_to_tagsCreateOrConnectWithoutTagsInput | Prisma.posts_to_tagsCreateOrConnectWithoutTagsInput[]
+  upsert?: Prisma.posts_to_tagsUpsertWithWhereUniqueWithoutTagsInput | Prisma.posts_to_tagsUpsertWithWhereUniqueWithoutTagsInput[]
+  createMany?: Prisma.posts_to_tagsCreateManyTagsInputEnvelope
   set?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
   disconnect?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
   delete?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
   connect?: Prisma.posts_to_tagsWhereUniqueInput | Prisma.posts_to_tagsWhereUniqueInput[]
-  update?: Prisma.posts_to_tagsUpdateWithWhereUniqueWithoutTagInput | Prisma.posts_to_tagsUpdateWithWhereUniqueWithoutTagInput[]
-  updateMany?: Prisma.posts_to_tagsUpdateManyWithWhereWithoutTagInput | Prisma.posts_to_tagsUpdateManyWithWhereWithoutTagInput[]
+  update?: Prisma.posts_to_tagsUpdateWithWhereUniqueWithoutTagsInput | Prisma.posts_to_tagsUpdateWithWhereUniqueWithoutTagsInput[]
+  updateMany?: Prisma.posts_to_tagsUpdateManyWithWhereWithoutTagsInput | Prisma.posts_to_tagsUpdateManyWithWhereWithoutTagsInput[]
   deleteMany?: Prisma.posts_to_tagsScalarWhereInput | Prisma.posts_to_tagsScalarWhereInput[]
 }
 
 export type posts_to_tagsCreateWithoutPostsInput = {
-  tag: Prisma.tagsCreateNestedOneWithoutPosts_to_tagsInput
+  tags: Prisma.tagsCreateNestedOneWithoutPosts_to_tagsInput
 }
 
 export type posts_to_tagsUncheckedCreateWithoutPostsInput = {
@@ -438,38 +430,38 @@ export type posts_to_tagsScalarWhereInput = {
   tag_id?: Prisma.IntFilter<"posts_to_tags"> | number
 }
 
-export type posts_to_tagsCreateWithoutTagInput = {
-  posts: Prisma.postsCreateNestedOneWithoutTagsInput
+export type posts_to_tagsCreateWithoutTagsInput = {
+  posts: Prisma.postsCreateNestedOneWithoutPosts_to_tagsInput
 }
 
-export type posts_to_tagsUncheckedCreateWithoutTagInput = {
+export type posts_to_tagsUncheckedCreateWithoutTagsInput = {
   post_id: string
 }
 
-export type posts_to_tagsCreateOrConnectWithoutTagInput = {
+export type posts_to_tagsCreateOrConnectWithoutTagsInput = {
   where: Prisma.posts_to_tagsWhereUniqueInput
-  create: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagInput>
+  create: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagsInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput>
 }
 
-export type posts_to_tagsCreateManyTagInputEnvelope = {
-  data: Prisma.posts_to_tagsCreateManyTagInput | Prisma.posts_to_tagsCreateManyTagInput[]
+export type posts_to_tagsCreateManyTagsInputEnvelope = {
+  data: Prisma.posts_to_tagsCreateManyTagsInput | Prisma.posts_to_tagsCreateManyTagsInput[]
   skipDuplicates?: boolean
 }
 
-export type posts_to_tagsUpsertWithWhereUniqueWithoutTagInput = {
+export type posts_to_tagsUpsertWithWhereUniqueWithoutTagsInput = {
   where: Prisma.posts_to_tagsWhereUniqueInput
-  update: Prisma.XOR<Prisma.posts_to_tagsUpdateWithoutTagInput, Prisma.posts_to_tagsUncheckedUpdateWithoutTagInput>
-  create: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagInput>
+  update: Prisma.XOR<Prisma.posts_to_tagsUpdateWithoutTagsInput, Prisma.posts_to_tagsUncheckedUpdateWithoutTagsInput>
+  create: Prisma.XOR<Prisma.posts_to_tagsCreateWithoutTagsInput, Prisma.posts_to_tagsUncheckedCreateWithoutTagsInput>
 }
 
-export type posts_to_tagsUpdateWithWhereUniqueWithoutTagInput = {
+export type posts_to_tagsUpdateWithWhereUniqueWithoutTagsInput = {
   where: Prisma.posts_to_tagsWhereUniqueInput
-  data: Prisma.XOR<Prisma.posts_to_tagsUpdateWithoutTagInput, Prisma.posts_to_tagsUncheckedUpdateWithoutTagInput>
+  data: Prisma.XOR<Prisma.posts_to_tagsUpdateWithoutTagsInput, Prisma.posts_to_tagsUncheckedUpdateWithoutTagsInput>
 }
 
-export type posts_to_tagsUpdateManyWithWhereWithoutTagInput = {
+export type posts_to_tagsUpdateManyWithWhereWithoutTagsInput = {
   where: Prisma.posts_to_tagsScalarWhereInput
-  data: Prisma.XOR<Prisma.posts_to_tagsUpdateManyMutationInput, Prisma.posts_to_tagsUncheckedUpdateManyWithoutTagInput>
+  data: Prisma.XOR<Prisma.posts_to_tagsUpdateManyMutationInput, Prisma.posts_to_tagsUncheckedUpdateManyWithoutTagsInput>
 }
 
 export type posts_to_tagsCreateManyPostsInput = {
@@ -477,7 +469,7 @@ export type posts_to_tagsCreateManyPostsInput = {
 }
 
 export type posts_to_tagsUpdateWithoutPostsInput = {
-  tag?: Prisma.tagsUpdateOneRequiredWithoutPosts_to_tagsNestedInput
+  tags?: Prisma.tagsUpdateOneRequiredWithoutPosts_to_tagsNestedInput
 }
 
 export type posts_to_tagsUncheckedUpdateWithoutPostsInput = {
@@ -488,19 +480,19 @@ export type posts_to_tagsUncheckedUpdateManyWithoutPostsInput = {
   tag_id?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
-export type posts_to_tagsCreateManyTagInput = {
+export type posts_to_tagsCreateManyTagsInput = {
   post_id: string
 }
 
-export type posts_to_tagsUpdateWithoutTagInput = {
-  posts?: Prisma.postsUpdateOneRequiredWithoutTagsNestedInput
+export type posts_to_tagsUpdateWithoutTagsInput = {
+  posts?: Prisma.postsUpdateOneRequiredWithoutPosts_to_tagsNestedInput
 }
 
-export type posts_to_tagsUncheckedUpdateWithoutTagInput = {
+export type posts_to_tagsUncheckedUpdateWithoutTagsInput = {
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
-export type posts_to_tagsUncheckedUpdateManyWithoutTagInput = {
+export type posts_to_tagsUncheckedUpdateManyWithoutTagsInput = {
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -510,21 +502,21 @@ export type posts_to_tagsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   post_id?: boolean
   tag_id?: boolean
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
-  tag?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
+  tags?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts_to_tags"]>
 
 export type posts_to_tagsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   post_id?: boolean
   tag_id?: boolean
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
-  tag?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
+  tags?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts_to_tags"]>
 
 export type posts_to_tagsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   post_id?: boolean
   tag_id?: boolean
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
-  tag?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
+  tags?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts_to_tags"]>
 
 export type posts_to_tagsSelectScalar = {
@@ -535,22 +527,22 @@ export type posts_to_tagsSelectScalar = {
 export type posts_to_tagsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"post_id" | "tag_id", ExtArgs["result"]["posts_to_tags"]>
 export type posts_to_tagsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
-  tag?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
+  tags?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
 }
 export type posts_to_tagsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
-  tag?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
+  tags?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
 }
 export type posts_to_tagsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
-  tag?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
+  tags?: boolean | Prisma.tagsDefaultArgs<ExtArgs>
 }
 
 export type $posts_to_tagsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "posts_to_tags"
   objects: {
     posts: Prisma.$postsPayload<ExtArgs>
-    tag: Prisma.$tagsPayload<ExtArgs>
+    tags: Prisma.$tagsPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     post_id: string
@@ -950,7 +942,7 @@ readonly fields: posts_to_tagsFieldRefs;
 export interface Prisma__posts_to_tagsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   posts<T extends Prisma.postsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.postsDefaultArgs<ExtArgs>>): Prisma.Prisma__postsClient<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  tag<T extends Prisma.tagsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tagsDefaultArgs<ExtArgs>>): Prisma.Prisma__tagsClient<runtime.Types.Result.GetResult<Prisma.$tagsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tags<T extends Prisma.tagsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.tagsDefaultArgs<ExtArgs>>): Prisma.Prisma__tagsClient<runtime.Types.Result.GetResult<Prisma.$tagsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
