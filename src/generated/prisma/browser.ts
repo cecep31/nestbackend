@@ -18,46 +18,6 @@ export { Prisma }
 export * as $Enums from './enums.js'
 export * from './enums.js';
 /**
- * Model post_comments
- * 
- */
-export type post_comments = Prisma.post_commentsModel
-/**
- * Model posts
- * 
- */
-export type posts = Prisma.postsModel
-/**
- * Model users
- * 
- */
-export type users = Prisma.usersModel
-/**
- * Model posts_to_tags
- * 
- */
-export type posts_to_tags = Prisma.posts_to_tagsModel
-/**
- * Model tags
- * 
- */
-export type tags = Prisma.tagsModel
-/**
- * Model files
- * 
- */
-export type files = Prisma.filesModel
-/**
- * Model likes
- * 
- */
-export type likes = Prisma.likesModel
-/**
- * Model profiles
- * 
- */
-export type profiles = Prisma.profilesModel
-/**
  * Model chat_conversations
  * 
  */
@@ -68,10 +28,40 @@ export type chat_conversations = Prisma.chat_conversationsModel
  */
 export type chat_messages = Prisma.chat_messagesModel
 /**
- * Model user_follows
+ * Model files
  * 
  */
-export type user_follows = Prisma.user_followsModel
+export type files = Prisma.filesModel
+/**
+ * Model holding_types
+ * 
+ */
+export type holding_types = Prisma.holding_typesModel
+/**
+ * Model holdings
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ */
+export type holdings = Prisma.holdingsModel
+/**
+ * Model notifications
+ * 
+ */
+export type notifications = Prisma.notificationsModel
+/**
+ * Model password_reset_tokens
+ * 
+ */
+export type password_reset_tokens = Prisma.password_reset_tokensModel
+/**
+ * Model post_bookmarks
+ * 
+ */
+export type post_bookmarks = Prisma.post_bookmarksModel
+/**
+ * Model post_comments
+ * 
+ */
+export type post_comments = Prisma.post_commentsModel
 /**
  * Model post_likes
  * 
@@ -83,22 +73,37 @@ export type post_likes = Prisma.post_likesModel
  */
 export type post_views = Prisma.post_viewsModel
 /**
- * Model post_bookmarks
+ * Model posts
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ */
+export type posts = Prisma.postsModel
+/**
+ * Model posts_to_tags
  * 
  */
-export type post_bookmarks = Prisma.post_bookmarksModel
+export type posts_to_tags = Prisma.posts_to_tagsModel
+/**
+ * Model profiles
+ * 
+ */
+export type profiles = Prisma.profilesModel
 /**
  * Model sessions
  * 
  */
 export type sessions = Prisma.sessionsModel
 /**
- * Model holding_types
+ * Model tags
  * 
  */
-export type holding_types = Prisma.holding_typesModel
+export type tags = Prisma.tagsModel
 /**
- * Model holdings
+ * Model user_follows
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+ */
+export type user_follows = Prisma.user_followsModel
+/**
+ * Model users
  * 
  */
-export type holdings = Prisma.holdingsModel
+export type users = Prisma.usersModel

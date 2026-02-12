@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model holdings
- * 
+ * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
  */
 export type holdingsModel = runtime.Types.Result.DefaultSelection<Prisma.$holdingsPayload>
 
@@ -64,10 +64,10 @@ export type HoldingsMinAggregateOutputType = {
   current_price: runtime.Decimal | null
   last_updated: Date | null
   notes: string | null
-  month: number | null
-  year: number | null
   created_at: Date | null
   updated_at: Date | null
+  month: number | null
+  year: number | null
 }
 
 export type HoldingsMaxAggregateOutputType = {
@@ -84,10 +84,10 @@ export type HoldingsMaxAggregateOutputType = {
   current_price: runtime.Decimal | null
   last_updated: Date | null
   notes: string | null
-  month: number | null
-  year: number | null
   created_at: Date | null
   updated_at: Date | null
+  month: number | null
+  year: number | null
 }
 
 export type HoldingsCountAggregateOutputType = {
@@ -104,10 +104,10 @@ export type HoldingsCountAggregateOutputType = {
   current_price: number
   last_updated: number
   notes: number
-  month: number
-  year: number
   created_at: number
   updated_at: number
+  month: number
+  year: number
   _all: number
 }
 
@@ -150,10 +150,10 @@ export type HoldingsMinAggregateInputType = {
   current_price?: true
   last_updated?: true
   notes?: true
-  month?: true
-  year?: true
   created_at?: true
   updated_at?: true
+  month?: true
+  year?: true
 }
 
 export type HoldingsMaxAggregateInputType = {
@@ -170,10 +170,10 @@ export type HoldingsMaxAggregateInputType = {
   current_price?: true
   last_updated?: true
   notes?: true
-  month?: true
-  year?: true
   created_at?: true
   updated_at?: true
+  month?: true
+  year?: true
 }
 
 export type HoldingsCountAggregateInputType = {
@@ -190,10 +190,10 @@ export type HoldingsCountAggregateInputType = {
   current_price?: true
   last_updated?: true
   notes?: true
-  month?: true
-  year?: true
   created_at?: true
   updated_at?: true
+  month?: true
+  year?: true
   _all?: true
 }
 
@@ -297,10 +297,10 @@ export type HoldingsGroupByOutputType = {
   current_price: runtime.Decimal | null
   last_updated: Date | null
   notes: string | null
-  month: number
-  year: number
   created_at: Date
   updated_at: Date
+  month: number
+  year: number
   _count: HoldingsCountAggregateOutputType | null
   _avg: HoldingsAvgAggregateOutputType | null
   _sum: HoldingsSumAggregateOutputType | null
@@ -340,10 +340,10 @@ export type holdingsWhereInput = {
   current_price?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.DateTimeNullableFilter<"holdings"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"holdings"> | string | null
-  month?: Prisma.IntFilter<"holdings"> | number
-  year?: Prisma.IntFilter<"holdings"> | number
   created_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
+  month?: Prisma.IntFilter<"holdings"> | number
+  year?: Prisma.IntFilter<"holdings"> | number
   holding_types?: Prisma.XOR<Prisma.Holding_typesScalarRelationFilter, Prisma.holding_typesWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }
@@ -362,17 +362,16 @@ export type holdingsOrderByWithRelationInput = {
   current_price?: Prisma.SortOrderInput | Prisma.SortOrder
   last_updated?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  month?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
   holding_types?: Prisma.holding_typesOrderByWithRelationInput
   users?: Prisma.usersOrderByWithRelationInput
 }
 
 export type holdingsWhereUniqueInput = Prisma.AtLeast<{
   id?: bigint | number
-  user_id_platform_name_currency?: Prisma.holdingsUser_idPlatformNameCurrencyCompoundUniqueInput
   AND?: Prisma.holdingsWhereInput | Prisma.holdingsWhereInput[]
   OR?: Prisma.holdingsWhereInput[]
   NOT?: Prisma.holdingsWhereInput | Prisma.holdingsWhereInput[]
@@ -388,13 +387,13 @@ export type holdingsWhereUniqueInput = Prisma.AtLeast<{
   current_price?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.DateTimeNullableFilter<"holdings"> | Date | string | null
   notes?: Prisma.StringNullableFilter<"holdings"> | string | null
-  month?: Prisma.IntFilter<"holdings"> | number
-  year?: Prisma.IntFilter<"holdings"> | number
   created_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
+  month?: Prisma.IntFilter<"holdings"> | number
+  year?: Prisma.IntFilter<"holdings"> | number
   holding_types?: Prisma.XOR<Prisma.Holding_typesScalarRelationFilter, Prisma.holding_typesWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-}, "id" | "user_id_platform_name_currency">
+}, "id">
 
 export type holdingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -410,10 +409,10 @@ export type holdingsOrderByWithAggregationInput = {
   current_price?: Prisma.SortOrderInput | Prisma.SortOrder
   last_updated?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  month?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
   _count?: Prisma.holdingsCountOrderByAggregateInput
   _avg?: Prisma.holdingsAvgOrderByAggregateInput
   _max?: Prisma.holdingsMaxOrderByAggregateInput
@@ -438,10 +437,10 @@ export type holdingsScalarWhereWithAggregatesInput = {
   current_price?: Prisma.DecimalNullableWithAggregatesFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.DateTimeNullableWithAggregatesFilter<"holdings"> | Date | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"holdings"> | string | null
-  month?: Prisma.IntWithAggregatesFilter<"holdings"> | number
-  year?: Prisma.IntWithAggregatesFilter<"holdings"> | number
   created_at?: Prisma.DateTimeWithAggregatesFilter<"holdings"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"holdings"> | Date | string
+  month?: Prisma.IntWithAggregatesFilter<"holdings"> | number
+  year?: Prisma.IntWithAggregatesFilter<"holdings"> | number
 }
 
 export type holdingsCreateInput = {
@@ -456,10 +455,10 @@ export type holdingsCreateInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
-  month: number
-  year: number
   created_at?: Date | string
   updated_at?: Date | string
+  month?: number
+  year?: number
   holding_types: Prisma.holding_typesCreateNestedOneWithoutHoldingsInput
   users: Prisma.usersCreateNestedOneWithoutHoldingsInput
 }
@@ -478,10 +477,10 @@ export type holdingsUncheckedCreateInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
-  month: number
-  year: number
   created_at?: Date | string
   updated_at?: Date | string
+  month?: number
+  year?: number
 }
 
 export type holdingsUpdateInput = {
@@ -496,10 +495,10 @@ export type holdingsUpdateInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   holding_types?: Prisma.holding_typesUpdateOneRequiredWithoutHoldingsNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutHoldingsNestedInput
 }
@@ -518,10 +517,10 @@ export type holdingsUncheckedUpdateInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type holdingsCreateManyInput = {
@@ -538,10 +537,10 @@ export type holdingsCreateManyInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
-  month: number
-  year: number
   created_at?: Date | string
   updated_at?: Date | string
+  month?: number
+  year?: number
 }
 
 export type holdingsUpdateManyMutationInput = {
@@ -556,10 +555,10 @@ export type holdingsUpdateManyMutationInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type holdingsUncheckedUpdateManyInput = {
@@ -576,10 +575,10 @@ export type holdingsUncheckedUpdateManyInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type HoldingsListRelationFilter = {
@@ -590,13 +589,6 @@ export type HoldingsListRelationFilter = {
 
 export type holdingsOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type holdingsUser_idPlatformNameCurrencyCompoundUniqueInput = {
-  user_id: string
-  platform: string
-  name: string
-  currency: string
 }
 
 export type holdingsCountOrderByAggregateInput = {
@@ -613,10 +605,10 @@ export type holdingsCountOrderByAggregateInput = {
   current_price?: Prisma.SortOrder
   last_updated?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  month?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
 }
 
 export type holdingsAvgOrderByAggregateInput = {
@@ -645,10 +637,10 @@ export type holdingsMaxOrderByAggregateInput = {
   current_price?: Prisma.SortOrder
   last_updated?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  month?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
 }
 
 export type holdingsMinOrderByAggregateInput = {
@@ -665,10 +657,10 @@ export type holdingsMinOrderByAggregateInput = {
   current_price?: Prisma.SortOrder
   last_updated?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  month?: Prisma.SortOrder
-  year?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
+  month?: Prisma.SortOrder
+  year?: Prisma.SortOrder
 }
 
 export type holdingsSumOrderByAggregateInput = {
@@ -681,48 +673,6 @@ export type holdingsSumOrderByAggregateInput = {
   current_price?: Prisma.SortOrder
   month?: Prisma.SortOrder
   year?: Prisma.SortOrder
-}
-
-export type holdingsCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput> | Prisma.holdingsCreateWithoutUsersInput[] | Prisma.holdingsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.holdingsCreateOrConnectWithoutUsersInput | Prisma.holdingsCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.holdingsCreateManyUsersInputEnvelope
-  connect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-}
-
-export type holdingsUncheckedCreateNestedManyWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput> | Prisma.holdingsCreateWithoutUsersInput[] | Prisma.holdingsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.holdingsCreateOrConnectWithoutUsersInput | Prisma.holdingsCreateOrConnectWithoutUsersInput[]
-  createMany?: Prisma.holdingsCreateManyUsersInputEnvelope
-  connect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-}
-
-export type holdingsUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput> | Prisma.holdingsCreateWithoutUsersInput[] | Prisma.holdingsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.holdingsCreateOrConnectWithoutUsersInput | Prisma.holdingsCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.holdingsUpsertWithWhereUniqueWithoutUsersInput | Prisma.holdingsUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.holdingsCreateManyUsersInputEnvelope
-  set?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-  disconnect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-  delete?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-  connect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-  update?: Prisma.holdingsUpdateWithWhereUniqueWithoutUsersInput | Prisma.holdingsUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.holdingsUpdateManyWithWhereWithoutUsersInput | Prisma.holdingsUpdateManyWithWhereWithoutUsersInput[]
-  deleteMany?: Prisma.holdingsScalarWhereInput | Prisma.holdingsScalarWhereInput[]
-}
-
-export type holdingsUncheckedUpdateManyWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput> | Prisma.holdingsCreateWithoutUsersInput[] | Prisma.holdingsUncheckedCreateWithoutUsersInput[]
-  connectOrCreate?: Prisma.holdingsCreateOrConnectWithoutUsersInput | Prisma.holdingsCreateOrConnectWithoutUsersInput[]
-  upsert?: Prisma.holdingsUpsertWithWhereUniqueWithoutUsersInput | Prisma.holdingsUpsertWithWhereUniqueWithoutUsersInput[]
-  createMany?: Prisma.holdingsCreateManyUsersInputEnvelope
-  set?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-  disconnect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-  delete?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-  connect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
-  update?: Prisma.holdingsUpdateWithWhereUniqueWithoutUsersInput | Prisma.holdingsUpdateWithWhereUniqueWithoutUsersInput[]
-  updateMany?: Prisma.holdingsUpdateManyWithWhereWithoutUsersInput | Prisma.holdingsUpdateManyWithWhereWithoutUsersInput[]
-  deleteMany?: Prisma.holdingsScalarWhereInput | Prisma.holdingsScalarWhereInput[]
 }
 
 export type holdingsCreateNestedManyWithoutHolding_typesInput = {
@@ -791,91 +741,46 @@ export type NullableDecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type holdingsCreateWithoutUsersInput = {
-  id?: bigint | number
-  name: string
-  platform: string
-  currency: string
-  invested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  current_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  units?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  avg_buy_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  last_updated?: Date | string | null
-  notes?: string | null
-  month: number
-  year: number
-  created_at?: Date | string
-  updated_at?: Date | string
-  holding_types: Prisma.holding_typesCreateNestedOneWithoutHoldingsInput
+export type holdingsCreateNestedManyWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput> | Prisma.holdingsCreateWithoutUsersInput[] | Prisma.holdingsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.holdingsCreateOrConnectWithoutUsersInput | Prisma.holdingsCreateOrConnectWithoutUsersInput[]
+  createMany?: Prisma.holdingsCreateManyUsersInputEnvelope
+  connect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
 }
 
-export type holdingsUncheckedCreateWithoutUsersInput = {
-  id?: bigint | number
-  name: string
-  platform: string
-  holding_type_id: number
-  currency: string
-  invested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  current_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  units?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  avg_buy_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  last_updated?: Date | string | null
-  notes?: string | null
-  month: number
-  year: number
-  created_at?: Date | string
-  updated_at?: Date | string
+export type holdingsUncheckedCreateNestedManyWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput> | Prisma.holdingsCreateWithoutUsersInput[] | Prisma.holdingsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.holdingsCreateOrConnectWithoutUsersInput | Prisma.holdingsCreateOrConnectWithoutUsersInput[]
+  createMany?: Prisma.holdingsCreateManyUsersInputEnvelope
+  connect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
 }
 
-export type holdingsCreateOrConnectWithoutUsersInput = {
-  where: Prisma.holdingsWhereUniqueInput
-  create: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput>
+export type holdingsUpdateManyWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput> | Prisma.holdingsCreateWithoutUsersInput[] | Prisma.holdingsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.holdingsCreateOrConnectWithoutUsersInput | Prisma.holdingsCreateOrConnectWithoutUsersInput[]
+  upsert?: Prisma.holdingsUpsertWithWhereUniqueWithoutUsersInput | Prisma.holdingsUpsertWithWhereUniqueWithoutUsersInput[]
+  createMany?: Prisma.holdingsCreateManyUsersInputEnvelope
+  set?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
+  disconnect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
+  delete?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
+  connect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
+  update?: Prisma.holdingsUpdateWithWhereUniqueWithoutUsersInput | Prisma.holdingsUpdateWithWhereUniqueWithoutUsersInput[]
+  updateMany?: Prisma.holdingsUpdateManyWithWhereWithoutUsersInput | Prisma.holdingsUpdateManyWithWhereWithoutUsersInput[]
+  deleteMany?: Prisma.holdingsScalarWhereInput | Prisma.holdingsScalarWhereInput[]
 }
 
-export type holdingsCreateManyUsersInputEnvelope = {
-  data: Prisma.holdingsCreateManyUsersInput | Prisma.holdingsCreateManyUsersInput[]
-  skipDuplicates?: boolean
-}
-
-export type holdingsUpsertWithWhereUniqueWithoutUsersInput = {
-  where: Prisma.holdingsWhereUniqueInput
-  update: Prisma.XOR<Prisma.holdingsUpdateWithoutUsersInput, Prisma.holdingsUncheckedUpdateWithoutUsersInput>
-  create: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput>
-}
-
-export type holdingsUpdateWithWhereUniqueWithoutUsersInput = {
-  where: Prisma.holdingsWhereUniqueInput
-  data: Prisma.XOR<Prisma.holdingsUpdateWithoutUsersInput, Prisma.holdingsUncheckedUpdateWithoutUsersInput>
-}
-
-export type holdingsUpdateManyWithWhereWithoutUsersInput = {
-  where: Prisma.holdingsScalarWhereInput
-  data: Prisma.XOR<Prisma.holdingsUpdateManyMutationInput, Prisma.holdingsUncheckedUpdateManyWithoutUsersInput>
-}
-
-export type holdingsScalarWhereInput = {
-  AND?: Prisma.holdingsScalarWhereInput | Prisma.holdingsScalarWhereInput[]
-  OR?: Prisma.holdingsScalarWhereInput[]
-  NOT?: Prisma.holdingsScalarWhereInput | Prisma.holdingsScalarWhereInput[]
-  id?: Prisma.BigIntFilter<"holdings"> | bigint | number
-  user_id?: Prisma.UuidFilter<"holdings"> | string
-  name?: Prisma.StringFilter<"holdings"> | string
-  platform?: Prisma.StringFilter<"holdings"> | string
-  holding_type_id?: Prisma.IntFilter<"holdings"> | number
-  currency?: Prisma.StringFilter<"holdings"> | string
-  invested_amount?: Prisma.DecimalFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  current_value?: Prisma.DecimalFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  units?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  avg_buy_price?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  current_price?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  last_updated?: Prisma.DateTimeNullableFilter<"holdings"> | Date | string | null
-  notes?: Prisma.StringNullableFilter<"holdings"> | string | null
-  month?: Prisma.IntFilter<"holdings"> | number
-  year?: Prisma.IntFilter<"holdings"> | number
-  created_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
-  updated_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
+export type holdingsUncheckedUpdateManyWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput> | Prisma.holdingsCreateWithoutUsersInput[] | Prisma.holdingsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.holdingsCreateOrConnectWithoutUsersInput | Prisma.holdingsCreateOrConnectWithoutUsersInput[]
+  upsert?: Prisma.holdingsUpsertWithWhereUniqueWithoutUsersInput | Prisma.holdingsUpsertWithWhereUniqueWithoutUsersInput[]
+  createMany?: Prisma.holdingsCreateManyUsersInputEnvelope
+  set?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
+  disconnect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
+  delete?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
+  connect?: Prisma.holdingsWhereUniqueInput | Prisma.holdingsWhereUniqueInput[]
+  update?: Prisma.holdingsUpdateWithWhereUniqueWithoutUsersInput | Prisma.holdingsUpdateWithWhereUniqueWithoutUsersInput[]
+  updateMany?: Prisma.holdingsUpdateManyWithWhereWithoutUsersInput | Prisma.holdingsUpdateManyWithWhereWithoutUsersInput[]
+  deleteMany?: Prisma.holdingsScalarWhereInput | Prisma.holdingsScalarWhereInput[]
 }
 
 export type holdingsCreateWithoutHolding_typesInput = {
@@ -890,10 +795,10 @@ export type holdingsCreateWithoutHolding_typesInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
-  month: number
-  year: number
   created_at?: Date | string
   updated_at?: Date | string
+  month?: number
+  year?: number
   users: Prisma.usersCreateNestedOneWithoutHoldingsInput
 }
 
@@ -910,10 +815,10 @@ export type holdingsUncheckedCreateWithoutHolding_typesInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
-  month: number
-  year: number
   created_at?: Date | string
   updated_at?: Date | string
+  month?: number
+  year?: number
 }
 
 export type holdingsCreateOrConnectWithoutHolding_typesInput = {
@@ -942,7 +847,49 @@ export type holdingsUpdateManyWithWhereWithoutHolding_typesInput = {
   data: Prisma.XOR<Prisma.holdingsUpdateManyMutationInput, Prisma.holdingsUncheckedUpdateManyWithoutHolding_typesInput>
 }
 
-export type holdingsCreateManyUsersInput = {
+export type holdingsScalarWhereInput = {
+  AND?: Prisma.holdingsScalarWhereInput | Prisma.holdingsScalarWhereInput[]
+  OR?: Prisma.holdingsScalarWhereInput[]
+  NOT?: Prisma.holdingsScalarWhereInput | Prisma.holdingsScalarWhereInput[]
+  id?: Prisma.BigIntFilter<"holdings"> | bigint | number
+  user_id?: Prisma.UuidFilter<"holdings"> | string
+  name?: Prisma.StringFilter<"holdings"> | string
+  platform?: Prisma.StringFilter<"holdings"> | string
+  holding_type_id?: Prisma.IntFilter<"holdings"> | number
+  currency?: Prisma.StringFilter<"holdings"> | string
+  invested_amount?: Prisma.DecimalFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  current_value?: Prisma.DecimalFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  units?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_buy_price?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  current_price?: Prisma.DecimalNullableFilter<"holdings"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  last_updated?: Prisma.DateTimeNullableFilter<"holdings"> | Date | string | null
+  notes?: Prisma.StringNullableFilter<"holdings"> | string | null
+  created_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
+  updated_at?: Prisma.DateTimeFilter<"holdings"> | Date | string
+  month?: Prisma.IntFilter<"holdings"> | number
+  year?: Prisma.IntFilter<"holdings"> | number
+}
+
+export type holdingsCreateWithoutUsersInput = {
+  id?: bigint | number
+  name: string
+  platform: string
+  currency: string
+  invested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  current_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  units?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_buy_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  last_updated?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  month?: number
+  year?: number
+  holding_types: Prisma.holding_typesCreateNestedOneWithoutHoldingsInput
+}
+
+export type holdingsUncheckedCreateWithoutUsersInput = {
   id?: bigint | number
   name: string
   platform: string
@@ -955,67 +902,36 @@ export type holdingsCreateManyUsersInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
-  month: number
-  year: number
   created_at?: Date | string
   updated_at?: Date | string
+  month?: number
+  year?: number
 }
 
-export type holdingsUpdateWithoutUsersInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  platform?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  invested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  current_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  units?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  avg_buy_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  holding_types?: Prisma.holding_typesUpdateOneRequiredWithoutHoldingsNestedInput
+export type holdingsCreateOrConnectWithoutUsersInput = {
+  where: Prisma.holdingsWhereUniqueInput
+  create: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput>
 }
 
-export type holdingsUncheckedUpdateWithoutUsersInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  platform?: Prisma.StringFieldUpdateOperationsInput | string
-  holding_type_id?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  invested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  current_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  units?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  avg_buy_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type holdingsCreateManyUsersInputEnvelope = {
+  data: Prisma.holdingsCreateManyUsersInput | Prisma.holdingsCreateManyUsersInput[]
+  skipDuplicates?: boolean
 }
 
-export type holdingsUncheckedUpdateManyWithoutUsersInput = {
-  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  platform?: Prisma.StringFieldUpdateOperationsInput | string
-  holding_type_id?: Prisma.IntFieldUpdateOperationsInput | number
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
-  invested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  current_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  units?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  avg_buy_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+export type holdingsUpsertWithWhereUniqueWithoutUsersInput = {
+  where: Prisma.holdingsWhereUniqueInput
+  update: Prisma.XOR<Prisma.holdingsUpdateWithoutUsersInput, Prisma.holdingsUncheckedUpdateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.holdingsCreateWithoutUsersInput, Prisma.holdingsUncheckedCreateWithoutUsersInput>
+}
+
+export type holdingsUpdateWithWhereUniqueWithoutUsersInput = {
+  where: Prisma.holdingsWhereUniqueInput
+  data: Prisma.XOR<Prisma.holdingsUpdateWithoutUsersInput, Prisma.holdingsUncheckedUpdateWithoutUsersInput>
+}
+
+export type holdingsUpdateManyWithWhereWithoutUsersInput = {
+  where: Prisma.holdingsScalarWhereInput
+  data: Prisma.XOR<Prisma.holdingsUpdateManyMutationInput, Prisma.holdingsUncheckedUpdateManyWithoutUsersInput>
 }
 
 export type holdingsCreateManyHolding_typesInput = {
@@ -1031,10 +947,10 @@ export type holdingsCreateManyHolding_typesInput = {
   current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Date | string | null
   notes?: string | null
-  month: number
-  year: number
   created_at?: Date | string
   updated_at?: Date | string
+  month?: number
+  year?: number
 }
 
 export type holdingsUpdateWithoutHolding_typesInput = {
@@ -1049,10 +965,10 @@ export type holdingsUpdateWithoutHolding_typesInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
   users?: Prisma.usersUpdateOneRequiredWithoutHoldingsNestedInput
 }
 
@@ -1069,10 +985,10 @@ export type holdingsUncheckedUpdateWithoutHolding_typesInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type holdingsUncheckedUpdateManyWithoutHolding_typesInput = {
@@ -1088,10 +1004,86 @@ export type holdingsUncheckedUpdateManyWithoutHolding_typesInput = {
   current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  month?: Prisma.IntFieldUpdateOperationsInput | number
-  year?: Prisma.IntFieldUpdateOperationsInput | number
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type holdingsCreateManyUsersInput = {
+  id?: bigint | number
+  name: string
+  platform: string
+  holding_type_id: number
+  currency: string
+  invested_amount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  current_value?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  units?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_buy_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  current_price?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  last_updated?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  month?: number
+  year?: number
+}
+
+export type holdingsUpdateWithoutUsersInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  platform?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  invested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  current_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  units?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_buy_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  holding_types?: Prisma.holding_typesUpdateOneRequiredWithoutHoldingsNestedInput
+}
+
+export type holdingsUncheckedUpdateWithoutUsersInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  platform?: Prisma.StringFieldUpdateOperationsInput | string
+  holding_type_id?: Prisma.IntFieldUpdateOperationsInput | number
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  invested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  current_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  units?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_buy_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type holdingsUncheckedUpdateManyWithoutUsersInput = {
+  id?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  platform?: Prisma.StringFieldUpdateOperationsInput | string
+  holding_type_id?: Prisma.IntFieldUpdateOperationsInput | number
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  invested_amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  current_value?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  units?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  avg_buy_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  current_price?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  last_updated?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  month?: Prisma.IntFieldUpdateOperationsInput | number
+  year?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -1110,10 +1102,10 @@ export type holdingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   current_price?: boolean
   last_updated?: boolean
   notes?: boolean
-  month?: boolean
-  year?: boolean
   created_at?: boolean
   updated_at?: boolean
+  month?: boolean
+  year?: boolean
   holding_types?: boolean | Prisma.holding_typesDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["holdings"]>
@@ -1132,10 +1124,10 @@ export type holdingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   current_price?: boolean
   last_updated?: boolean
   notes?: boolean
-  month?: boolean
-  year?: boolean
   created_at?: boolean
   updated_at?: boolean
+  month?: boolean
+  year?: boolean
   holding_types?: boolean | Prisma.holding_typesDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["holdings"]>
@@ -1154,10 +1146,10 @@ export type holdingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   current_price?: boolean
   last_updated?: boolean
   notes?: boolean
-  month?: boolean
-  year?: boolean
   created_at?: boolean
   updated_at?: boolean
+  month?: boolean
+  year?: boolean
   holding_types?: boolean | Prisma.holding_typesDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["holdings"]>
@@ -1176,13 +1168,13 @@ export type holdingsSelectScalar = {
   current_price?: boolean
   last_updated?: boolean
   notes?: boolean
-  month?: boolean
-  year?: boolean
   created_at?: boolean
   updated_at?: boolean
+  month?: boolean
+  year?: boolean
 }
 
-export type holdingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "name" | "platform" | "holding_type_id" | "currency" | "invested_amount" | "current_value" | "units" | "avg_buy_price" | "current_price" | "last_updated" | "notes" | "month" | "year" | "created_at" | "updated_at", ExtArgs["result"]["holdings"]>
+export type holdingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "name" | "platform" | "holding_type_id" | "currency" | "invested_amount" | "current_value" | "units" | "avg_buy_price" | "current_price" | "last_updated" | "notes" | "created_at" | "updated_at" | "month" | "year", ExtArgs["result"]["holdings"]>
 export type holdingsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   holding_types?: boolean | Prisma.holding_typesDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
@@ -1216,10 +1208,10 @@ export type $holdingsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     current_price: runtime.Decimal | null
     last_updated: Date | null
     notes: string | null
-    month: number
-    year: number
     created_at: Date
     updated_at: Date
+    month: number
+    year: number
   }, ExtArgs["result"]["holdings"]>
   composites: {}
 }
@@ -1658,10 +1650,10 @@ export interface holdingsFieldRefs {
   readonly current_price: Prisma.FieldRef<"holdings", 'Decimal'>
   readonly last_updated: Prisma.FieldRef<"holdings", 'DateTime'>
   readonly notes: Prisma.FieldRef<"holdings", 'String'>
-  readonly month: Prisma.FieldRef<"holdings", 'Int'>
-  readonly year: Prisma.FieldRef<"holdings", 'Int'>
   readonly created_at: Prisma.FieldRef<"holdings", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"holdings", 'DateTime'>
+  readonly month: Prisma.FieldRef<"holdings", 'Int'>
+  readonly year: Prisma.FieldRef<"holdings", 'Int'>
 }
     
 

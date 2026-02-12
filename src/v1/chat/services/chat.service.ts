@@ -187,7 +187,7 @@ export class ChatService {
     const conversation = await this.prisma.chat_conversations.findFirst({
       where: { id: conversationId, user_id: userId },
       include: {
-        messages: {
+        chat_messages: {
           orderBy: { created_at: "asc" },
         },
       },
@@ -199,7 +199,7 @@ export class ChatService {
 
     return this.formatConversationResponseWithMessages(
       conversation,
-      conversation.messages
+      conversation.chat_messages
     );
   }
 

@@ -296,18 +296,20 @@ export type usersWhereInput = {
   github_id?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
   followers_count?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
   following_count?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
-  files?: Prisma.FilesListRelationFilter
+  chat_conversations?: Prisma.Chat_conversationsListRelationFilter
+  chat_messages?: Prisma.Chat_messagesListRelationFilter
   holdings?: Prisma.HoldingsListRelationFilter
-  likes?: Prisma.LikesListRelationFilter
+  notifications?: Prisma.NotificationsListRelationFilter
+  password_reset_tokens?: Prisma.Password_reset_tokensListRelationFilter
   post_bookmarks?: Prisma.Post_bookmarksListRelationFilter
-  post_comments?: Prisma.Post_commentsListRelationFilter
+  post_comments_created?: Prisma.Post_commentsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
   post_views?: Prisma.Post_viewsListRelationFilter
-  posts?: Prisma.PostsListRelationFilter
-  profile?: Prisma.XOR<Prisma.ProfilesNullableScalarRelationFilter, Prisma.profilesWhereInput> | null
+  posts_created?: Prisma.PostsListRelationFilter
+  profiles?: Prisma.XOR<Prisma.ProfilesNullableScalarRelationFilter, Prisma.profilesWhereInput> | null
   sessions?: Prisma.SessionsListRelationFilter
-  followers?: Prisma.User_followsListRelationFilter
-  following?: Prisma.User_followsListRelationFilter
+  user_follows_user_follows_follower_idTousers?: Prisma.User_followsListRelationFilter
+  user_follows_user_follows_following_idTousers?: Prisma.User_followsListRelationFilter
 }
 
 export type usersOrderByWithRelationInput = {
@@ -325,18 +327,20 @@ export type usersOrderByWithRelationInput = {
   github_id?: Prisma.SortOrderInput | Prisma.SortOrder
   followers_count?: Prisma.SortOrderInput | Prisma.SortOrder
   following_count?: Prisma.SortOrderInput | Prisma.SortOrder
-  files?: Prisma.filesOrderByRelationAggregateInput
+  chat_conversations?: Prisma.chat_conversationsOrderByRelationAggregateInput
+  chat_messages?: Prisma.chat_messagesOrderByRelationAggregateInput
   holdings?: Prisma.holdingsOrderByRelationAggregateInput
-  likes?: Prisma.likesOrderByRelationAggregateInput
+  notifications?: Prisma.notificationsOrderByRelationAggregateInput
+  password_reset_tokens?: Prisma.password_reset_tokensOrderByRelationAggregateInput
   post_bookmarks?: Prisma.post_bookmarksOrderByRelationAggregateInput
-  post_comments?: Prisma.post_commentsOrderByRelationAggregateInput
+  post_comments_created?: Prisma.post_commentsOrderByRelationAggregateInput
   post_likes?: Prisma.post_likesOrderByRelationAggregateInput
   post_views?: Prisma.post_viewsOrderByRelationAggregateInput
-  posts?: Prisma.postsOrderByRelationAggregateInput
-  profile?: Prisma.profilesOrderByWithRelationInput
+  posts_created?: Prisma.postsOrderByRelationAggregateInput
+  profiles?: Prisma.profilesOrderByWithRelationInput
   sessions?: Prisma.sessionsOrderByRelationAggregateInput
-  followers?: Prisma.user_followsOrderByRelationAggregateInput
-  following?: Prisma.user_followsOrderByRelationAggregateInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsOrderByRelationAggregateInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsOrderByRelationAggregateInput
 }
 
 export type usersWhereUniqueInput = Prisma.AtLeast<{
@@ -357,18 +361,20 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   is_super_admin?: Prisma.BoolNullableFilter<"users"> | boolean | null
   followers_count?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
   following_count?: Prisma.BigIntNullableFilter<"users"> | bigint | number | null
-  files?: Prisma.FilesListRelationFilter
+  chat_conversations?: Prisma.Chat_conversationsListRelationFilter
+  chat_messages?: Prisma.Chat_messagesListRelationFilter
   holdings?: Prisma.HoldingsListRelationFilter
-  likes?: Prisma.LikesListRelationFilter
+  notifications?: Prisma.NotificationsListRelationFilter
+  password_reset_tokens?: Prisma.Password_reset_tokensListRelationFilter
   post_bookmarks?: Prisma.Post_bookmarksListRelationFilter
-  post_comments?: Prisma.Post_commentsListRelationFilter
+  post_comments_created?: Prisma.Post_commentsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
   post_views?: Prisma.Post_viewsListRelationFilter
-  posts?: Prisma.PostsListRelationFilter
-  profile?: Prisma.XOR<Prisma.ProfilesNullableScalarRelationFilter, Prisma.profilesWhereInput> | null
+  posts_created?: Prisma.PostsListRelationFilter
+  profiles?: Prisma.XOR<Prisma.ProfilesNullableScalarRelationFilter, Prisma.profilesWhereInput> | null
   sessions?: Prisma.SessionsListRelationFilter
-  followers?: Prisma.User_followsListRelationFilter
-  following?: Prisma.User_followsListRelationFilter
+  user_follows_user_follows_follower_idTousers?: Prisma.User_followsListRelationFilter
+  user_follows_user_follows_following_idTousers?: Prisma.User_followsListRelationFilter
 }, "id" | "email" | "username" | "github_id">
 
 export type usersOrderByWithAggregationInput = {
@@ -414,7 +420,7 @@ export type usersScalarWhereWithAggregatesInput = {
 }
 
 export type usersCreateInput = {
-  id?: string
+  id: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
@@ -428,22 +434,24 @@ export type usersCreateInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
   holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
   post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
   sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
 }
 
 export type usersUncheckedCreateInput = {
-  id?: string
+  id: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
@@ -457,18 +465,20 @@ export type usersUncheckedCreateInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
   holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
   post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
 }
 
 export type usersUpdateInput = {
@@ -486,18 +496,20 @@ export type usersUpdateInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
   holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
   post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
 }
 
 export type usersUncheckedUpdateInput = {
@@ -515,22 +527,24 @@ export type usersUncheckedUpdateInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
   holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
   post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
 }
 
 export type usersCreateManyInput = {
-  id?: string
+  id: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
@@ -578,6 +592,11 @@ export type usersUncheckedUpdateManyInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+}
+
+export type UsersScalarRelationFilter = {
+  is?: Prisma.usersWhereInput
+  isNot?: Prisma.usersWhereInput
 }
 
 export type UsersNullableScalarRelationFilter = {
@@ -648,115 +667,104 @@ export type usersSumOrderByAggregateInput = {
   following_count?: Prisma.SortOrder
 }
 
-export type UsersScalarRelationFilter = {
-  is?: Prisma.usersWhereInput
-  isNot?: Prisma.usersWhereInput
-}
-
-export type usersCreateNestedOneWithoutPost_commentsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutPost_commentsInput, Prisma.usersUncheckedCreateWithoutPost_commentsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPost_commentsInput
+export type usersCreateNestedOneWithoutChat_conversationsInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutChat_conversationsInput, Prisma.usersUncheckedCreateWithoutChat_conversationsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutChat_conversationsInput
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneWithoutPost_commentsNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutPost_commentsInput, Prisma.usersUncheckedCreateWithoutPost_commentsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPost_commentsInput
-  upsert?: Prisma.usersUpsertWithoutPost_commentsInput
+export type usersUpdateOneRequiredWithoutChat_conversationsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutChat_conversationsInput, Prisma.usersUncheckedCreateWithoutChat_conversationsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutChat_conversationsInput
+  upsert?: Prisma.usersUpsertWithoutChat_conversationsInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutChat_conversationsInput, Prisma.usersUpdateWithoutChat_conversationsInput>, Prisma.usersUncheckedUpdateWithoutChat_conversationsInput>
+}
+
+export type usersCreateNestedOneWithoutChat_messagesInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutChat_messagesInput, Prisma.usersUncheckedCreateWithoutChat_messagesInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutChat_messagesInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutChat_messagesNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutChat_messagesInput, Prisma.usersUncheckedCreateWithoutChat_messagesInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutChat_messagesInput
+  upsert?: Prisma.usersUpsertWithoutChat_messagesInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutChat_messagesInput, Prisma.usersUpdateWithoutChat_messagesInput>, Prisma.usersUncheckedUpdateWithoutChat_messagesInput>
+}
+
+export type usersCreateNestedOneWithoutHoldingsInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutHoldingsInput, Prisma.usersUncheckedCreateWithoutHoldingsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutHoldingsInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutHoldingsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutHoldingsInput, Prisma.usersUncheckedCreateWithoutHoldingsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutHoldingsInput
+  upsert?: Prisma.usersUpsertWithoutHoldingsInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutHoldingsInput, Prisma.usersUpdateWithoutHoldingsInput>, Prisma.usersUncheckedUpdateWithoutHoldingsInput>
+}
+
+export type usersCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutNotificationsInput, Prisma.usersUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutNotificationsInput, Prisma.usersUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.usersUpsertWithoutNotificationsInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutNotificationsInput, Prisma.usersUpdateWithoutNotificationsInput>, Prisma.usersUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type usersCreateNestedOneWithoutPassword_reset_tokensInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPassword_reset_tokensInput, Prisma.usersUncheckedCreateWithoutPassword_reset_tokensInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPassword_reset_tokensInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutPassword_reset_tokensNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPassword_reset_tokensInput, Prisma.usersUncheckedCreateWithoutPassword_reset_tokensInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPassword_reset_tokensInput
+  upsert?: Prisma.usersUpsertWithoutPassword_reset_tokensInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPassword_reset_tokensInput, Prisma.usersUpdateWithoutPassword_reset_tokensInput>, Prisma.usersUncheckedUpdateWithoutPassword_reset_tokensInput>
+}
+
+export type usersCreateNestedOneWithoutPost_bookmarksInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPost_bookmarksInput, Prisma.usersUncheckedCreateWithoutPost_bookmarksInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPost_bookmarksInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutPost_bookmarksNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPost_bookmarksInput, Prisma.usersUncheckedCreateWithoutPost_bookmarksInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPost_bookmarksInput
+  upsert?: Prisma.usersUpsertWithoutPost_bookmarksInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPost_bookmarksInput, Prisma.usersUpdateWithoutPost_bookmarksInput>, Prisma.usersUncheckedUpdateWithoutPost_bookmarksInput>
+}
+
+export type usersCreateNestedOneWithoutPost_comments_createdInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPost_comments_createdInput, Prisma.usersUncheckedCreateWithoutPost_comments_createdInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPost_comments_createdInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneWithoutPost_comments_createdNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPost_comments_createdInput, Prisma.usersUncheckedCreateWithoutPost_comments_createdInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPost_comments_createdInput
+  upsert?: Prisma.usersUpsertWithoutPost_comments_createdInput
   disconnect?: Prisma.usersWhereInput | boolean
   delete?: Prisma.usersWhereInput | boolean
   connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPost_commentsInput, Prisma.usersUpdateWithoutPost_commentsInput>, Prisma.usersUncheckedUpdateWithoutPost_commentsInput>
-}
-
-export type usersCreateNestedOneWithoutPostsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutPostsInput, Prisma.usersUncheckedCreateWithoutPostsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPostsInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
-export type usersUpdateOneWithoutPostsNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutPostsInput, Prisma.usersUncheckedCreateWithoutPostsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPostsInput
-  upsert?: Prisma.usersUpsertWithoutPostsInput
-  disconnect?: Prisma.usersWhereInput | boolean
-  delete?: Prisma.usersWhereInput | boolean
-  connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPostsInput, Prisma.usersUpdateWithoutPostsInput>, Prisma.usersUncheckedUpdateWithoutPostsInput>
-}
-
-export type usersCreateNestedOneWithoutFilesInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFilesInput, Prisma.usersUncheckedCreateWithoutFilesInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFilesInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
-export type usersUpdateOneWithoutFilesNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFilesInput, Prisma.usersUncheckedCreateWithoutFilesInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFilesInput
-  upsert?: Prisma.usersUpsertWithoutFilesInput
-  disconnect?: Prisma.usersWhereInput | boolean
-  delete?: Prisma.usersWhereInput | boolean
-  connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutFilesInput, Prisma.usersUpdateWithoutFilesInput>, Prisma.usersUncheckedUpdateWithoutFilesInput>
-}
-
-export type usersCreateNestedOneWithoutLikesInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutLikesInput, Prisma.usersUncheckedCreateWithoutLikesInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutLikesInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
-export type usersUpdateOneWithoutLikesNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutLikesInput, Prisma.usersUncheckedCreateWithoutLikesInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutLikesInput
-  upsert?: Prisma.usersUpsertWithoutLikesInput
-  disconnect?: Prisma.usersWhereInput | boolean
-  delete?: Prisma.usersWhereInput | boolean
-  connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutLikesInput, Prisma.usersUpdateWithoutLikesInput>, Prisma.usersUncheckedUpdateWithoutLikesInput>
-}
-
-export type usersCreateNestedOneWithoutProfileInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutProfileInput, Prisma.usersUncheckedCreateWithoutProfileInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutProfileInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
-export type usersUpdateOneRequiredWithoutProfileNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutProfileInput, Prisma.usersUncheckedCreateWithoutProfileInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutProfileInput
-  upsert?: Prisma.usersUpsertWithoutProfileInput
-  connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutProfileInput, Prisma.usersUpdateWithoutProfileInput>, Prisma.usersUncheckedUpdateWithoutProfileInput>
-}
-
-export type usersCreateNestedOneWithoutFollowersInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFollowersInput, Prisma.usersUncheckedCreateWithoutFollowersInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollowersInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
-export type usersCreateNestedOneWithoutFollowingInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFollowingInput, Prisma.usersUncheckedCreateWithoutFollowingInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollowingInput
-  connect?: Prisma.usersWhereUniqueInput
-}
-
-export type usersUpdateOneRequiredWithoutFollowersNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFollowersInput, Prisma.usersUncheckedCreateWithoutFollowersInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollowersInput
-  upsert?: Prisma.usersUpsertWithoutFollowersInput
-  connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutFollowersInput, Prisma.usersUpdateWithoutFollowersInput>, Prisma.usersUncheckedUpdateWithoutFollowersInput>
-}
-
-export type usersUpdateOneRequiredWithoutFollowingNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutFollowingInput, Prisma.usersUncheckedCreateWithoutFollowingInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFollowingInput
-  upsert?: Prisma.usersUpsertWithoutFollowingInput
-  connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutFollowingInput, Prisma.usersUpdateWithoutFollowingInput>, Prisma.usersUncheckedUpdateWithoutFollowingInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPost_comments_createdInput, Prisma.usersUpdateWithoutPost_comments_createdInput>, Prisma.usersUncheckedUpdateWithoutPost_comments_createdInput>
 }
 
 export type usersCreateNestedOneWithoutPost_likesInput = {
@@ -789,18 +797,34 @@ export type usersUpdateOneWithoutPost_viewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPost_viewsInput, Prisma.usersUpdateWithoutPost_viewsInput>, Prisma.usersUncheckedUpdateWithoutPost_viewsInput>
 }
 
-export type usersCreateNestedOneWithoutPost_bookmarksInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutPost_bookmarksInput, Prisma.usersUncheckedCreateWithoutPost_bookmarksInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPost_bookmarksInput
+export type usersCreateNestedOneWithoutPosts_createdInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPosts_createdInput, Prisma.usersUncheckedCreateWithoutPosts_createdInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPosts_createdInput
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutPost_bookmarksNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutPost_bookmarksInput, Prisma.usersUncheckedCreateWithoutPost_bookmarksInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPost_bookmarksInput
-  upsert?: Prisma.usersUpsertWithoutPost_bookmarksInput
+export type usersUpdateOneWithoutPosts_createdNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutPosts_createdInput, Prisma.usersUncheckedCreateWithoutPosts_createdInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutPosts_createdInput
+  upsert?: Prisma.usersUpsertWithoutPosts_createdInput
+  disconnect?: Prisma.usersWhereInput | boolean
+  delete?: Prisma.usersWhereInput | boolean
   connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPost_bookmarksInput, Prisma.usersUpdateWithoutPost_bookmarksInput>, Prisma.usersUncheckedUpdateWithoutPost_bookmarksInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutPosts_createdInput, Prisma.usersUpdateWithoutPosts_createdInput>, Prisma.usersUncheckedUpdateWithoutPosts_createdInput>
+}
+
+export type usersCreateNestedOneWithoutProfilesInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutProfilesInput, Prisma.usersUncheckedCreateWithoutProfilesInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutProfilesInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutProfilesNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutProfilesInput, Prisma.usersUncheckedCreateWithoutProfilesInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutProfilesInput
+  upsert?: Prisma.usersUpsertWithoutProfilesInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutProfilesInput, Prisma.usersUpdateWithoutProfilesInput>, Prisma.usersUncheckedUpdateWithoutProfilesInput>
 }
 
 export type usersCreateNestedOneWithoutSessionsInput = {
@@ -817,22 +841,36 @@ export type usersUpdateOneRequiredWithoutSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutSessionsInput, Prisma.usersUpdateWithoutSessionsInput>, Prisma.usersUncheckedUpdateWithoutSessionsInput>
 }
 
-export type usersCreateNestedOneWithoutHoldingsInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutHoldingsInput, Prisma.usersUncheckedCreateWithoutHoldingsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutHoldingsInput
+export type usersCreateNestedOneWithoutUser_follows_user_follows_follower_idTousersInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutUser_follows_user_follows_follower_idTousersInput, Prisma.usersUncheckedCreateWithoutUser_follows_user_follows_follower_idTousersInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutUser_follows_user_follows_follower_idTousersInput
   connect?: Prisma.usersWhereUniqueInput
 }
 
-export type usersUpdateOneRequiredWithoutHoldingsNestedInput = {
-  create?: Prisma.XOR<Prisma.usersCreateWithoutHoldingsInput, Prisma.usersUncheckedCreateWithoutHoldingsInput>
-  connectOrCreate?: Prisma.usersCreateOrConnectWithoutHoldingsInput
-  upsert?: Prisma.usersUpsertWithoutHoldingsInput
+export type usersCreateNestedOneWithoutUser_follows_user_follows_following_idTousersInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutUser_follows_user_follows_following_idTousersInput, Prisma.usersUncheckedCreateWithoutUser_follows_user_follows_following_idTousersInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutUser_follows_user_follows_following_idTousersInput
   connect?: Prisma.usersWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutHoldingsInput, Prisma.usersUpdateWithoutHoldingsInput>, Prisma.usersUncheckedUpdateWithoutHoldingsInput>
 }
 
-export type usersCreateWithoutPost_commentsInput = {
-  id?: string
+export type usersUpdateOneRequiredWithoutUser_follows_user_follows_follower_idTousersNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutUser_follows_user_follows_follower_idTousersInput, Prisma.usersUncheckedCreateWithoutUser_follows_user_follows_follower_idTousersInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutUser_follows_user_follows_follower_idTousersInput
+  upsert?: Prisma.usersUpsertWithoutUser_follows_user_follows_follower_idTousersInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutUser_follows_user_follows_follower_idTousersInput, Prisma.usersUpdateWithoutUser_follows_user_follows_follower_idTousersInput>, Prisma.usersUncheckedUpdateWithoutUser_follows_user_follows_follower_idTousersInput>
+}
+
+export type usersUpdateOneRequiredWithoutUser_follows_user_follows_following_idTousersNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutUser_follows_user_follows_following_idTousersInput, Prisma.usersUncheckedCreateWithoutUser_follows_user_follows_following_idTousersInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutUser_follows_user_follows_following_idTousersInput
+  upsert?: Prisma.usersUpsertWithoutUser_follows_user_follows_following_idTousersInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutUser_follows_user_follows_following_idTousersInput, Prisma.usersUpdateWithoutUser_follows_user_follows_following_idTousersInput>, Prisma.usersUncheckedUpdateWithoutUser_follows_user_follows_following_idTousersInput>
+}
+
+export type usersCreateWithoutChat_conversationsInput = {
+  id: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
@@ -846,21 +884,23 @@ export type usersCreateWithoutPost_commentsInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
   holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
   post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
   sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
 }
 
-export type usersUncheckedCreateWithoutPost_commentsInput = {
-  id?: string
+export type usersUncheckedCreateWithoutChat_conversationsInput = {
+  id: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
@@ -874,36 +914,38 @@ export type usersUncheckedCreateWithoutPost_commentsInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
   holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
   post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
 }
 
-export type usersCreateOrConnectWithoutPost_commentsInput = {
+export type usersCreateOrConnectWithoutChat_conversationsInput = {
   where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutPost_commentsInput, Prisma.usersUncheckedCreateWithoutPost_commentsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutChat_conversationsInput, Prisma.usersUncheckedCreateWithoutChat_conversationsInput>
 }
 
-export type usersUpsertWithoutPost_commentsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutPost_commentsInput, Prisma.usersUncheckedUpdateWithoutPost_commentsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutPost_commentsInput, Prisma.usersUncheckedCreateWithoutPost_commentsInput>
+export type usersUpsertWithoutChat_conversationsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutChat_conversationsInput, Prisma.usersUncheckedUpdateWithoutChat_conversationsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutChat_conversationsInput, Prisma.usersUncheckedCreateWithoutChat_conversationsInput>
   where?: Prisma.usersWhereInput
 }
 
-export type usersUpdateToOneWithWhereWithoutPost_commentsInput = {
+export type usersUpdateToOneWithWhereWithoutChat_conversationsInput = {
   where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutPost_commentsInput, Prisma.usersUncheckedUpdateWithoutPost_commentsInput>
+  data: Prisma.XOR<Prisma.usersUpdateWithoutChat_conversationsInput, Prisma.usersUncheckedUpdateWithoutChat_conversationsInput>
 }
 
-export type usersUpdateWithoutPost_commentsInput = {
+export type usersUpdateWithoutChat_conversationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -918,20 +960,22 @@ export type usersUpdateWithoutPost_commentsInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
   holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
   post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
 }
 
-export type usersUncheckedUpdateWithoutPost_commentsInput = {
+export type usersUncheckedUpdateWithoutChat_conversationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -946,21 +990,23 @@ export type usersUncheckedUpdateWithoutPost_commentsInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
   holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
   post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
 }
 
-export type usersCreateWithoutPostsInput = {
-  id?: string
+export type usersCreateWithoutChat_messagesInput = {
+  id: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
@@ -974,21 +1020,23 @@ export type usersCreateWithoutPostsInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
   holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
   post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
   sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
 }
 
-export type usersUncheckedCreateWithoutPostsInput = {
-  id?: string
+export type usersUncheckedCreateWithoutChat_messagesInput = {
+  id: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
@@ -1002,36 +1050,38 @@ export type usersUncheckedCreateWithoutPostsInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
   holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
   post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
 }
 
-export type usersCreateOrConnectWithoutPostsInput = {
+export type usersCreateOrConnectWithoutChat_messagesInput = {
   where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutPostsInput, Prisma.usersUncheckedCreateWithoutPostsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutChat_messagesInput, Prisma.usersUncheckedCreateWithoutChat_messagesInput>
 }
 
-export type usersUpsertWithoutPostsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutPostsInput, Prisma.usersUncheckedUpdateWithoutPostsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutPostsInput, Prisma.usersUncheckedCreateWithoutPostsInput>
+export type usersUpsertWithoutChat_messagesInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutChat_messagesInput, Prisma.usersUncheckedUpdateWithoutChat_messagesInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutChat_messagesInput, Prisma.usersUncheckedCreateWithoutChat_messagesInput>
   where?: Prisma.usersWhereInput
 }
 
-export type usersUpdateToOneWithWhereWithoutPostsInput = {
+export type usersUpdateToOneWithWhereWithoutChat_messagesInput = {
   where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutPostsInput, Prisma.usersUncheckedUpdateWithoutPostsInput>
+  data: Prisma.XOR<Prisma.usersUpdateWithoutChat_messagesInput, Prisma.usersUncheckedUpdateWithoutChat_messagesInput>
 }
 
-export type usersUpdateWithoutPostsInput = {
+export type usersUpdateWithoutChat_messagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1046,20 +1096,22 @@ export type usersUpdateWithoutPostsInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
   holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
   post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
 }
 
-export type usersUncheckedUpdateWithoutPostsInput = {
+export type usersUncheckedUpdateWithoutChat_messagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1074,1173 +1126,23 @@ export type usersUncheckedUpdateWithoutPostsInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
   holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
   post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersCreateWithoutFilesInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
-}
-
-export type usersUncheckedCreateWithoutFilesInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
-}
-
-export type usersCreateOrConnectWithoutFilesInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutFilesInput, Prisma.usersUncheckedCreateWithoutFilesInput>
-}
-
-export type usersUpsertWithoutFilesInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutFilesInput, Prisma.usersUncheckedUpdateWithoutFilesInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutFilesInput, Prisma.usersUncheckedCreateWithoutFilesInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutFilesInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutFilesInput, Prisma.usersUncheckedUpdateWithoutFilesInput>
-}
-
-export type usersUpdateWithoutFilesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersUncheckedUpdateWithoutFilesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersCreateWithoutLikesInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
-}
-
-export type usersUncheckedCreateWithoutLikesInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
-}
-
-export type usersCreateOrConnectWithoutLikesInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutLikesInput, Prisma.usersUncheckedCreateWithoutLikesInput>
-}
-
-export type usersUpsertWithoutLikesInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutLikesInput, Prisma.usersUncheckedUpdateWithoutLikesInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutLikesInput, Prisma.usersUncheckedCreateWithoutLikesInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutLikesInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutLikesInput, Prisma.usersUncheckedUpdateWithoutLikesInput>
-}
-
-export type usersUpdateWithoutLikesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersUncheckedUpdateWithoutLikesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersCreateWithoutProfileInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
-}
-
-export type usersUncheckedCreateWithoutProfileInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
-}
-
-export type usersCreateOrConnectWithoutProfileInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutProfileInput, Prisma.usersUncheckedCreateWithoutProfileInput>
-}
-
-export type usersUpsertWithoutProfileInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutProfileInput, Prisma.usersUncheckedUpdateWithoutProfileInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutProfileInput, Prisma.usersUncheckedCreateWithoutProfileInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutProfileInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutProfileInput, Prisma.usersUncheckedUpdateWithoutProfileInput>
-}
-
-export type usersUpdateWithoutProfileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersUncheckedUpdateWithoutProfileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersCreateWithoutFollowersInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
-}
-
-export type usersUncheckedCreateWithoutFollowersInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
-}
-
-export type usersCreateOrConnectWithoutFollowersInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutFollowersInput, Prisma.usersUncheckedCreateWithoutFollowersInput>
-}
-
-export type usersCreateWithoutFollowingInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-}
-
-export type usersUncheckedCreateWithoutFollowingInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-}
-
-export type usersCreateOrConnectWithoutFollowingInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutFollowingInput, Prisma.usersUncheckedCreateWithoutFollowingInput>
-}
-
-export type usersUpsertWithoutFollowersInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutFollowersInput, Prisma.usersUncheckedUpdateWithoutFollowersInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutFollowersInput, Prisma.usersUncheckedCreateWithoutFollowersInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutFollowersInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutFollowersInput, Prisma.usersUncheckedUpdateWithoutFollowersInput>
-}
-
-export type usersUpdateWithoutFollowersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersUncheckedUpdateWithoutFollowersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersUpsertWithoutFollowingInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutFollowingInput, Prisma.usersUncheckedUpdateWithoutFollowingInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutFollowingInput, Prisma.usersUncheckedCreateWithoutFollowingInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutFollowingInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutFollowingInput, Prisma.usersUncheckedUpdateWithoutFollowingInput>
-}
-
-export type usersUpdateWithoutFollowingInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-}
-
-export type usersUncheckedUpdateWithoutFollowingInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-}
-
-export type usersCreateWithoutPost_likesInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
-  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
-}
-
-export type usersUncheckedCreateWithoutPost_likesInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
-  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
-}
-
-export type usersCreateOrConnectWithoutPost_likesInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutPost_likesInput, Prisma.usersUncheckedCreateWithoutPost_likesInput>
-}
-
-export type usersUpsertWithoutPost_likesInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutPost_likesInput, Prisma.usersUncheckedUpdateWithoutPost_likesInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutPost_likesInput, Prisma.usersUncheckedCreateWithoutPost_likesInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutPost_likesInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutPost_likesInput, Prisma.usersUncheckedUpdateWithoutPost_likesInput>
-}
-
-export type usersUpdateWithoutPost_likesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
-  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersUncheckedUpdateWithoutPost_likesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
-  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersCreateWithoutPost_viewsInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
-}
-
-export type usersUncheckedCreateWithoutPost_viewsInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
-}
-
-export type usersCreateOrConnectWithoutPost_viewsInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutPost_viewsInput, Prisma.usersUncheckedCreateWithoutPost_viewsInput>
-}
-
-export type usersUpsertWithoutPost_viewsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutPost_viewsInput, Prisma.usersUncheckedUpdateWithoutPost_viewsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutPost_viewsInput, Prisma.usersUncheckedCreateWithoutPost_viewsInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutPost_viewsInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutPost_viewsInput, Prisma.usersUncheckedUpdateWithoutPost_viewsInput>
-}
-
-export type usersUpdateWithoutPost_viewsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersUncheckedUpdateWithoutPost_viewsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersCreateWithoutPost_bookmarksInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
-}
-
-export type usersUncheckedCreateWithoutPost_bookmarksInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
-}
-
-export type usersCreateOrConnectWithoutPost_bookmarksInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutPost_bookmarksInput, Prisma.usersUncheckedCreateWithoutPost_bookmarksInput>
-}
-
-export type usersUpsertWithoutPost_bookmarksInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutPost_bookmarksInput, Prisma.usersUncheckedUpdateWithoutPost_bookmarksInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutPost_bookmarksInput, Prisma.usersUncheckedCreateWithoutPost_bookmarksInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutPost_bookmarksInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutPost_bookmarksInput, Prisma.usersUncheckedUpdateWithoutPost_bookmarksInput>
-}
-
-export type usersUpdateWithoutPost_bookmarksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersUncheckedUpdateWithoutPost_bookmarksInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersCreateWithoutSessionsInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
-}
-
-export type usersUncheckedCreateWithoutSessionsInput = {
-  id?: string
-  created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
-  first_name?: string | null
-  last_name?: string | null
-  email: string
-  password?: string | null
-  image?: string | null
-  is_super_admin?: boolean | null
-  username?: string | null
-  github_id?: bigint | number | null
-  followers_count?: bigint | number | null
-  following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
-  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
-  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
-  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
-}
-
-export type usersCreateOrConnectWithoutSessionsInput = {
-  where: Prisma.usersWhereUniqueInput
-  create: Prisma.XOR<Prisma.usersCreateWithoutSessionsInput, Prisma.usersUncheckedCreateWithoutSessionsInput>
-}
-
-export type usersUpsertWithoutSessionsInput = {
-  update: Prisma.XOR<Prisma.usersUpdateWithoutSessionsInput, Prisma.usersUncheckedUpdateWithoutSessionsInput>
-  create: Prisma.XOR<Prisma.usersCreateWithoutSessionsInput, Prisma.usersUncheckedCreateWithoutSessionsInput>
-  where?: Prisma.usersWhereInput
-}
-
-export type usersUpdateToOneWithWhereWithoutSessionsInput = {
-  where?: Prisma.usersWhereInput
-  data: Prisma.XOR<Prisma.usersUpdateWithoutSessionsInput, Prisma.usersUncheckedUpdateWithoutSessionsInput>
-}
-
-export type usersUpdateWithoutSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
-}
-
-export type usersUncheckedUpdateWithoutSessionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
-  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
-  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
-  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
 }
 
 export type usersCreateWithoutHoldingsInput = {
-  id?: string
+  id: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
@@ -2254,21 +1156,23 @@ export type usersCreateWithoutHoldingsInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
-  files?: Prisma.filesCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesCreateNestedManyWithoutUsersInput
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsCreateNestedManyWithoutCreatorInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
   post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
   sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsCreateNestedManyWithoutFollowingInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
 }
 
 export type usersUncheckedCreateWithoutHoldingsInput = {
-  id?: string
+  id: string
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
@@ -2282,17 +1186,19 @@ export type usersUncheckedCreateWithoutHoldingsInput = {
   github_id?: bigint | number | null
   followers_count?: bigint | number | null
   following_count?: bigint | number | null
-  files?: Prisma.filesUncheckedCreateNestedManyWithoutUsersInput
-  likes?: Prisma.likesUncheckedCreateNestedManyWithoutUsersInput
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
-  post_comments?: Prisma.post_commentsUncheckedCreateNestedManyWithoutCreatorInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
   post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
   post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
-  posts?: Prisma.postsUncheckedCreateNestedManyWithoutCreatorInput
-  profile?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
-  followers?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowerInput
-  following?: Prisma.user_followsUncheckedCreateNestedManyWithoutFollowingInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
 }
 
 export type usersCreateOrConnectWithoutHoldingsInput = {
@@ -2326,17 +1232,19 @@ export type usersUpdateWithoutHoldingsInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUpdateManyWithoutUsersNestedInput
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUpdateManyWithoutCreatorNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
   post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUpdateManyWithoutFollowingNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutHoldingsInput = {
@@ -2354,17 +1262,1515 @@ export type usersUncheckedUpdateWithoutHoldingsInput = {
   github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  files?: Prisma.filesUncheckedUpdateManyWithoutUsersNestedInput
-  likes?: Prisma.likesUncheckedUpdateManyWithoutUsersNestedInput
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
   post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
-  post_comments?: Prisma.post_commentsUncheckedUpdateManyWithoutCreatorNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
   post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
   post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
-  posts?: Prisma.postsUncheckedUpdateManyWithoutCreatorNestedInput
-  profile?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
-  followers?: Prisma.user_followsUncheckedUpdateManyWithoutFollowerNestedInput
-  following?: Prisma.user_followsUncheckedUpdateManyWithoutFollowingNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutNotificationsInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutNotificationsInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutNotificationsInput, Prisma.usersUncheckedCreateWithoutNotificationsInput>
+}
+
+export type usersUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutNotificationsInput, Prisma.usersUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutNotificationsInput, Prisma.usersUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutNotificationsInput, Prisma.usersUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type usersUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutPassword_reset_tokensInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutPassword_reset_tokensInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutPassword_reset_tokensInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutPassword_reset_tokensInput, Prisma.usersUncheckedCreateWithoutPassword_reset_tokensInput>
+}
+
+export type usersUpsertWithoutPassword_reset_tokensInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutPassword_reset_tokensInput, Prisma.usersUncheckedUpdateWithoutPassword_reset_tokensInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutPassword_reset_tokensInput, Prisma.usersUncheckedCreateWithoutPassword_reset_tokensInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutPassword_reset_tokensInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutPassword_reset_tokensInput, Prisma.usersUncheckedUpdateWithoutPassword_reset_tokensInput>
+}
+
+export type usersUpdateWithoutPassword_reset_tokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutPassword_reset_tokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutPost_bookmarksInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutPost_bookmarksInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutPost_bookmarksInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutPost_bookmarksInput, Prisma.usersUncheckedCreateWithoutPost_bookmarksInput>
+}
+
+export type usersUpsertWithoutPost_bookmarksInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutPost_bookmarksInput, Prisma.usersUncheckedUpdateWithoutPost_bookmarksInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutPost_bookmarksInput, Prisma.usersUncheckedCreateWithoutPost_bookmarksInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutPost_bookmarksInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutPost_bookmarksInput, Prisma.usersUncheckedUpdateWithoutPost_bookmarksInput>
+}
+
+export type usersUpdateWithoutPost_bookmarksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutPost_bookmarksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutPost_comments_createdInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutPost_comments_createdInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutPost_comments_createdInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutPost_comments_createdInput, Prisma.usersUncheckedCreateWithoutPost_comments_createdInput>
+}
+
+export type usersUpsertWithoutPost_comments_createdInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutPost_comments_createdInput, Prisma.usersUncheckedUpdateWithoutPost_comments_createdInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutPost_comments_createdInput, Prisma.usersUncheckedCreateWithoutPost_comments_createdInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutPost_comments_createdInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutPost_comments_createdInput, Prisma.usersUncheckedUpdateWithoutPost_comments_createdInput>
+}
+
+export type usersUpdateWithoutPost_comments_createdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutPost_comments_createdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutPost_likesInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutPost_likesInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutPost_likesInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutPost_likesInput, Prisma.usersUncheckedCreateWithoutPost_likesInput>
+}
+
+export type usersUpsertWithoutPost_likesInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutPost_likesInput, Prisma.usersUncheckedUpdateWithoutPost_likesInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutPost_likesInput, Prisma.usersUncheckedCreateWithoutPost_likesInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutPost_likesInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutPost_likesInput, Prisma.usersUncheckedUpdateWithoutPost_likesInput>
+}
+
+export type usersUpdateWithoutPost_likesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutPost_likesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutPost_viewsInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutPost_viewsInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutPost_viewsInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutPost_viewsInput, Prisma.usersUncheckedCreateWithoutPost_viewsInput>
+}
+
+export type usersUpsertWithoutPost_viewsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutPost_viewsInput, Prisma.usersUncheckedUpdateWithoutPost_viewsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutPost_viewsInput, Prisma.usersUncheckedCreateWithoutPost_viewsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutPost_viewsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutPost_viewsInput, Prisma.usersUncheckedUpdateWithoutPost_viewsInput>
+}
+
+export type usersUpdateWithoutPost_viewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutPost_viewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutPosts_createdInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutPosts_createdInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutPosts_createdInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutPosts_createdInput, Prisma.usersUncheckedCreateWithoutPosts_createdInput>
+}
+
+export type usersUpsertWithoutPosts_createdInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutPosts_createdInput, Prisma.usersUncheckedUpdateWithoutPosts_createdInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutPosts_createdInput, Prisma.usersUncheckedCreateWithoutPosts_createdInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutPosts_createdInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutPosts_createdInput, Prisma.usersUncheckedUpdateWithoutPosts_createdInput>
+}
+
+export type usersUpdateWithoutPosts_createdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutPosts_createdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutProfilesInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutProfilesInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutProfilesInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutProfilesInput, Prisma.usersUncheckedCreateWithoutProfilesInput>
+}
+
+export type usersUpsertWithoutProfilesInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutProfilesInput, Prisma.usersUncheckedUpdateWithoutProfilesInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutProfilesInput, Prisma.usersUncheckedCreateWithoutProfilesInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutProfilesInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutProfilesInput, Prisma.usersUncheckedUpdateWithoutProfilesInput>
+}
+
+export type usersUpdateWithoutProfilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutProfilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutSessionsInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutSessionsInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutSessionsInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutSessionsInput, Prisma.usersUncheckedCreateWithoutSessionsInput>
+}
+
+export type usersUpsertWithoutSessionsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutSessionsInput, Prisma.usersUncheckedUpdateWithoutSessionsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutSessionsInput, Prisma.usersUncheckedCreateWithoutSessionsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutSessionsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutSessionsInput, Prisma.usersUncheckedUpdateWithoutSessionsInput>
+}
+
+export type usersUpdateWithoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersCreateWithoutUser_follows_user_follows_follower_idTousersInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutUser_follows_user_follows_follower_idTousersInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_following_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutUser_follows_user_follows_follower_idTousersInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutUser_follows_user_follows_follower_idTousersInput, Prisma.usersUncheckedCreateWithoutUser_follows_user_follows_follower_idTousersInput>
+}
+
+export type usersCreateWithoutUser_follows_user_follows_following_idTousersInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+}
+
+export type usersUncheckedCreateWithoutUser_follows_user_follows_following_idTousersInput = {
+  id: string
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  deleted_at?: Date | string | null
+  first_name?: string | null
+  last_name?: string | null
+  email: string
+  password?: string | null
+  image?: string | null
+  is_super_admin?: boolean | null
+  username?: string | null
+  github_id?: bigint | number | null
+  followers_count?: bigint | number | null
+  following_count?: bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedCreateNestedManyWithoutUsersInput
+  chat_messages?: Prisma.chat_messagesUncheckedCreateNestedManyWithoutUsersInput
+  holdings?: Prisma.holdingsUncheckedCreateNestedManyWithoutUsersInput
+  notifications?: Prisma.notificationsUncheckedCreateNestedManyWithoutUsersInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedCreateNestedManyWithoutUsersInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedCreateNestedManyWithoutUsersInput
+  post_comments_created?: Prisma.post_commentsUncheckedCreateNestedManyWithoutUserInput
+  post_likes?: Prisma.post_likesUncheckedCreateNestedManyWithoutUsersInput
+  post_views?: Prisma.post_viewsUncheckedCreateNestedManyWithoutUsersInput
+  posts_created?: Prisma.postsUncheckedCreateNestedManyWithoutUserInput
+  profiles?: Prisma.profilesUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.sessionsUncheckedCreateNestedManyWithoutUsersInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedCreateNestedManyWithoutUsers_user_follows_follower_idTousersInput
+}
+
+export type usersCreateOrConnectWithoutUser_follows_user_follows_following_idTousersInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutUser_follows_user_follows_following_idTousersInput, Prisma.usersUncheckedCreateWithoutUser_follows_user_follows_following_idTousersInput>
+}
+
+export type usersUpsertWithoutUser_follows_user_follows_follower_idTousersInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutUser_follows_user_follows_follower_idTousersInput, Prisma.usersUncheckedUpdateWithoutUser_follows_user_follows_follower_idTousersInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutUser_follows_user_follows_follower_idTousersInput, Prisma.usersUncheckedCreateWithoutUser_follows_user_follows_follower_idTousersInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutUser_follows_user_follows_follower_idTousersInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutUser_follows_user_follows_follower_idTousersInput, Prisma.usersUncheckedUpdateWithoutUser_follows_user_follows_follower_idTousersInput>
+}
+
+export type usersUpdateWithoutUser_follows_user_follows_follower_idTousersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutUser_follows_user_follows_follower_idTousersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_following_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_following_idTousersNestedInput
+}
+
+export type usersUpsertWithoutUser_follows_user_follows_following_idTousersInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutUser_follows_user_follows_following_idTousersInput, Prisma.usersUncheckedUpdateWithoutUser_follows_user_follows_following_idTousersInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutUser_follows_user_follows_following_idTousersInput, Prisma.usersUncheckedCreateWithoutUser_follows_user_follows_following_idTousersInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutUser_follows_user_follows_following_idTousersInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutUser_follows_user_follows_following_idTousersInput, Prisma.usersUncheckedUpdateWithoutUser_follows_user_follows_following_idTousersInput>
+}
+
+export type usersUpdateWithoutUser_follows_user_follows_following_idTousersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutUser_follows_user_follows_following_idTousersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  first_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github_id?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  followers_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  following_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  chat_conversations?: Prisma.chat_conversationsUncheckedUpdateManyWithoutUsersNestedInput
+  chat_messages?: Prisma.chat_messagesUncheckedUpdateManyWithoutUsersNestedInput
+  holdings?: Prisma.holdingsUncheckedUpdateManyWithoutUsersNestedInput
+  notifications?: Prisma.notificationsUncheckedUpdateManyWithoutUsersNestedInput
+  password_reset_tokens?: Prisma.password_reset_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  post_bookmarks?: Prisma.post_bookmarksUncheckedUpdateManyWithoutUsersNestedInput
+  post_comments_created?: Prisma.post_commentsUncheckedUpdateManyWithoutUserNestedInput
+  post_likes?: Prisma.post_likesUncheckedUpdateManyWithoutUsersNestedInput
+  post_views?: Prisma.post_viewsUncheckedUpdateManyWithoutUsersNestedInput
+  posts_created?: Prisma.postsUncheckedUpdateManyWithoutUserNestedInput
+  profiles?: Prisma.profilesUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.sessionsUncheckedUpdateManyWithoutUsersNestedInput
+  user_follows_user_follows_follower_idTousers?: Prisma.user_followsUncheckedUpdateManyWithoutUsers_user_follows_follower_idTousersNestedInput
 }
 
 
@@ -2373,31 +2779,35 @@ export type usersUncheckedUpdateWithoutHoldingsInput = {
  */
 
 export type UsersCountOutputType = {
-  files: number
+  chat_conversations: number
+  chat_messages: number
   holdings: number
-  likes: number
+  notifications: number
+  password_reset_tokens: number
   post_bookmarks: number
-  post_comments: number
+  post_comments_created: number
   post_likes: number
   post_views: number
-  posts: number
+  posts_created: number
   sessions: number
-  followers: number
-  following: number
+  user_follows_user_follows_follower_idTousers: number
+  user_follows_user_follows_following_idTousers: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  files?: boolean | UsersCountOutputTypeCountFilesArgs
+  chat_conversations?: boolean | UsersCountOutputTypeCountChat_conversationsArgs
+  chat_messages?: boolean | UsersCountOutputTypeCountChat_messagesArgs
   holdings?: boolean | UsersCountOutputTypeCountHoldingsArgs
-  likes?: boolean | UsersCountOutputTypeCountLikesArgs
+  notifications?: boolean | UsersCountOutputTypeCountNotificationsArgs
+  password_reset_tokens?: boolean | UsersCountOutputTypeCountPassword_reset_tokensArgs
   post_bookmarks?: boolean | UsersCountOutputTypeCountPost_bookmarksArgs
-  post_comments?: boolean | UsersCountOutputTypeCountPost_commentsArgs
+  post_comments_created?: boolean | UsersCountOutputTypeCountPost_comments_createdArgs
   post_likes?: boolean | UsersCountOutputTypeCountPost_likesArgs
   post_views?: boolean | UsersCountOutputTypeCountPost_viewsArgs
-  posts?: boolean | UsersCountOutputTypeCountPostsArgs
+  posts_created?: boolean | UsersCountOutputTypeCountPosts_createdArgs
   sessions?: boolean | UsersCountOutputTypeCountSessionsArgs
-  followers?: boolean | UsersCountOutputTypeCountFollowersArgs
-  following?: boolean | UsersCountOutputTypeCountFollowingArgs
+  user_follows_user_follows_follower_idTousers?: boolean | UsersCountOutputTypeCountUser_follows_user_follows_follower_idTousersArgs
+  user_follows_user_follows_following_idTousers?: boolean | UsersCountOutputTypeCountUser_follows_user_follows_following_idTousersArgs
 }
 
 /**
@@ -2413,8 +2823,15 @@ export type UsersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountFilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.filesWhereInput
+export type UsersCountOutputTypeCountChat_conversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.chat_conversationsWhereInput
+}
+
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountChat_messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.chat_messagesWhereInput
 }
 
 /**
@@ -2427,8 +2844,15 @@ export type UsersCountOutputTypeCountHoldingsArgs<ExtArgs extends runtime.Types.
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.likesWhereInput
+export type UsersCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.notificationsWhereInput
+}
+
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountPassword_reset_tokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.password_reset_tokensWhereInput
 }
 
 /**
@@ -2441,7 +2865,7 @@ export type UsersCountOutputTypeCountPost_bookmarksArgs<ExtArgs extends runtime.
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountPost_commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UsersCountOutputTypeCountPost_comments_createdArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.post_commentsWhereInput
 }
 
@@ -2462,7 +2886,7 @@ export type UsersCountOutputTypeCountPost_viewsArgs<ExtArgs extends runtime.Type
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UsersCountOutputTypeCountPosts_createdArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.postsWhereInput
 }
 
@@ -2476,14 +2900,14 @@ export type UsersCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountFollowersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UsersCountOutputTypeCountUser_follows_user_follows_follower_idTousersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.user_followsWhereInput
 }
 
 /**
  * UsersCountOutputType without action
  */
-export type UsersCountOutputTypeCountFollowingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UsersCountOutputTypeCountUser_follows_user_follows_following_idTousersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.user_followsWhereInput
 }
 
@@ -2503,18 +2927,20 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   github_id?: boolean
   followers_count?: boolean
   following_count?: boolean
-  files?: boolean | Prisma.users$filesArgs<ExtArgs>
+  chat_conversations?: boolean | Prisma.users$chat_conversationsArgs<ExtArgs>
+  chat_messages?: boolean | Prisma.users$chat_messagesArgs<ExtArgs>
   holdings?: boolean | Prisma.users$holdingsArgs<ExtArgs>
-  likes?: boolean | Prisma.users$likesArgs<ExtArgs>
+  notifications?: boolean | Prisma.users$notificationsArgs<ExtArgs>
+  password_reset_tokens?: boolean | Prisma.users$password_reset_tokensArgs<ExtArgs>
   post_bookmarks?: boolean | Prisma.users$post_bookmarksArgs<ExtArgs>
-  post_comments?: boolean | Prisma.users$post_commentsArgs<ExtArgs>
+  post_comments_created?: boolean | Prisma.users$post_comments_createdArgs<ExtArgs>
   post_likes?: boolean | Prisma.users$post_likesArgs<ExtArgs>
   post_views?: boolean | Prisma.users$post_viewsArgs<ExtArgs>
-  posts?: boolean | Prisma.users$postsArgs<ExtArgs>
-  profile?: boolean | Prisma.users$profileArgs<ExtArgs>
+  posts_created?: boolean | Prisma.users$posts_createdArgs<ExtArgs>
+  profiles?: boolean | Prisma.users$profilesArgs<ExtArgs>
   sessions?: boolean | Prisma.users$sessionsArgs<ExtArgs>
-  followers?: boolean | Prisma.users$followersArgs<ExtArgs>
-  following?: boolean | Prisma.users$followingArgs<ExtArgs>
+  user_follows_user_follows_follower_idTousers?: boolean | Prisma.users$user_follows_user_follows_follower_idTousersArgs<ExtArgs>
+  user_follows_user_follows_following_idTousers?: boolean | Prisma.users$user_follows_user_follows_following_idTousersArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -2571,18 +2997,20 @@ export type usersSelectScalar = {
 
 export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "updated_at" | "deleted_at" | "first_name" | "last_name" | "email" | "password" | "image" | "is_super_admin" | "username" | "github_id" | "followers_count" | "following_count", ExtArgs["result"]["users"]>
 export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  files?: boolean | Prisma.users$filesArgs<ExtArgs>
+  chat_conversations?: boolean | Prisma.users$chat_conversationsArgs<ExtArgs>
+  chat_messages?: boolean | Prisma.users$chat_messagesArgs<ExtArgs>
   holdings?: boolean | Prisma.users$holdingsArgs<ExtArgs>
-  likes?: boolean | Prisma.users$likesArgs<ExtArgs>
+  notifications?: boolean | Prisma.users$notificationsArgs<ExtArgs>
+  password_reset_tokens?: boolean | Prisma.users$password_reset_tokensArgs<ExtArgs>
   post_bookmarks?: boolean | Prisma.users$post_bookmarksArgs<ExtArgs>
-  post_comments?: boolean | Prisma.users$post_commentsArgs<ExtArgs>
+  post_comments_created?: boolean | Prisma.users$post_comments_createdArgs<ExtArgs>
   post_likes?: boolean | Prisma.users$post_likesArgs<ExtArgs>
   post_views?: boolean | Prisma.users$post_viewsArgs<ExtArgs>
-  posts?: boolean | Prisma.users$postsArgs<ExtArgs>
-  profile?: boolean | Prisma.users$profileArgs<ExtArgs>
+  posts_created?: boolean | Prisma.users$posts_createdArgs<ExtArgs>
+  profiles?: boolean | Prisma.users$profilesArgs<ExtArgs>
   sessions?: boolean | Prisma.users$sessionsArgs<ExtArgs>
-  followers?: boolean | Prisma.users$followersArgs<ExtArgs>
-  following?: boolean | Prisma.users$followingArgs<ExtArgs>
+  user_follows_user_follows_follower_idTousers?: boolean | Prisma.users$user_follows_user_follows_follower_idTousersArgs<ExtArgs>
+  user_follows_user_follows_following_idTousers?: boolean | Prisma.users$user_follows_user_follows_following_idTousersArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2591,18 +3019,20 @@ export type usersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "users"
   objects: {
-    files: Prisma.$filesPayload<ExtArgs>[]
+    chat_conversations: Prisma.$chat_conversationsPayload<ExtArgs>[]
+    chat_messages: Prisma.$chat_messagesPayload<ExtArgs>[]
     holdings: Prisma.$holdingsPayload<ExtArgs>[]
-    likes: Prisma.$likesPayload<ExtArgs>[]
+    notifications: Prisma.$notificationsPayload<ExtArgs>[]
+    password_reset_tokens: Prisma.$password_reset_tokensPayload<ExtArgs>[]
     post_bookmarks: Prisma.$post_bookmarksPayload<ExtArgs>[]
-    post_comments: Prisma.$post_commentsPayload<ExtArgs>[]
+    post_comments_created: Prisma.$post_commentsPayload<ExtArgs>[]
     post_likes: Prisma.$post_likesPayload<ExtArgs>[]
     post_views: Prisma.$post_viewsPayload<ExtArgs>[]
-    posts: Prisma.$postsPayload<ExtArgs>[]
-    profile: Prisma.$profilesPayload<ExtArgs> | null
+    posts_created: Prisma.$postsPayload<ExtArgs>[]
+    profiles: Prisma.$profilesPayload<ExtArgs> | null
     sessions: Prisma.$sessionsPayload<ExtArgs>[]
-    followers: Prisma.$user_followsPayload<ExtArgs>[]
-    following: Prisma.$user_followsPayload<ExtArgs>[]
+    user_follows_user_follows_follower_idTousers: Prisma.$user_followsPayload<ExtArgs>[]
+    user_follows_user_follows_following_idTousers: Prisma.$user_followsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3013,18 +3443,20 @@ readonly fields: usersFieldRefs;
  */
 export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  files<T extends Prisma.users$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$filesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chat_conversations<T extends Prisma.users$chat_conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$chat_conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$chat_conversationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chat_messages<T extends Prisma.users$chat_messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$chat_messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$chat_messagesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   holdings<T extends Prisma.users$holdingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$holdingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$holdingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  likes<T extends Prisma.users$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.users$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$notificationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  password_reset_tokens<T extends Prisma.users$password_reset_tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$password_reset_tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$password_reset_tokensPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_bookmarks<T extends Prisma.users$post_bookmarksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$post_bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_bookmarksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  post_comments<T extends Prisma.users$post_commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$post_commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  post_comments_created<T extends Prisma.users$post_comments_createdArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$post_comments_createdArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_likes<T extends Prisma.users$post_likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$post_likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_views<T extends Prisma.users$post_viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$post_viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_viewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  posts<T extends Prisma.users$postsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$postsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  profile<T extends Prisma.users$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$profileArgs<ExtArgs>>): Prisma.Prisma__profilesClient<runtime.Types.Result.GetResult<Prisma.$profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  posts_created<T extends Prisma.users$posts_createdArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$posts_createdArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$postsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  profiles<T extends Prisma.users$profilesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$profilesArgs<ExtArgs>>): Prisma.Prisma__profilesClient<runtime.Types.Result.GetResult<Prisma.$profilesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sessions<T extends Prisma.users$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sessionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  followers<T extends Prisma.users$followersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$followersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_followsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  following<T extends Prisma.users$followingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$followingArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_followsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user_follows_user_follows_follower_idTousers<T extends Prisma.users$user_follows_user_follows_follower_idTousersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$user_follows_user_follows_follower_idTousersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_followsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user_follows_user_follows_following_idTousers<T extends Prisma.users$user_follows_user_follows_following_idTousersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$user_follows_user_follows_following_idTousersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_followsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3456,27 +3888,51 @@ export type usersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * users.files
+ * users.chat_conversations
  */
-export type users$filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$chat_conversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the files
+   * Select specific fields to fetch from the chat_conversations
    */
-  select?: Prisma.filesSelect<ExtArgs> | null
+  select?: Prisma.chat_conversationsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the files
+   * Omit specific fields from the chat_conversations
    */
-  omit?: Prisma.filesOmit<ExtArgs> | null
+  omit?: Prisma.chat_conversationsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.filesInclude<ExtArgs> | null
-  where?: Prisma.filesWhereInput
-  orderBy?: Prisma.filesOrderByWithRelationInput | Prisma.filesOrderByWithRelationInput[]
-  cursor?: Prisma.filesWhereUniqueInput
+  include?: Prisma.chat_conversationsInclude<ExtArgs> | null
+  where?: Prisma.chat_conversationsWhereInput
+  orderBy?: Prisma.chat_conversationsOrderByWithRelationInput | Prisma.chat_conversationsOrderByWithRelationInput[]
+  cursor?: Prisma.chat_conversationsWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.FilesScalarFieldEnum | Prisma.FilesScalarFieldEnum[]
+  distinct?: Prisma.Chat_conversationsScalarFieldEnum | Prisma.Chat_conversationsScalarFieldEnum[]
+}
+
+/**
+ * users.chat_messages
+ */
+export type users$chat_messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the chat_messages
+   */
+  select?: Prisma.chat_messagesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the chat_messages
+   */
+  omit?: Prisma.chat_messagesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.chat_messagesInclude<ExtArgs> | null
+  where?: Prisma.chat_messagesWhereInput
+  orderBy?: Prisma.chat_messagesOrderByWithRelationInput | Prisma.chat_messagesOrderByWithRelationInput[]
+  cursor?: Prisma.chat_messagesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Chat_messagesScalarFieldEnum | Prisma.Chat_messagesScalarFieldEnum[]
 }
 
 /**
@@ -3504,27 +3960,51 @@ export type users$holdingsArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * users.likes
+ * users.notifications
  */
-export type users$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the likes
+   * Select specific fields to fetch from the notifications
    */
-  select?: Prisma.likesSelect<ExtArgs> | null
+  select?: Prisma.notificationsSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the likes
+   * Omit specific fields from the notifications
    */
-  omit?: Prisma.likesOmit<ExtArgs> | null
+  omit?: Prisma.notificationsOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.likesInclude<ExtArgs> | null
-  where?: Prisma.likesWhereInput
-  orderBy?: Prisma.likesOrderByWithRelationInput | Prisma.likesOrderByWithRelationInput[]
-  cursor?: Prisma.likesWhereUniqueInput
+  include?: Prisma.notificationsInclude<ExtArgs> | null
+  where?: Prisma.notificationsWhereInput
+  orderBy?: Prisma.notificationsOrderByWithRelationInput | Prisma.notificationsOrderByWithRelationInput[]
+  cursor?: Prisma.notificationsWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.LikesScalarFieldEnum | Prisma.LikesScalarFieldEnum[]
+  distinct?: Prisma.NotificationsScalarFieldEnum | Prisma.NotificationsScalarFieldEnum[]
+}
+
+/**
+ * users.password_reset_tokens
+ */
+export type users$password_reset_tokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the password_reset_tokens
+   */
+  select?: Prisma.password_reset_tokensSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the password_reset_tokens
+   */
+  omit?: Prisma.password_reset_tokensOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.password_reset_tokensInclude<ExtArgs> | null
+  where?: Prisma.password_reset_tokensWhereInput
+  orderBy?: Prisma.password_reset_tokensOrderByWithRelationInput | Prisma.password_reset_tokensOrderByWithRelationInput[]
+  cursor?: Prisma.password_reset_tokensWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Password_reset_tokensScalarFieldEnum | Prisma.Password_reset_tokensScalarFieldEnum[]
 }
 
 /**
@@ -3552,9 +4032,9 @@ export type users$post_bookmarksArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * users.post_comments
+ * users.post_comments_created
  */
-export type users$post_commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$post_comments_createdArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the post_comments
    */
@@ -3624,9 +4104,9 @@ export type users$post_viewsArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * users.posts
+ * users.posts_created
  */
-export type users$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$posts_createdArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the posts
    */
@@ -3648,9 +4128,9 @@ export type users$postsArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 /**
- * users.profile
+ * users.profiles
  */
-export type users$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$profilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the profiles
    */
@@ -3691,9 +4171,9 @@ export type users$sessionsArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * users.followers
+ * users.user_follows_user_follows_follower_idTousers
  */
-export type users$followersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$user_follows_user_follows_follower_idTousersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the user_follows
    */
@@ -3715,9 +4195,9 @@ export type users$followersArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * users.following
+ * users.user_follows_user_follows_following_idTousers
  */
-export type users$followingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type users$user_follows_user_follows_following_idTousersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the user_follows
    */

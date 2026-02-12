@@ -342,16 +342,6 @@ export type post_viewsUncheckedUpdateManyInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type Post_viewsListRelationFilter = {
-  every?: Prisma.post_viewsWhereInput
-  some?: Prisma.post_viewsWhereInput
-  none?: Prisma.post_viewsWhereInput
-}
-
-export type post_viewsOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type post_viewsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   post_id?: Prisma.SortOrder
@@ -383,6 +373,16 @@ export type post_viewsMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+}
+
+export type Post_viewsListRelationFilter = {
+  every?: Prisma.post_viewsWhereInput
+  some?: Prisma.post_viewsWhereInput
+  none?: Prisma.post_viewsWhereInput
+}
+
+export type post_viewsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type post_viewsCreateNestedManyWithoutPostsInput = {

@@ -20,7 +20,7 @@ This is a comprehensive NestJS 11.x backend application built with TypeScript 5.
 - **Testing**: Jest with ts-jest transformer
 - **Package Manager**: Bun
 - **Linting**: ESLint with TypeScript ESLint
-- **Security**: bcrypt for password hashing, rate limiting (10 req/60s)
+- **Security**: bcrypt for password hashing, rate limiting (10 req/60s per route, custom limits for chat)
 
 ## Project Structure
 
@@ -33,61 +33,65 @@ src/
 ├── config/                      # Environment configuration
 │   └── configuration.ts         # Configuration factory
 ├── common/                      # Shared utilities and services
+│   ├── ai/                      # OpenRouter AI service
+│   │   └── openrouter.service.ts
 │   ├── email/                   # Email service with Handlebars templates
 │   │   ├── email.module.ts
 │   │   ├── email.service.ts
 │   │   └── templates/           # welcome, password-reset, generic templates
 │   ├── logger/
 │   │   └── logger.middleware.ts # HTTP request/response logging middleware
-│   ├── s3/                     # MinIO-compatible file storage service
+│   ├── s3/                      # MinIO-compatible file storage service
 │   │   ├── minio.module.ts
 │   │   └── minio.service.ts
-│   ├── pipes/                  # Custom validation pipes
+│   ├── pipes/                   # Custom validation pipes
 │   │   └── zod-validation.pipe.ts
-│   ├── interceptors/           # Response interceptors
+│   ├── interceptors/            # Response interceptors
 │   │   └── big-int.interceptor.ts
-│   └── utils/                  # Utility functions
+│   └── utils/                   # Utility functions
 │       └── big-int.util.ts
-├── db/                        # Database layer
-│   ├── db.module.ts           # Global database module
-│   ├── prisma.service.ts      # Prisma client with lifecycle management
-│   └── generated/             # Auto-generated Prisma client (excluded from edits)
-├── filters/                   # Exception handling
+├── db/                          # Database layer
+│   └── prisma.service.ts        # Prisma client with lifecycle management
+├── filters/                     # Exception handling
 │   ├── index.ts
-│   └── ws-exception.filter.ts # WebSocket exception filter
-└── v1/                        # API version 1 modules
-    ├── auth/                  # Authentication and authorization
+│   └── ws-exception.filter.ts   # WebSocket exception filter
+└── v1/                          # API version 1 modules
+    ├── auth/                    # Authentication and authorization
     │   ├── auth.module.ts
     │   ├── auth.service.ts
     │   ├── auth.controller.ts
-    │   ├── guards/            # Authentication guards
-    │   ├── strategies/        # Passport strategies (JWT, GitHub)
-    │   └── dto/               # Authentication DTOs
-    ├── users/                 # User management
+    │   ├── guards/              # Authentication guards (jwt, wsauth, superadmin)
+    │   ├── strategies/          # Passport strategies (JWT, GitHub)
+    │   └── dto/                 # Authentication DTOs
+    ├── users/                   # User management (includes profile endpoints)
     │   ├── users.module.ts
     │   ├── users.service.ts
     │   ├── users.controller.ts
     │   └── users.repository.ts
-    ├── posts/                 # Content management
+    ├── posts/                   # Content management
     │   ├── posts.module.ts
     │   ├── posts.service.ts
     │   ├── posts.repository.ts
-    │   ├── controllers/       # Multiple controllers (posts, admin-posts)
-    │   ├── dto/               # Data transfer objects
-    │   ├── posts.gateway.ts   # WebSocket gateway for real-time features
-    │   └── user-map-service.ts # User socket mapping service
-    ├── note/                  # Workspace and page management
-    │   ├── pages/             # Page management
-    │   └── workspaces/        # Workspace management
-    ├── tags/                  # Tag management
-    ├── writer/                # Writing tools
-    ├── chat/                  # AI-powered chat functionality
+    │   ├── controllers/         # Multiple controllers (posts, admin-posts)
+    │   ├── dto/                 # Data transfer objects
+    │   ├── posts.gateway.ts     # WebSocket gateway for real-time features
+    │   └── user-map-service.ts  # User socket mapping service
+    ├── holdings/                # Portfolio holdings tracking
+    │   ├── holdings.module.ts
+    │   ├── holdings.service.ts
+    │   └── dto/                 # Holdings DTOs (create, update, duplicate)
+    ├── note/                    # Workspace and page management
+    │   ├── pages/               # Page management
+    │   └── workspaces/          # Workspace management
+    ├── tags/                    # Tag management
+    ├── writer/                  # Writing tools
+    ├── chat/                    # AI-powered chat functionality
     │   ├── chat.module.ts
     │   ├── chat.controller.ts
-    │   ├── services/          # Chat and OpenRouter services
-    │   ├── dto/               # Chat-related DTOs
-    │   └── interfaces/        # Type definitions
-    └── me/                    # User profile endpoints
+    │   ├── services/            # Chat and OpenRouter services
+    │   ├── dto/                 # Chat-related DTOs
+    │   └── interfaces/          # Type definitions
+    └── user-follow/             # User follow system
 ```
 
 ## Core Modules and Relationships
@@ -101,7 +105,7 @@ src/
 - ValidationPipe with whitelist, transform, and forbidNonWhitelisted
 
 **DbModule** (src/db/db.module.ts:1-9) - Global database module providing:
-- PrismaService as global singleton
+- PrismaService as global singleton (auto-generated client at `src/generated/prisma/`)
 - Database connection lifecycle management (OnModuleInit/OnModuleDestroy)
 - Connection error handling and logging
 
@@ -117,6 +121,11 @@ src/
 - UserMapService for socket-to-user mapping
 - File upload integration with MinIO service
 - Comprehensive CRUD operations with pagination
+
+**HoldingsModule** - Portfolio holdings tracking:
+- CRUD operations for investment holdings
+- DTOs for create, update, and duplicate operations
+- Currency validation (3-character codes)
 
 **ChatModule** - AI-powered chat system:
 - OpenRouter integration for AI model access
@@ -139,6 +148,7 @@ AppModule
 ├── AuthModule → Exports AuthService
 ├── UsersModule → Uses AuthModule, DbModule
 ├── PostsModule → Uses AuthModule, DbModule, EmailModule, MinioModule
+├── HoldingsModule → Uses AuthModule, DbModule
 ├── PagesModule → Uses AuthModule, DbModule
 ├── WorkspacesModule → Uses AuthModule, DbModule
 ├── ChatModule → Uses AuthModule, DbModule
@@ -315,7 +325,7 @@ Environment variables are managed in `.env` file (see `.env.example`). The confi
 ### OpenRouter AI Configuration
 - `OPENROUTER_API_KEY` - OpenRouter API key for AI chat
 - `OPENROUTER_BASE_URL` - API base URL (defaults to https://openrouter.ai/api/v1)
-- `OPENROUTER_DEFAULT_MODEL` - Default AI model (defaults to openai/gpt-3.5-turbo)
+- `OPENROUTER_DEFAULT_MODEL` - Default AI model (defaults to x-ai/grok-4-fast)
 - `OPENROUTER_MAX_TOKENS` - Maximum tokens per request (defaults to 4000)
 - `OPENROUTER_TEMPERATURE` - AI response creativity (defaults to 0.7)
 
@@ -432,16 +442,40 @@ const s3Config = this.configService.get('s3');
 - **Search**: Full-text search capabilities where applicable
 - **File Upload**: Multer integration with MinIO storage backend
 - **WebSocket Events**: Real-time features via Socket.IO with proper authentication
+- **Zod Validation**: DTOs use Zod schemas with `ZodValidationPipe` for runtime validation
+- **Controller Versioning**: Use `@Controller({ path: '...', version: '1' })` for versioned APIs
+- **Streaming Responses**: AI chat uses Server-Sent Events (SSE) with Observable streams
 
 ### Validation and Security Patterns
 - **DTO Validation**: Zod schemas with custom validation pipes for complex validation
 - **Input Sanitization**: Automatic sanitization via validation pipes
-- **Rate Limiting**: Global throttling with configurable limits per time window
-- **Authentication**: JWT tokens with 6-hour expiration and refresh capabilities
-- **Authorization**: Role-based access control via guards
+- **Rate Limiting**: Global throttling (10 req/60s) with custom limits per module (e.g., chat: 5/1s, 20/10s, 100/60s)
+- **Authentication**: JWT tokens with 6-hour expiration, refresh tokens with 7-day expiration stored in sessions table
+- **Authorization**: Role-based access control via guards (JwtAuthGuard, WsAuthGuard, SuperadminGuard)
 - **CORS**: Configurable CORS policies with frontend URL whitelisting
 - **SQL Injection**: Prisma ORM prevents SQL injection attacks
 - **XSS Protection**: Automatic escaping in Handlebars templates
+
+### Zod DTO Pattern
+All DTOs use Zod schemas for runtime validation:
+```typescript
+// DTO file naming: create-{entity}.dto.ts, update-{entity}.dto.ts
+import { z } from "zod";
+
+export const CreateHoldingSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  currency: z.string().length(3, "Currency must be 3 characters"),
+});
+
+export type CreateHoldingDto = z.infer<typeof CreateHoldingSchema>;
+
+// Usage in controller with ZodValidationPipe
+@Post()
+async create(
+  @Body(new ZodValidationPipe(CreateHoldingSchema))
+  createDto: CreateHoldingDto
+)
+```
 
 ### Error Handling Strategy
 - **Global Exception Filters**: HTTP and WebSocket exception handling
@@ -732,12 +766,14 @@ npx prisma migrate reset
 - **`prisma/schema.prisma`** - PostgreSQL database schema with all models, relationships, and indexes
 - **`src/prisma.service.ts`** - Prisma client with lifecycle management and error handling
 - **`src/db/db.module.ts`** - Global database module providing PrismaService singleton
+- **`src/generated/prisma/`** - Auto-generated Prisma client (NEVER edit manually)
 
 ### Authentication and Authorization
 - **`src/v1/auth/auth.module.ts`** - Authentication module with JWT and GitHub strategies
 - **`src/v1/auth/auth.service.ts`** - Authentication business logic and JWT management
 - **`src/v1/auth/strategies/jwt.strategy.ts`** - JWT authentication strategy (6-hour expiration)
 - **`src/v1/auth/strategies/github.strategy.ts`** - GitHub OAuth strategy configuration
+- **`src/v1/auth/guards/`** - Guards: `jwt-auth.guard.ts`, `wsauth.guard.ts`, `superadmin.guard.ts`
 
 ### User Management
 - **`src/v1/users/users.module.ts`** - User management module with repository pattern
@@ -766,8 +802,10 @@ npx prisma migrate reset
 - **`src/common/email/templates/`** - Email templates (welcome, password-reset, generic)
 
 ### Common Utilities
+- **`src/common/ai/openrouter.service.ts`** - OpenRouter AI API integration
 - **`src/common/logger/logger.middleware.ts`** - HTTP request/response logging middleware
 - **`src/common/interceptors/big-int.interceptor.ts`** - BigInt serialization for JSON responses
+- **`src/common/utils/big-int.util.ts`** - BigInt utility functions (stringifyBigInts)
 - **`src/common/pipes/zod-validation.pipe.ts`** - Zod-based validation with detailed error messages
 - **`src/filters/ws-exception.filter.ts`** - WebSocket exception handling
 
@@ -782,29 +820,34 @@ npx prisma migrate reset
 
 ### Key Database Models (from schema.prisma)
 - **`users`** - User accounts with authentication data and relationships
+- **`profiles`** - User profile details (bio, website, phone, location)
+- **`sessions`** - JWT refresh token sessions with 7-day expiration
 - **`posts`** - Content posts with publication status and engagement metrics
 - **`post_likes`** - Post like system with user-post relationships
 - **`post_bookmarks`** - Post bookmarking functionality
 - **`post_comments`** - Comment system with nested replies
-- **`post_views`** - Post view tracking with deduplication
+- **`post_views`** - Post view tracking with IP/user-agent deduplication
 - **`chat_conversations`** - AI chat conversation management
 - **`chat_messages`** - Individual chat messages with streaming support
 - **`user_follows`** - Social follow system between users
+- **`holdings`** - Portfolio holdings tracking
+- **`holding_types`** - Holding type classifications
 - **`files`** - File upload tracking and metadata
 - **`tags`** and **`posts_to_tags`** - Content categorization system
 
 ### Critical Configuration Points
 - **JWT Configuration**: Located in AuthModule with 6-hour expiration
-- **Rate Limiting**: Global ThrottlerGuard with 10 requests per 60 seconds
+- **Refresh Tokens**: 7-day expiration stored in sessions table
+- **Rate Limiting**: Global ThrottlerGuard (10 req/60s), custom limits for ChatModule (5/1s, 20/10s, 100/60s)
 - **Database Connection**: PostgreSQL with connection pooling via Prisma
 - **File Storage**: MinIO-compatible with S3 API support
 - **Email**: SMTP configuration with Handlebars templating
-- **AI Integration**: OpenRouter API for AI chat functionality
-- **WebSocket**: Socket.IO for real-time features with authentication
+- **AI Integration**: OpenRouter API for AI chat functionality (x-ai/grok-4-fast default model)
+- **WebSocket**: Socket.IO for real-time features with WsAuthGuard authentication
+- **BigInt Handling**: Global interceptor serializes BigInt to string in JSON responses
 
 ### Performance and Monitoring
 - **Database Indexes**: Comprehensive indexing strategy for query performance
-- **BigInt Handling**: Custom interceptor for proper BigInt serialization
 - **Logging**: Structured logging with high-resolution timing
 - **Error Handling**: Global exception filters for both HTTP and WebSocket
 - **Health Checks**: Application and database health monitoring endpoints

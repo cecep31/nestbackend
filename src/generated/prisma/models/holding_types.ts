@@ -336,6 +336,14 @@ export type Holding_typesScalarRelationFilter = {
   isNot?: Prisma.holding_typesWhereInput
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type holding_typesCreateNestedOneWithoutHoldingsInput = {
   create?: Prisma.XOR<Prisma.holding_typesCreateWithoutHoldingsInput, Prisma.holding_typesUncheckedCreateWithoutHoldingsInput>
   connectOrCreate?: Prisma.holding_typesCreateOrConnectWithoutHoldingsInput

@@ -304,16 +304,6 @@ export type post_likesUncheckedUpdateManyInput = {
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type Post_likesListRelationFilter = {
-  every?: Prisma.post_likesWhereInput
-  some?: Prisma.post_likesWhereInput
-  none?: Prisma.post_likesWhereInput
-}
-
-export type post_likesOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
-}
-
 export type post_likesCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   post_id?: Prisma.SortOrder
@@ -339,6 +329,16 @@ export type post_likesMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   deleted_at?: Prisma.SortOrder
+}
+
+export type Post_likesListRelationFilter = {
+  every?: Prisma.post_likesWhereInput
+  some?: Prisma.post_likesWhereInput
+  none?: Prisma.post_likesWhereInput
+}
+
+export type post_likesOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type post_likesCreateNestedManyWithoutPostsInput = {

@@ -8,169 +8,158 @@ datasource db {
   provider = "postgresql"
 }
 
-model post_comments {
-  id                 String    @id @default(uuid()) @db.Uuid
-  created_at         DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at         DateTime? @default(now()) @db.Timestamptz(6)
-  deleted_at         DateTime? @db.Timestamptz(6)
-  text               String?
-  post_id            String?   @db.Uuid
-  parrent_comment_id BigInt?
-  created_by         String?   @db.Uuid
-  creator            users?    @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_post_comments_creator")
-  posts              posts?    @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_posts_post_comments")
+model chat_conversations {
+  id            String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime        @default(now()) @db.Timestamptz(6)
+  deleted_at    DateTime?       @db.Timestamptz(6)
+  title         String          @db.VarChar(255)
+  user_id       String          @db.Uuid
+  users         users           @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_conversations_user_id_users_id_fk")
+  chat_messages chat_messages[]
+
+  @@index([deleted_at], map: "idx_chat_conversations_deleted_at")
+  @@index([user_id], map: "idx_chat_conversations_user_id")
 }
 
-model posts {
-  id             String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime?        @default(now()) @db.Timestamptz(6)
-  deleted_at     DateTime?        @db.Timestamptz(6)
-  title          String?          @db.VarChar(255)
-  created_by     String?          @db.Uuid
-  body           String?
-  slug           String?          @db.VarChar(255)
-  photo_url      String?
-  published      Boolean?         @default(true)
-  view_count     BigInt?          @default(0)
-  like_count     BigInt?          @default(0)
-  post_bookmarks post_bookmarks[]
-  post_comments  post_comments[]
-  post_likes     post_likes[]
-  post_views     post_views[]
-  creator        users?           @relation(fields: [created_by], references: [id], map: "fk_posts_creator")
-  tags           posts_to_tags[]
+model chat_messages {
+  id                 String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at         DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime           @default(now()) @db.Timestamptz(6)
+  conversation_id    String             @db.Uuid
+  user_id            String             @db.Uuid
+  role               String             @db.VarChar(20)
+  content            String
+  model              String?            @db.VarChar(100)
+  prompt_tokens      Int?               @default(0)
+  completion_tokens  Int?               @default(0)
+  total_tokens       Int?               @default(0)
+  chat_conversations chat_conversations @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_messages_conversation_id_chat_conversations_id_fk")
+  users              users              @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_messages_user_id_users_id_fk")
 
-  @@unique([created_by, slug], map: "creator and slug inique")
-  @@index([deleted_at])
-  @@index([created_by, slug, published, deleted_at], map: "posts_created_by_idx")
-}
-
-model users {
-  id              String           @id @default(uuid()) @db.Uuid
-  created_at      DateTime?        @default(now()) @db.Timestamptz(6)
-  updated_at      DateTime?        @db.Timestamptz(6)
-  deleted_at      DateTime?        @db.Timestamptz(6)
-  first_name      String?          @default("pilput") @db.VarChar(255)
-  last_name       String?          @default("admin") @db.VarChar(255)
-  email           String           @unique(map: "idx_users_email") @db.VarChar(255)
-  password        String?          @db.VarChar(255)
-  image           String?
-  is_super_admin  Boolean?         @default(false)
-  username        String?          @unique(map: "idx_users_username") @db.VarChar(255)
-  github_id       BigInt?          @unique(map: "users_github_id_unique")
-  followers_count BigInt?          @default(0)
-  following_count BigInt?          @default(0)
-  files           files[]
-  holdings        holdings[]
-  likes           likes[]
-  post_bookmarks  post_bookmarks[]
-  post_comments   post_comments[]
-  post_likes      post_likes[]
-  post_views      post_views[]
-  posts           posts[]
-  profile         profiles?
-  sessions        sessions[]
-  followers       user_follows[]   @relation("UserFollowers")
-  following       user_follows[]   @relation("UserFollowing")
-
-  @@index([deleted_at])
-}
-
-model posts_to_tags {
-  post_id String @db.Uuid
-  tag_id  Int
-  posts   posts  @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ptt_post_id_posts_id_fk")
-  tag     tags   @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ptt_tag_id_tags_id_fk")
-
-  @@id([post_id, tag_id], map: "posts_to_tags_posts_id_tags_id_pk")
-}
-
-model tags {
-  id            Int             @id @default(autoincrement())
-  name          String?         @unique(map: "idx_tags_name") @db.VarChar(30)
-  created_at    DateTime?       @default(now()) @db.Timestamptz(6)
-  posts_to_tags posts_to_tags[]
+  @@index([conversation_id], map: "idx_chat_messages_conversation_id")
+  @@index([created_at], map: "idx_chat_messages_created_at")
+  @@index([user_id], map: "idx_chat_messages_user_id")
 }
 
 model files {
-  id         String    @id @default(uuid()) @db.Uuid
-  created_at DateTime? @db.Timestamptz(6)
-  updated_at DateTime? @db.Timestamptz(6)
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
   deleted_at DateTime? @db.Timestamptz(6)
   name       String?   @db.VarChar(255)
   path       String?
   size       Int?
   type       String?   @db.VarChar(255)
   created_by String?   @db.Uuid
-  users      users?    @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "files_created_by_users_id_fk")
+
+  @@index([created_by], map: "idx_files_created_by")
+  @@index([deleted_at], map: "idx_files_deleted_at")
 }
 
-model likes {
-  id         Int       @id @default(autoincrement())
+model holding_types {
+  id       Int        @id @default(autoincrement()) @db.SmallInt
+  code     String     @unique
+  name     String
+  notes    String?
+  holdings holdings[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model holdings {
+  id              BigInt        @id @default(autoincrement())
+  user_id         String        @db.Uuid
+  name            String
+  platform        String
+  holding_type_id Int           @db.SmallInt
+  currency        String        @db.Char(3)
+  invested_amount Decimal       @default(0) @db.Decimal(18, 2)
+  current_value   Decimal       @default(0) @db.Decimal(18, 2)
+  units           Decimal?      @db.Decimal(24, 10)
+  avg_buy_price   Decimal?      @db.Decimal(18, 8)
+  current_price   Decimal?      @db.Decimal(18, 8)
+  last_updated    DateTime?     @db.Timestamptz(6)
+  notes           String?
+  created_at      DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at      DateTime      @default(now()) @db.Timestamptz(6)
+  month           Int           @default(1)
+  year            Int           @default(2025)
+  holding_types   holding_types @relation(fields: [holding_type_id], references: [id], onUpdate: NoAction)
+  users           users         @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([holding_type_id], map: "idx_holdings_holding_type_id")
+  @@index([year, month], map: "idx_holdings_month_year")
+  @@index([user_id], map: "idx_holdings_user")
+  @@index([user_id, year, month], map: "idx_holdings_user_month_year")
+}
+
+model notifications {
+  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id    String   @db.Uuid
+  type       String   @db.VarChar(50)
+  title      String   @db.VarChar(255)
+  message    String?
+  read       Boolean  @default(false)
+  data       String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "notifications_user_id_users_id_fk")
+
+  @@index([read], map: "idx_notifications_read")
+  @@index([user_id], map: "idx_notifications_user_id")
+  @@index([user_id, read], map: "idx_notifications_user_read")
+}
+
+model password_reset_tokens {
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id    String    @db.Uuid
+  token      String    @unique(map: "idx_password_reset_tokens_token") @db.VarChar(255)
   created_at DateTime? @default(now()) @db.Timestamptz(6)
-  post_id    String?   @db.Uuid
-  user_id    String?   @db.Uuid
-  users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "likes_user_id_users_id_fk")
+  expires_at DateTime  @db.Timestamptz(6)
+  used_at    DateTime? @db.Timestamptz(6)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "password_reset_tokens_user_id_users_id_fk")
 
-  @@unique([post_id, user_id], map: "idx_like_post_id_created_by")
+  @@index([user_id], map: "idx_password_reset_tokens_user_id")
 }
 
-model profiles {
-  id         Int       @id @default(autoincrement())
-  user_id    String    @unique(map: "idx_profiles_user_id") @db.Uuid
+model post_bookmarks {
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  post_id    String    @db.Uuid
+  user_id    String    @db.Uuid
   created_at DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at DateTime? @db.Timestamptz(6)
-  bio        String?
-  website    String?
-  phone      String?   @db.VarChar(50)
-  location   String?   @db.VarChar(255)
-  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "profiles_user_id_users_id_fk")
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  deleted_at DateTime? @db.Timestamptz(6)
+  posts      posts     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_bookmarks_post_id")
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_bookmarks_user_id")
+
+  @@unique([post_id, user_id], map: "idx_bookmark_post_id_user_id")
+  @@index([created_at], map: "idx_post_bookmarks_created_at")
+  @@index([deleted_at], map: "idx_post_bookmarks_deleted_at")
+  @@index([post_id], map: "idx_post_bookmarks_post_id")
+  @@index([user_id], map: "idx_post_bookmarks_user_id")
 }
 
-model chat_conversations {
-  id         String          @id @default(uuid()) @db.Uuid
-  created_at DateTime        @default(now()) @db.Timestamptz(6)
-  updated_at DateTime        @updatedAt @db.Timestamptz(6)
-  deleted_at DateTime?       @db.Timestamptz(6)
-  title      String          @db.VarChar(255)
-  user_id    String          @db.Uuid
-  messages   chat_messages[]
-}
+model post_comments {
+  id                String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at        DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime? @default(now()) @db.Timestamptz(6)
+  deleted_at        DateTime? @db.Timestamptz(6)
+  text              String
+  post_id           String?   @db.Uuid
+  parent_comment_id BigInt?
+  created_by        String?   @db.Uuid
+  posts             posts?    @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_posts_post_comments")
+  user              users?    @relation("CommentCreator", fields: [created_by], references: [id], onDelete: SetNull, onUpdate: NoAction)
 
-model chat_messages {
-  id                String             @id @default(uuid()) @db.Uuid
-  created_at        DateTime           @default(now()) @db.Timestamptz(6)
-  updated_at        DateTime           @updatedAt @db.Timestamptz(6)
-  conversation_id   String             @db.Uuid
-  user_id           String             @db.Uuid
-  role              String             @db.VarChar(20)
-  content           String
-  model             String?            @db.VarChar(100)
-  prompt_tokens     Int?
-  completion_tokens Int?
-  total_tokens      Int?
-  conversation      chat_conversations @relation(fields: [conversation_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_messages_conversation_id_chat_conversations_id_fk")
-}
-
-model user_follows {
-  id           String    @id @default(uuid()) @db.Uuid
-  follower_id  String    @db.Uuid
-  following_id String    @db.Uuid
-  created_at   DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at   DateTime? @default(now()) @db.Timestamptz(6)
-  deleted_at   DateTime? @db.Timestamptz(6)
-  follower     users     @relation("UserFollowers", fields: [follower_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_follows_follower_id")
-  following    users     @relation("UserFollowing", fields: [following_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_follows_following_id")
-
-  @@index([follower_id], map: "idx_user_follows_follower_id")
-  @@index([following_id], map: "idx_user_follows_following_id")
-  @@index([created_at], map: "idx_user_follows_created_at")
-  @@index([deleted_at], map: "idx_user_follows_deleted_at")
+  @@index([created_by], map: "idx_post_comments_created_by")
+  @@index([deleted_at], map: "idx_post_comments_deleted_at")
+  @@index([parent_comment_id], map: "idx_post_comments_parent_id")
+  @@index([post_id], map: "idx_post_comments_post_id")
+  @@index([post_id, parent_comment_id], map: "idx_post_comments_post_parent")
 }
 
 model post_likes {
-  id         String    @id @default(uuid()) @db.Uuid
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   post_id    String    @db.Uuid
   user_id    String    @db.Uuid
   created_at DateTime? @default(now()) @db.Timestamptz(6)
@@ -180,7 +169,6 @@ model post_likes {
   users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_likes_user_id")
 
   @@index([created_at], map: "idx_post_likes_created_at")
-  @@index([deleted_at], map: "idx_post_likes_deleted_at")
   @@index([post_id], map: "idx_post_likes_post_id")
   @@index([user_id], map: "idx_post_likes_user_id")
 }
@@ -203,21 +191,54 @@ model post_views {
   @@index([user_id], map: "idx_post_views_user_id")
 }
 
-model post_bookmarks {
-  id         String    @id @default(uuid()) @db.Uuid
-  post_id    String    @db.Uuid
-  user_id    String    @db.Uuid
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model posts {
+  id             String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  deleted_at     DateTime?        @db.Timestamptz(6)
+  title          String?          @db.VarChar(255)
+  created_by     String?          @db.Uuid
+  body           String?
+  slug           String?          @db.VarChar(255)
+  photo_url      String?
+  published      Boolean?         @default(true)
+  view_count     BigInt?          @default(0)
+  like_count     BigInt?          @default(0)
+  user           users?           @relation("PostCreator", fields: [created_by], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  post_bookmarks post_bookmarks[]
+  post_comments  post_comments[]
+  post_likes     post_likes[]
+  post_views     post_views[]
+  posts_to_tags  posts_to_tags[]
+
+  @@index([created_by], map: "idx_posts_created_by")
+  @@index([deleted_at], map: "idx_posts_deleted_at")
+  @@index([published], map: "idx_posts_published")
+  @@index([slug], map: "idx_posts_slug")
+}
+
+model posts_to_tags {
+  post_id String @db.Uuid
+  tag_id  Int
+  posts   posts  @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ptt_post_id_posts_id_fk")
+  tags    tags   @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ptt_tag_id_tags_id_fk")
+
+  @@id([post_id, tag_id], map: "posts_to_tags_posts_id_tags_id_pk")
+  @@index([post_id], map: "idx_posts_to_tags_post_id")
+  @@index([tag_id], map: "idx_posts_to_tags_tag_id")
+}
+
+model profiles {
+  id         Int       @id @default(autoincrement())
+  user_id    String    @unique(map: "idx_profiles_user_id") @db.Uuid
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   updated_at DateTime? @default(now()) @db.Timestamptz(6)
-  deleted_at DateTime? @db.Timestamptz(6)
-  posts      posts     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_bookmarks_post_id")
-  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_bookmarks_user_id")
-
-  @@unique([post_id, user_id], map: "idx_bookmark_post_id_user_id")
-  @@index([created_at], map: "idx_post_bookmarks_created_at")
-  @@index([deleted_at], map: "idx_post_bookmarks_deleted_at")
-  @@index([post_id], map: "idx_post_bookmarks_post_id")
-  @@index([user_id], map: "idx_post_bookmarks_user_id")
+  bio        String?
+  website    String?
+  phone      String?   @db.VarChar(50)
+  location   String?   @db.VarChar(255)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "profiles_user_id_users_id_fk")
 }
 
 model sessions {
@@ -227,37 +248,64 @@ model sessions {
   user_agent    String?
   expires_at    DateTime? @db.Timestamptz(6)
   users         users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "sessions_user_id_users_id_fk")
+
+  @@index([expires_at], map: "idx_sessions_expires_at")
+  @@index([user_id], map: "idx_sessions_user_id")
 }
 
-model holding_types {
-  id       Int        @id @default(autoincrement()) @db.SmallInt
-  code     String     @unique
-  name     String
-  notes    String?
-  holdings holdings[]
+model tags {
+  id            Int             @id @default(autoincrement())
+  name          String?         @unique(map: "idx_tags_name") @db.VarChar(30)
+  created_at    DateTime?       @default(now()) @db.Timestamptz(6)
+  posts_to_tags posts_to_tags[]
 }
 
-model holdings {
-  id              BigInt        @id @default(autoincrement())
-  user_id         String        @db.Uuid
-  name            String
-  platform        String
-  holding_type_id Int           @db.SmallInt
-  currency        String        @db.Char(3)
-  invested_amount Decimal       @default(0) @db.Decimal(18, 2)
-  current_value   Decimal       @default(0) @db.Decimal(18, 2)
-  units           Decimal?      @db.Decimal(24, 10)
-  avg_buy_price   Decimal?      @db.Decimal(18, 8)
-  current_price   Decimal?      @db.Decimal(18, 8)
-  last_updated    DateTime?     @db.Timestamptz(6)
-  notes           String?
-  month           Int
-  year            Int
-  created_at      DateTime      @default(now()) @db.Timestamptz(6)
-  updated_at      DateTime      @default(now()) @db.Timestamptz(6)
-  holding_types   holding_types @relation(fields: [holding_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users           users         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model user_follows {
+  id                                     String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  follower_id                            String    @db.Uuid
+  following_id                           String    @db.Uuid
+  created_at                             DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at                             DateTime? @default(now()) @db.Timestamptz(6)
+  deleted_at                             DateTime? @db.Timestamptz(6)
+  users_user_follows_follower_idTousers  users     @relation("user_follows_follower_idTousers", fields: [follower_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_follows_follower_id")
+  users_user_follows_following_idTousers users     @relation("user_follows_following_idTousers", fields: [following_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_follows_following_id")
 
-  @@unique([user_id, platform, name, currency], map: "uq_holdings_user_platform_name_currency")
-  @@index([user_id], map: "idx_holdings_user")
+  @@index([created_at], map: "idx_user_follows_created_at")
+  @@index([deleted_at], map: "idx_user_follows_deleted_at")
+  @@index([follower_id], map: "idx_user_follows_follower_id")
+  @@index([following_id], map: "idx_user_follows_following_id")
+}
+
+model users {
+  id                                            String                  @id @db.Uuid
+  created_at                                    DateTime?               @default(now()) @db.Timestamptz(6)
+  updated_at                                    DateTime?               @db.Timestamptz(6)
+  deleted_at                                    DateTime?               @db.Timestamptz(6)
+  first_name                                    String?                 @default("pilput") @db.VarChar(255)
+  last_name                                     String?                 @default("admin") @db.VarChar(255)
+  email                                         String                  @unique(map: "idx_users_email") @db.VarChar(255)
+  password                                      String?                 @db.VarChar(255)
+  image                                         String?
+  is_super_admin                                Boolean?                @default(false)
+  username                                      String?                 @unique(map: "idx_users_username") @db.VarChar(255)
+  github_id                                     BigInt?                 @unique(map: "users_github_id_unique")
+  followers_count                               BigInt?                 @default(0)
+  following_count                               BigInt?                 @default(0)
+  chat_conversations                            chat_conversations[]
+  chat_messages                                 chat_messages[]
+  holdings                                      holdings[]
+  notifications                                 notifications[]
+  password_reset_tokens                         password_reset_tokens[]
+  post_bookmarks                                post_bookmarks[]
+  post_comments_created                         post_comments[]         @relation("CommentCreator")
+  post_likes                                    post_likes[]
+  post_views                                    post_views[]
+  posts_created                                 posts[]                 @relation("PostCreator")
+  profiles                                      profiles?
+  sessions                                      sessions[]
+  user_follows_user_follows_follower_idTousers  user_follows[]          @relation("user_follows_follower_idTousers")
+  user_follows_user_follows_following_idTousers user_follows[]          @relation("user_follows_following_idTousers")
+
+  @@index([deleted_at])
 }
