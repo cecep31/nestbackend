@@ -29,8 +29,6 @@ export type Post_likesMinAggregateOutputType = {
   post_id: string | null
   user_id: string | null
   created_at: Date | null
-  updated_at: Date | null
-  deleted_at: Date | null
 }
 
 export type Post_likesMaxAggregateOutputType = {
@@ -38,8 +36,6 @@ export type Post_likesMaxAggregateOutputType = {
   post_id: string | null
   user_id: string | null
   created_at: Date | null
-  updated_at: Date | null
-  deleted_at: Date | null
 }
 
 export type Post_likesCountAggregateOutputType = {
@@ -47,8 +43,6 @@ export type Post_likesCountAggregateOutputType = {
   post_id: number
   user_id: number
   created_at: number
-  updated_at: number
-  deleted_at: number
   _all: number
 }
 
@@ -58,8 +52,6 @@ export type Post_likesMinAggregateInputType = {
   post_id?: true
   user_id?: true
   created_at?: true
-  updated_at?: true
-  deleted_at?: true
 }
 
 export type Post_likesMaxAggregateInputType = {
@@ -67,8 +59,6 @@ export type Post_likesMaxAggregateInputType = {
   post_id?: true
   user_id?: true
   created_at?: true
-  updated_at?: true
-  deleted_at?: true
 }
 
 export type Post_likesCountAggregateInputType = {
@@ -76,8 +66,6 @@ export type Post_likesCountAggregateInputType = {
   post_id?: true
   user_id?: true
   created_at?: true
-  updated_at?: true
-  deleted_at?: true
   _all?: true
 }
 
@@ -158,8 +146,6 @@ export type Post_likesGroupByOutputType = {
   post_id: string
   user_id: string
   created_at: Date | null
-  updated_at: Date | null
-  deleted_at: Date | null
   _count: Post_likesCountAggregateOutputType | null
   _min: Post_likesMinAggregateOutputType | null
   _max: Post_likesMaxAggregateOutputType | null
@@ -188,8 +174,6 @@ export type post_likesWhereInput = {
   post_id?: Prisma.UuidFilter<"post_likes"> | string
   user_id?: Prisma.UuidFilter<"post_likes"> | string
   created_at?: Prisma.DateTimeNullableFilter<"post_likes"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"post_likes"> | Date | string | null
-  deleted_at?: Prisma.DateTimeNullableFilter<"post_likes"> | Date | string | null
   posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }
@@ -199,8 +183,6 @@ export type post_likesOrderByWithRelationInput = {
   post_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   posts?: Prisma.postsOrderByWithRelationInput
   users?: Prisma.usersOrderByWithRelationInput
 }
@@ -213,8 +195,6 @@ export type post_likesWhereUniqueInput = Prisma.AtLeast<{
   post_id?: Prisma.UuidFilter<"post_likes"> | string
   user_id?: Prisma.UuidFilter<"post_likes"> | string
   created_at?: Prisma.DateTimeNullableFilter<"post_likes"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"post_likes"> | Date | string | null
-  deleted_at?: Prisma.DateTimeNullableFilter<"post_likes"> | Date | string | null
   posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
 }, "id">
@@ -224,8 +204,6 @@ export type post_likesOrderByWithAggregationInput = {
   post_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.post_likesCountOrderByAggregateInput
   _max?: Prisma.post_likesMaxOrderByAggregateInput
   _min?: Prisma.post_likesMinOrderByAggregateInput
@@ -239,15 +217,11 @@ export type post_likesScalarWhereWithAggregatesInput = {
   post_id?: Prisma.UuidWithAggregatesFilter<"post_likes"> | string
   user_id?: Prisma.UuidWithAggregatesFilter<"post_likes"> | string
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"post_likes"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"post_likes"> | Date | string | null
-  deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"post_likes"> | Date | string | null
 }
 
 export type post_likesCreateInput = {
   id?: string
   created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   posts: Prisma.postsCreateNestedOneWithoutPost_likesInput
   users: Prisma.usersCreateNestedOneWithoutPost_likesInput
 }
@@ -257,15 +231,11 @@ export type post_likesUncheckedCreateInput = {
   post_id: string
   user_id: string
   created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
 }
 
 export type post_likesUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   posts?: Prisma.postsUpdateOneRequiredWithoutPost_likesNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutPost_likesNestedInput
 }
@@ -275,8 +245,6 @@ export type post_likesUncheckedUpdateInput = {
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type post_likesCreateManyInput = {
@@ -284,15 +252,11 @@ export type post_likesCreateManyInput = {
   post_id: string
   user_id: string
   created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
 }
 
 export type post_likesUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type post_likesUncheckedUpdateManyInput = {
@@ -300,8 +264,6 @@ export type post_likesUncheckedUpdateManyInput = {
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type post_likesCountOrderByAggregateInput = {
@@ -309,8 +271,6 @@ export type post_likesCountOrderByAggregateInput = {
   post_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  deleted_at?: Prisma.SortOrder
 }
 
 export type post_likesMaxOrderByAggregateInput = {
@@ -318,8 +278,6 @@ export type post_likesMaxOrderByAggregateInput = {
   post_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  deleted_at?: Prisma.SortOrder
 }
 
 export type post_likesMinOrderByAggregateInput = {
@@ -327,8 +285,6 @@ export type post_likesMinOrderByAggregateInput = {
   post_id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  deleted_at?: Prisma.SortOrder
 }
 
 export type Post_likesListRelationFilter = {
@@ -428,8 +384,6 @@ export type post_likesUncheckedUpdateManyWithoutUsersNestedInput = {
 export type post_likesCreateWithoutPostsInput = {
   id?: string
   created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   users: Prisma.usersCreateNestedOneWithoutPost_likesInput
 }
 
@@ -437,8 +391,6 @@ export type post_likesUncheckedCreateWithoutPostsInput = {
   id?: string
   user_id: string
   created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
 }
 
 export type post_likesCreateOrConnectWithoutPostsInput = {
@@ -475,15 +427,11 @@ export type post_likesScalarWhereInput = {
   post_id?: Prisma.UuidFilter<"post_likes"> | string
   user_id?: Prisma.UuidFilter<"post_likes"> | string
   created_at?: Prisma.DateTimeNullableFilter<"post_likes"> | Date | string | null
-  updated_at?: Prisma.DateTimeNullableFilter<"post_likes"> | Date | string | null
-  deleted_at?: Prisma.DateTimeNullableFilter<"post_likes"> | Date | string | null
 }
 
 export type post_likesCreateWithoutUsersInput = {
   id?: string
   created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
   posts: Prisma.postsCreateNestedOneWithoutPost_likesInput
 }
 
@@ -491,8 +439,6 @@ export type post_likesUncheckedCreateWithoutUsersInput = {
   id?: string
   post_id: string
   created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
 }
 
 export type post_likesCreateOrConnectWithoutUsersInput = {
@@ -525,15 +471,11 @@ export type post_likesCreateManyPostsInput = {
   id?: string
   user_id: string
   created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
 }
 
 export type post_likesUpdateWithoutPostsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   users?: Prisma.usersUpdateOneRequiredWithoutPost_likesNestedInput
 }
 
@@ -541,31 +483,23 @@ export type post_likesUncheckedUpdateWithoutPostsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type post_likesUncheckedUpdateManyWithoutPostsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type post_likesCreateManyUsersInput = {
   id?: string
   post_id: string
   created_at?: Date | string | null
-  updated_at?: Date | string | null
-  deleted_at?: Date | string | null
 }
 
 export type post_likesUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   posts?: Prisma.postsUpdateOneRequiredWithoutPost_likesNestedInput
 }
 
@@ -573,16 +507,12 @@ export type post_likesUncheckedUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type post_likesUncheckedUpdateManyWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   post_id?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -592,8 +522,6 @@ export type post_likesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   post_id?: boolean
   user_id?: boolean
   created_at?: boolean
-  updated_at?: boolean
-  deleted_at?: boolean
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_likes"]>
@@ -603,8 +531,6 @@ export type post_likesSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   post_id?: boolean
   user_id?: boolean
   created_at?: boolean
-  updated_at?: boolean
-  deleted_at?: boolean
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_likes"]>
@@ -614,8 +540,6 @@ export type post_likesSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   post_id?: boolean
   user_id?: boolean
   created_at?: boolean
-  updated_at?: boolean
-  deleted_at?: boolean
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post_likes"]>
@@ -625,11 +549,9 @@ export type post_likesSelectScalar = {
   post_id?: boolean
   user_id?: boolean
   created_at?: boolean
-  updated_at?: boolean
-  deleted_at?: boolean
 }
 
-export type post_likesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "post_id" | "user_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["post_likes"]>
+export type post_likesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "post_id" | "user_id" | "created_at", ExtArgs["result"]["post_likes"]>
 export type post_likesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.postsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
@@ -654,8 +576,6 @@ export type $post_likesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     post_id: string
     user_id: string
     created_at: Date | null
-    updated_at: Date | null
-    deleted_at: Date | null
   }, ExtArgs["result"]["post_likes"]>
   composites: {}
 }
@@ -1085,8 +1005,6 @@ export interface post_likesFieldRefs {
   readonly post_id: Prisma.FieldRef<"post_likes", 'String'>
   readonly user_id: Prisma.FieldRef<"post_likes", 'String'>
   readonly created_at: Prisma.FieldRef<"post_likes", 'DateTime'>
-  readonly updated_at: Prisma.FieldRef<"post_likes", 'DateTime'>
-  readonly deleted_at: Prisma.FieldRef<"post_likes", 'DateTime'>
 }
     
 

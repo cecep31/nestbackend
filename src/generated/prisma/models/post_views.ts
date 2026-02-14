@@ -225,6 +225,7 @@ export type post_viewsOrderByWithRelationInput = {
 
 export type post_viewsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  post_id_user_id?: Prisma.post_viewsPost_idUser_idCompoundUniqueInput
   AND?: Prisma.post_viewsWhereInput | Prisma.post_viewsWhereInput[]
   OR?: Prisma.post_viewsWhereInput[]
   NOT?: Prisma.post_viewsWhereInput | Prisma.post_viewsWhereInput[]
@@ -237,7 +238,7 @@ export type post_viewsWhereUniqueInput = Prisma.AtLeast<{
   deleted_at?: Prisma.DateTimeNullableFilter<"post_views"> | Date | string | null
   users?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
   posts?: Prisma.XOR<Prisma.PostsScalarRelationFilter, Prisma.postsWhereInput>
-}, "id">
+}, "id" | "post_id_user_id">
 
 export type post_viewsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -340,6 +341,11 @@ export type post_viewsUncheckedUpdateManyInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type post_viewsPost_idUser_idCompoundUniqueInput = {
+  post_id: string
+  user_id: string
 }
 
 export type post_viewsCountOrderByAggregateInput = {

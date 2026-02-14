@@ -107,3 +107,8 @@ export type user_follows = Prisma.user_followsModel
  * 
  */
 export type users = Prisma.usersModel
+/**
+ * Model auth_activity_logs
+ * 
+ */
+export type auth_activity_logs = Prisma.auth_activity_logsModel

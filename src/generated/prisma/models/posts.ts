@@ -230,10 +230,10 @@ export type PostsGroupByOutputType = {
   created_at: Date | null
   updated_at: Date | null
   deleted_at: Date | null
-  title: string | null
-  created_by: string | null
+  title: string
+  created_by: string
   body: string | null
-  slug: string | null
+  slug: string
   photo_url: string | null
   published: boolean | null
   view_count: bigint | null
@@ -268,19 +268,19 @@ export type postsWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
-  title?: Prisma.StringNullableFilter<"posts"> | string | null
-  created_by?: Prisma.UuidNullableFilter<"posts"> | string | null
+  title?: Prisma.StringFilter<"posts"> | string
+  created_by?: Prisma.UuidFilter<"posts"> | string
   body?: Prisma.StringNullableFilter<"posts"> | string | null
-  slug?: Prisma.StringNullableFilter<"posts"> | string | null
+  slug?: Prisma.StringFilter<"posts"> | string
   photo_url?: Prisma.StringNullableFilter<"posts"> | string | null
   published?: Prisma.BoolNullableFilter<"posts"> | boolean | null
   view_count?: Prisma.BigIntNullableFilter<"posts"> | bigint | number | null
   like_count?: Prisma.BigIntNullableFilter<"posts"> | bigint | number | null
-  user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
   post_bookmarks?: Prisma.Post_bookmarksListRelationFilter
   post_comments?: Prisma.Post_commentsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
   post_views?: Prisma.Post_viewsListRelationFilter
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   posts_to_tags?: Prisma.Posts_to_tagsListRelationFilter
 }
 
@@ -289,55 +289,56 @@ export type postsOrderByWithRelationInput = {
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  title?: Prisma.SortOrder
+  created_by?: Prisma.SortOrder
   body?: Prisma.SortOrderInput | Prisma.SortOrder
-  slug?: Prisma.SortOrderInput | Prisma.SortOrder
+  slug?: Prisma.SortOrder
   photo_url?: Prisma.SortOrderInput | Prisma.SortOrder
   published?: Prisma.SortOrderInput | Prisma.SortOrder
   view_count?: Prisma.SortOrderInput | Prisma.SortOrder
   like_count?: Prisma.SortOrderInput | Prisma.SortOrder
-  user?: Prisma.usersOrderByWithRelationInput
   post_bookmarks?: Prisma.post_bookmarksOrderByRelationAggregateInput
   post_comments?: Prisma.post_commentsOrderByRelationAggregateInput
   post_likes?: Prisma.post_likesOrderByRelationAggregateInput
   post_views?: Prisma.post_viewsOrderByRelationAggregateInput
+  user?: Prisma.usersOrderByWithRelationInput
   posts_to_tags?: Prisma.posts_to_tagsOrderByRelationAggregateInput
 }
 
 export type postsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  created_by_slug?: Prisma.postsCreated_bySlugCompoundUniqueInput
   AND?: Prisma.postsWhereInput | Prisma.postsWhereInput[]
   OR?: Prisma.postsWhereInput[]
   NOT?: Prisma.postsWhereInput | Prisma.postsWhereInput[]
   created_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
-  title?: Prisma.StringNullableFilter<"posts"> | string | null
-  created_by?: Prisma.UuidNullableFilter<"posts"> | string | null
+  title?: Prisma.StringFilter<"posts"> | string
+  created_by?: Prisma.UuidFilter<"posts"> | string
   body?: Prisma.StringNullableFilter<"posts"> | string | null
-  slug?: Prisma.StringNullableFilter<"posts"> | string | null
+  slug?: Prisma.StringFilter<"posts"> | string
   photo_url?: Prisma.StringNullableFilter<"posts"> | string | null
   published?: Prisma.BoolNullableFilter<"posts"> | boolean | null
   view_count?: Prisma.BigIntNullableFilter<"posts"> | bigint | number | null
   like_count?: Prisma.BigIntNullableFilter<"posts"> | bigint | number | null
-  user?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
   post_bookmarks?: Prisma.Post_bookmarksListRelationFilter
   post_comments?: Prisma.Post_commentsListRelationFilter
   post_likes?: Prisma.Post_likesListRelationFilter
   post_views?: Prisma.Post_viewsListRelationFilter
+  user?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   posts_to_tags?: Prisma.Posts_to_tagsListRelationFilter
-}, "id">
+}, "id" | "created_by_slug">
 
 export type postsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   deleted_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
-  created_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  title?: Prisma.SortOrder
+  created_by?: Prisma.SortOrder
   body?: Prisma.SortOrderInput | Prisma.SortOrder
-  slug?: Prisma.SortOrderInput | Prisma.SortOrder
+  slug?: Prisma.SortOrder
   photo_url?: Prisma.SortOrderInput | Prisma.SortOrder
   published?: Prisma.SortOrderInput | Prisma.SortOrder
   view_count?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -357,10 +358,10 @@ export type postsScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"posts"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"posts"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableWithAggregatesFilter<"posts"> | Date | string | null
-  title?: Prisma.StringNullableWithAggregatesFilter<"posts"> | string | null
-  created_by?: Prisma.UuidNullableWithAggregatesFilter<"posts"> | string | null
+  title?: Prisma.StringWithAggregatesFilter<"posts"> | string
+  created_by?: Prisma.UuidWithAggregatesFilter<"posts"> | string
   body?: Prisma.StringNullableWithAggregatesFilter<"posts"> | string | null
-  slug?: Prisma.StringNullableWithAggregatesFilter<"posts"> | string | null
+  slug?: Prisma.StringWithAggregatesFilter<"posts"> | string
   photo_url?: Prisma.StringNullableWithAggregatesFilter<"posts"> | string | null
   published?: Prisma.BoolNullableWithAggregatesFilter<"posts"> | boolean | null
   view_count?: Prisma.BigIntNullableWithAggregatesFilter<"posts"> | bigint | number | null
@@ -372,18 +373,18 @@ export type postsCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
+  title: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
   like_count?: bigint | number | null
-  user?: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutPostsInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutPostsInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostsInput
   post_views?: Prisma.post_viewsCreateNestedManyWithoutPostsInput
+  user: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   posts_to_tags?: Prisma.posts_to_tagsCreateNestedManyWithoutPostsInput
 }
 
@@ -392,10 +393,10 @@ export type postsUncheckedCreateInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
-  created_by?: string | null
+  title: string
+  created_by: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -412,18 +413,18 @@ export type postsUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   like_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  user?: Prisma.usersUpdateOneWithoutPosts_createdNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutPostsNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutPostsNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostsNestedInput
   post_views?: Prisma.post_viewsUpdateManyWithoutPostsNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutPosts_createdNestedInput
   posts_to_tags?: Prisma.posts_to_tagsUpdateManyWithoutPostsNestedInput
 }
 
@@ -432,10 +433,10 @@ export type postsUncheckedUpdateInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -452,10 +453,10 @@ export type postsCreateManyInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
-  created_by?: string | null
+  title: string
+  created_by: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -467,9 +468,9 @@ export type postsUpdateManyMutationInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -481,10 +482,10 @@ export type postsUncheckedUpdateManyInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -496,9 +497,9 @@ export type PostsScalarRelationFilter = {
   isNot?: Prisma.postsWhereInput
 }
 
-export type PostsNullableScalarRelationFilter = {
-  is?: Prisma.postsWhereInput | null
-  isNot?: Prisma.postsWhereInput | null
+export type postsCreated_bySlugCompoundUniqueInput = {
+  created_by: string
+  slug: string
 }
 
 export type postsCountOrderByAggregateInput = {
@@ -586,12 +587,10 @@ export type postsCreateNestedOneWithoutPost_commentsInput = {
   connect?: Prisma.postsWhereUniqueInput
 }
 
-export type postsUpdateOneWithoutPost_commentsNestedInput = {
+export type postsUpdateOneRequiredWithoutPost_commentsNestedInput = {
   create?: Prisma.XOR<Prisma.postsCreateWithoutPost_commentsInput, Prisma.postsUncheckedCreateWithoutPost_commentsInput>
   connectOrCreate?: Prisma.postsCreateOrConnectWithoutPost_commentsInput
   upsert?: Prisma.postsUpsertWithoutPost_commentsInput
-  disconnect?: Prisma.postsWhereInput | boolean
-  delete?: Prisma.postsWhereInput | boolean
   connect?: Prisma.postsWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.postsUpdateToOneWithWhereWithoutPost_commentsInput, Prisma.postsUpdateWithoutPost_commentsInput>, Prisma.postsUncheckedUpdateWithoutPost_commentsInput>
 }
@@ -626,6 +625,14 @@ export type postsUpdateOneRequiredWithoutPost_viewsNestedInput = {
 
 export type NullableBoolFieldUpdateOperationsInput = {
   set?: boolean | null
+}
+
+export type NullableBigIntFieldUpdateOperationsInput = {
+  set?: bigint | number | null
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
 }
 
 export type postsCreateNestedOneWithoutPosts_to_tagsInput = {
@@ -689,17 +696,17 @@ export type postsCreateWithoutPost_bookmarksInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
+  title: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
   like_count?: bigint | number | null
-  user?: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutPostsInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostsInput
   post_views?: Prisma.post_viewsCreateNestedManyWithoutPostsInput
+  user: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   posts_to_tags?: Prisma.posts_to_tagsCreateNestedManyWithoutPostsInput
 }
 
@@ -708,10 +715,10 @@ export type postsUncheckedCreateWithoutPost_bookmarksInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
-  created_by?: string | null
+  title: string
+  created_by: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -743,17 +750,17 @@ export type postsUpdateWithoutPost_bookmarksInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   like_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  user?: Prisma.usersUpdateOneWithoutPosts_createdNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutPostsNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostsNestedInput
   post_views?: Prisma.post_viewsUpdateManyWithoutPostsNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutPosts_createdNestedInput
   posts_to_tags?: Prisma.posts_to_tagsUpdateManyWithoutPostsNestedInput
 }
 
@@ -762,10 +769,10 @@ export type postsUncheckedUpdateWithoutPost_bookmarksInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -781,17 +788,17 @@ export type postsCreateWithoutPost_commentsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
+  title: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
   like_count?: bigint | number | null
-  user?: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutPostsInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostsInput
   post_views?: Prisma.post_viewsCreateNestedManyWithoutPostsInput
+  user: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   posts_to_tags?: Prisma.posts_to_tagsCreateNestedManyWithoutPostsInput
 }
 
@@ -800,10 +807,10 @@ export type postsUncheckedCreateWithoutPost_commentsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
-  created_by?: string | null
+  title: string
+  created_by: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -835,17 +842,17 @@ export type postsUpdateWithoutPost_commentsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   like_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  user?: Prisma.usersUpdateOneWithoutPosts_createdNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutPostsNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostsNestedInput
   post_views?: Prisma.post_viewsUpdateManyWithoutPostsNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutPosts_createdNestedInput
   posts_to_tags?: Prisma.posts_to_tagsUpdateManyWithoutPostsNestedInput
 }
 
@@ -854,10 +861,10 @@ export type postsUncheckedUpdateWithoutPost_commentsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -873,17 +880,17 @@ export type postsCreateWithoutPost_likesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
+  title: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
   like_count?: bigint | number | null
-  user?: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutPostsInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutPostsInput
   post_views?: Prisma.post_viewsCreateNestedManyWithoutPostsInput
+  user: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   posts_to_tags?: Prisma.posts_to_tagsCreateNestedManyWithoutPostsInput
 }
 
@@ -892,10 +899,10 @@ export type postsUncheckedCreateWithoutPost_likesInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
-  created_by?: string | null
+  title: string
+  created_by: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -927,17 +934,17 @@ export type postsUpdateWithoutPost_likesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   like_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  user?: Prisma.usersUpdateOneWithoutPosts_createdNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutPostsNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutPostsNestedInput
   post_views?: Prisma.post_viewsUpdateManyWithoutPostsNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutPosts_createdNestedInput
   posts_to_tags?: Prisma.posts_to_tagsUpdateManyWithoutPostsNestedInput
 }
 
@@ -946,10 +953,10 @@ export type postsUncheckedUpdateWithoutPost_likesInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -965,17 +972,17 @@ export type postsCreateWithoutPost_viewsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
+  title: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
   like_count?: bigint | number | null
-  user?: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutPostsInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutPostsInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostsInput
+  user: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   posts_to_tags?: Prisma.posts_to_tagsCreateNestedManyWithoutPostsInput
 }
 
@@ -984,10 +991,10 @@ export type postsUncheckedCreateWithoutPost_viewsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
-  created_by?: string | null
+  title: string
+  created_by: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -1019,17 +1026,17 @@ export type postsUpdateWithoutPost_viewsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   like_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  user?: Prisma.usersUpdateOneWithoutPosts_createdNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutPostsNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutPostsNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostsNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutPosts_createdNestedInput
   posts_to_tags?: Prisma.posts_to_tagsUpdateManyWithoutPostsNestedInput
 }
 
@@ -1038,10 +1045,10 @@ export type postsUncheckedUpdateWithoutPost_viewsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1057,18 +1064,18 @@ export type postsCreateWithoutPosts_to_tagsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
+  title: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
   like_count?: bigint | number | null
-  user?: Prisma.usersCreateNestedOneWithoutPosts_createdInput
   post_bookmarks?: Prisma.post_bookmarksCreateNestedManyWithoutPostsInput
   post_comments?: Prisma.post_commentsCreateNestedManyWithoutPostsInput
   post_likes?: Prisma.post_likesCreateNestedManyWithoutPostsInput
   post_views?: Prisma.post_viewsCreateNestedManyWithoutPostsInput
+  user: Prisma.usersCreateNestedOneWithoutPosts_createdInput
 }
 
 export type postsUncheckedCreateWithoutPosts_to_tagsInput = {
@@ -1076,10 +1083,10 @@ export type postsUncheckedCreateWithoutPosts_to_tagsInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
-  created_by?: string | null
+  title: string
+  created_by: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -1111,18 +1118,18 @@ export type postsUpdateWithoutPosts_to_tagsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   like_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  user?: Prisma.usersUpdateOneWithoutPosts_createdNestedInput
   post_bookmarks?: Prisma.post_bookmarksUpdateManyWithoutPostsNestedInput
   post_comments?: Prisma.post_commentsUpdateManyWithoutPostsNestedInput
   post_likes?: Prisma.post_likesUpdateManyWithoutPostsNestedInput
   post_views?: Prisma.post_viewsUpdateManyWithoutPostsNestedInput
+  user?: Prisma.usersUpdateOneRequiredWithoutPosts_createdNestedInput
 }
 
 export type postsUncheckedUpdateWithoutPosts_to_tagsInput = {
@@ -1130,10 +1137,10 @@ export type postsUncheckedUpdateWithoutPosts_to_tagsInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  created_by?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1149,9 +1156,9 @@ export type postsCreateWithoutUserInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
+  title: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -1168,9 +1175,9 @@ export type postsUncheckedCreateWithoutUserInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
+  title: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -1216,10 +1223,10 @@ export type postsScalarWhereInput = {
   created_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
   deleted_at?: Prisma.DateTimeNullableFilter<"posts"> | Date | string | null
-  title?: Prisma.StringNullableFilter<"posts"> | string | null
-  created_by?: Prisma.UuidNullableFilter<"posts"> | string | null
+  title?: Prisma.StringFilter<"posts"> | string
+  created_by?: Prisma.UuidFilter<"posts"> | string
   body?: Prisma.StringNullableFilter<"posts"> | string | null
-  slug?: Prisma.StringNullableFilter<"posts"> | string | null
+  slug?: Prisma.StringFilter<"posts"> | string
   photo_url?: Prisma.StringNullableFilter<"posts"> | string | null
   published?: Prisma.BoolNullableFilter<"posts"> | boolean | null
   view_count?: Prisma.BigIntNullableFilter<"posts"> | bigint | number | null
@@ -1231,9 +1238,9 @@ export type postsCreateManyUserInput = {
   created_at?: Date | string | null
   updated_at?: Date | string | null
   deleted_at?: Date | string | null
-  title?: string | null
+  title: string
   body?: string | null
-  slug?: string | null
+  slug: string
   photo_url?: string | null
   published?: boolean | null
   view_count?: bigint | number | null
@@ -1245,9 +1252,9 @@ export type postsUpdateWithoutUserInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1264,9 +1271,9 @@ export type postsUncheckedUpdateWithoutUserInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1283,9 +1290,9 @@ export type postsUncheckedUpdateManyWithoutUserInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   photo_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   published?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   view_count?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
@@ -1372,11 +1379,11 @@ export type postsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   published?: boolean
   view_count?: boolean
   like_count?: boolean
-  user?: boolean | Prisma.posts$userArgs<ExtArgs>
   post_bookmarks?: boolean | Prisma.posts$post_bookmarksArgs<ExtArgs>
   post_comments?: boolean | Prisma.posts$post_commentsArgs<ExtArgs>
   post_likes?: boolean | Prisma.posts$post_likesArgs<ExtArgs>
   post_views?: boolean | Prisma.posts$post_viewsArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   posts_to_tags?: boolean | Prisma.posts$posts_to_tagsArgs<ExtArgs>
   _count?: boolean | Prisma.PostsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts"]>
@@ -1394,7 +1401,7 @@ export type postsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   published?: boolean
   view_count?: boolean
   like_count?: boolean
-  user?: boolean | Prisma.posts$userArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts"]>
 
 export type postsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1410,7 +1417,7 @@ export type postsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   published?: boolean
   view_count?: boolean
   like_count?: boolean
-  user?: boolean | Prisma.posts$userArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["posts"]>
 
 export type postsSelectScalar = {
@@ -1430,29 +1437,29 @@ export type postsSelectScalar = {
 
 export type postsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "updated_at" | "deleted_at" | "title" | "created_by" | "body" | "slug" | "photo_url" | "published" | "view_count" | "like_count", ExtArgs["result"]["posts"]>
 export type postsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.posts$userArgs<ExtArgs>
   post_bookmarks?: boolean | Prisma.posts$post_bookmarksArgs<ExtArgs>
   post_comments?: boolean | Prisma.posts$post_commentsArgs<ExtArgs>
   post_likes?: boolean | Prisma.posts$post_likesArgs<ExtArgs>
   post_views?: boolean | Prisma.posts$post_viewsArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   posts_to_tags?: boolean | Prisma.posts$posts_to_tagsArgs<ExtArgs>
   _count?: boolean | Prisma.PostsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type postsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.posts$userArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 export type postsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.posts$userArgs<ExtArgs>
+  user?: boolean | Prisma.usersDefaultArgs<ExtArgs>
 }
 
 export type $postsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "posts"
   objects: {
-    user: Prisma.$usersPayload<ExtArgs> | null
     post_bookmarks: Prisma.$post_bookmarksPayload<ExtArgs>[]
     post_comments: Prisma.$post_commentsPayload<ExtArgs>[]
     post_likes: Prisma.$post_likesPayload<ExtArgs>[]
     post_views: Prisma.$post_viewsPayload<ExtArgs>[]
+    user: Prisma.$usersPayload<ExtArgs>
     posts_to_tags: Prisma.$posts_to_tagsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1460,10 +1467,10 @@ export type $postsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     created_at: Date | null
     updated_at: Date | null
     deleted_at: Date | null
-    title: string | null
-    created_by: string | null
+    title: string
+    created_by: string
     body: string | null
-    slug: string | null
+    slug: string
     photo_url: string | null
     published: boolean | null
     view_count: bigint | null
@@ -1862,11 +1869,11 @@ readonly fields: postsFieldRefs;
  */
 export interface Prisma__postsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.posts$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$userArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   post_bookmarks<T extends Prisma.posts$post_bookmarksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_bookmarksPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_comments<T extends Prisma.posts$post_commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_commentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_likes<T extends Prisma.posts$post_likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_likesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   post_views<T extends Prisma.posts$post_viewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$post_viewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$post_viewsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   posts_to_tags<T extends Prisma.posts$posts_to_tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.posts$posts_to_tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$posts_to_tagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2127,7 +2134,7 @@ export type postsCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   /**
    * The data needed to create a posts.
    */
-  data?: Prisma.XOR<Prisma.postsCreateInput, Prisma.postsUncheckedCreateInput>
+  data: Prisma.XOR<Prisma.postsCreateInput, Prisma.postsUncheckedCreateInput>
 }
 
 /**
@@ -2302,25 +2309,6 @@ export type postsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many posts to delete.
    */
   limit?: number
-}
-
-/**
- * posts.user
- */
-export type posts$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the users
-   */
-  select?: Prisma.usersSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the users
-   */
-  omit?: Prisma.usersOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.usersInclude<ExtArgs> | null
-  where?: Prisma.usersWhereInput
 }
 
 /**

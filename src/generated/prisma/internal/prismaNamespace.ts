@@ -401,7 +401,8 @@ export const ModelName = {
   sessions: 'sessions',
   tags: 'tags',
   user_follows: 'user_follows',
-  users: 'users'
+  users: 'users',
+  auth_activity_logs: 'auth_activity_logs'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "chat_conversations" | "chat_messages" | "files" | "holding_types" | "holdings" | "notifications" | "password_reset_tokens" | "post_bookmarks" | "post_comments" | "post_likes" | "post_views" | "posts" | "posts_to_tags" | "profiles" | "sessions" | "tags" | "user_follows" | "users"
+    modelProps: "chat_conversations" | "chat_messages" | "files" | "holding_types" | "holdings" | "notifications" | "password_reset_tokens" | "post_bookmarks" | "post_comments" | "post_likes" | "post_views" | "posts" | "posts_to_tags" | "profiles" | "sessions" | "tags" | "user_follows" | "users" | "auth_activity_logs"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1753,6 +1754,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    auth_activity_logs: {
+      payload: Prisma.$auth_activity_logsPayload<ExtArgs>
+      fields: Prisma.auth_activity_logsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.auth_activity_logsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.auth_activity_logsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload>
+        }
+        findFirst: {
+          args: Prisma.auth_activity_logsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.auth_activity_logsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload>
+        }
+        findMany: {
+          args: Prisma.auth_activity_logsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload>[]
+        }
+        create: {
+          args: Prisma.auth_activity_logsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload>
+        }
+        createMany: {
+          args: Prisma.auth_activity_logsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.auth_activity_logsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload>[]
+        }
+        delete: {
+          args: Prisma.auth_activity_logsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload>
+        }
+        update: {
+          args: Prisma.auth_activity_logsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload>
+        }
+        deleteMany: {
+          args: Prisma.auth_activity_logsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.auth_activity_logsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.auth_activity_logsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload>[]
+        }
+        upsert: {
+          args: Prisma.auth_activity_logsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$auth_activity_logsPayload>
+        }
+        aggregate: {
+          args: Prisma.Auth_activity_logsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuth_activity_logs>
+        }
+        groupBy: {
+          args: Prisma.auth_activity_logsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Auth_activity_logsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.auth_activity_logsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Auth_activity_logsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1915,8 +1990,8 @@ export const Post_commentsScalarFieldEnum = {
   deleted_at: 'deleted_at',
   text: 'text',
   post_id: 'post_id',
-  parent_comment_id: 'parent_comment_id',
-  created_by: 'created_by'
+  created_by: 'created_by',
+  parent_comment_id: 'parent_comment_id'
 } as const
 
 export type Post_commentsScalarFieldEnum = (typeof Post_commentsScalarFieldEnum)[keyof typeof Post_commentsScalarFieldEnum]
@@ -1926,9 +2001,7 @@ export const Post_likesScalarFieldEnum = {
   id: 'id',
   post_id: 'post_id',
   user_id: 'user_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  deleted_at: 'deleted_at'
+  created_at: 'created_at'
 } as const
 
 export type Post_likesScalarFieldEnum = (typeof Post_likesScalarFieldEnum)[keyof typeof Post_likesScalarFieldEnum]
@@ -2034,10 +2107,26 @@ export const UsersScalarFieldEnum = {
   username: 'username',
   github_id: 'github_id',
   followers_count: 'followers_count',
-  following_count: 'following_count'
+  following_count: 'following_count',
+  last_logged_at: 'last_logged_at'
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const Auth_activity_logsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  activity_type: 'activity_type',
+  ip_address: 'ip_address',
+  user_agent: 'user_agent',
+  status: 'status',
+  error_message: 'error_message',
+  metadata: 'metadata',
+  created_at: 'created_at'
+} as const
+
+export type Auth_activity_logsScalarFieldEnum = (typeof Auth_activity_logsScalarFieldEnum)[keyof typeof Auth_activity_logsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2273,6 +2362,7 @@ export type GlobalOmitConfig = {
   tags?: Prisma.tagsOmit
   user_follows?: Prisma.user_followsOmit
   users?: Prisma.usersOmit
+  auth_activity_logs?: Prisma.auth_activity_logsOmit
 }
 
 /* Types for Logging */

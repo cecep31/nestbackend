@@ -207,6 +207,7 @@ export type user_followsOrderByWithRelationInput = {
 
 export type user_followsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  follower_id_following_id?: Prisma.user_followsFollower_idFollowing_idCompoundUniqueInput
   AND?: Prisma.user_followsWhereInput | Prisma.user_followsWhereInput[]
   OR?: Prisma.user_followsWhereInput[]
   NOT?: Prisma.user_followsWhereInput | Prisma.user_followsWhereInput[]
@@ -217,7 +218,7 @@ export type user_followsWhereUniqueInput = Prisma.AtLeast<{
   deleted_at?: Prisma.DateTimeNullableFilter<"user_follows"> | Date | string | null
   users_user_follows_follower_idTousers?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   users_user_follows_following_idTousers?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
-}, "id">
+}, "id" | "follower_id_following_id">
 
 export type user_followsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -302,6 +303,11 @@ export type user_followsUncheckedUpdateManyInput = {
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type user_followsFollower_idFollowing_idCompoundUniqueInput = {
+  follower_id: string
+  following_id: string
 }
 
 export type user_followsCountOrderByAggregateInput = {

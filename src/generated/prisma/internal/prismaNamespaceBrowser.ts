@@ -68,7 +68,8 @@ export const ModelName = {
   sessions: 'sessions',
   tags: 'tags',
   user_follows: 'user_follows',
-  users: 'users'
+  users: 'users',
+  auth_activity_logs: 'auth_activity_logs'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -210,8 +211,8 @@ export const Post_commentsScalarFieldEnum = {
   deleted_at: 'deleted_at',
   text: 'text',
   post_id: 'post_id',
-  parent_comment_id: 'parent_comment_id',
-  created_by: 'created_by'
+  created_by: 'created_by',
+  parent_comment_id: 'parent_comment_id'
 } as const
 
 export type Post_commentsScalarFieldEnum = (typeof Post_commentsScalarFieldEnum)[keyof typeof Post_commentsScalarFieldEnum]
@@ -221,9 +222,7 @@ export const Post_likesScalarFieldEnum = {
   id: 'id',
   post_id: 'post_id',
   user_id: 'user_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  deleted_at: 'deleted_at'
+  created_at: 'created_at'
 } as const
 
 export type Post_likesScalarFieldEnum = (typeof Post_likesScalarFieldEnum)[keyof typeof Post_likesScalarFieldEnum]
@@ -329,10 +328,26 @@ export const UsersScalarFieldEnum = {
   username: 'username',
   github_id: 'github_id',
   followers_count: 'followers_count',
-  following_count: 'following_count'
+  following_count: 'following_count',
+  last_logged_at: 'last_logged_at'
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const Auth_activity_logsScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  activity_type: 'activity_type',
+  ip_address: 'ip_address',
+  user_agent: 'user_agent',
+  status: 'status',
+  error_message: 'error_message',
+  metadata: 'metadata',
+  created_at: 'created_at'
+} as const
+
+export type Auth_activity_logsScalarFieldEnum = (typeof Auth_activity_logsScalarFieldEnum)[keyof typeof Auth_activity_logsScalarFieldEnum]
 
 
 export const SortOrder = {

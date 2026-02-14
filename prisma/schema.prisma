@@ -1,7 +1,8 @@
 generator client {
-  provider     = "prisma-client"
-  output       = "../src/generated/prisma"
-  moduleFormat = "cjs"
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["partialIndexes"]
+  moduleFormat    = "cjs"
 }
 
 datasource db {
@@ -52,6 +53,7 @@ model files {
   size       Int?
   type       String?   @db.VarChar(255)
   created_by String?   @db.Uuid
+  users      users?    @relation(fields: [created_by], references: [id], onUpdate: NoAction, map: "files_created_by_users_id_fk")
 
   @@index([created_by], map: "idx_files_created_by")
   @@index([deleted_at], map: "idx_files_deleted_at")
@@ -108,6 +110,7 @@ model notifications {
   @@index([read], map: "idx_notifications_read")
   @@index([user_id], map: "idx_notifications_user_id")
   @@index([user_id, read], map: "idx_notifications_user_read")
+  @@index([created_at], map: "idx_notifications_created_at")
 }
 
 model password_reset_tokens {
@@ -145,11 +148,11 @@ model post_comments {
   updated_at        DateTime? @default(now()) @db.Timestamptz(6)
   deleted_at        DateTime? @db.Timestamptz(6)
   text              String
-  post_id           String?   @db.Uuid
-  parent_comment_id BigInt?
-  created_by        String?   @db.Uuid
-  posts             posts?    @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_posts_post_comments")
-  user              users?    @relation("CommentCreator", fields: [created_by], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  post_id           String    @db.Uuid
+  created_by        String    @db.Uuid
+  parent_comment_id String?   @db.Uuid
+  user              users     @relation("CommentCreator", fields: [created_by], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_comments_creator")
+  posts             posts     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_posts_post_comments")
 
   @@index([created_by], map: "idx_post_comments_created_by")
   @@index([deleted_at], map: "idx_post_comments_deleted_at")
@@ -163,8 +166,6 @@ model post_likes {
   post_id    String    @db.Uuid
   user_id    String    @db.Uuid
   created_at DateTime? @default(now()) @db.Timestamptz(6)
-  updated_at DateTime? @default(now()) @db.Timestamptz(6)
-  deleted_at DateTime? @db.Timestamptz(6)
   posts      posts     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_likes_post_id")
   users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_likes_user_id")
 
@@ -185,6 +186,7 @@ model post_views {
   users      users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post_views_user_id")
   posts      posts     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "post_views_posts_fk")
 
+  @@unique([post_id, user_id], map: "idx_post_views_unique_user_post", where: raw("((user_id IS NOT NULL) AND (deleted_at IS NULL))"))
   @@index([created_at], map: "idx_post_views_created_at")
   @@index([deleted_at], map: "idx_post_views_deleted_at")
   @@index([post_id], map: "idx_post_views_post_id")
@@ -197,25 +199,27 @@ model posts {
   created_at     DateTime?        @default(now()) @db.Timestamptz(6)
   updated_at     DateTime?        @default(now()) @db.Timestamptz(6)
   deleted_at     DateTime?        @db.Timestamptz(6)
-  title          String?          @db.VarChar(255)
-  created_by     String?          @db.Uuid
+  title          String           @db.VarChar(255)
+  created_by     String           @db.Uuid
   body           String?
-  slug           String?          @db.VarChar(255)
+  slug           String           @db.VarChar(255)
   photo_url      String?
   published      Boolean?         @default(true)
   view_count     BigInt?          @default(0)
   like_count     BigInt?          @default(0)
-  user           users?           @relation("PostCreator", fields: [created_by], references: [id], onDelete: SetNull, onUpdate: NoAction)
   post_bookmarks post_bookmarks[]
   post_comments  post_comments[]
   post_likes     post_likes[]
   post_views     post_views[]
+  user           users            @relation("PostCreator", fields: [created_by], references: [id], onDelete: Cascade, map: "fk_posts_creator")
   posts_to_tags  posts_to_tags[]
 
+  @@unique([created_by, slug], map: "creator and slug unique")
   @@index([created_by], map: "idx_posts_created_by")
   @@index([deleted_at], map: "idx_posts_deleted_at")
   @@index([published], map: "idx_posts_published")
   @@index([slug], map: "idx_posts_slug")
+  @@index([created_at], map: "idx_posts_created_at")
 }
 
 model posts_to_tags {
@@ -255,7 +259,7 @@ model sessions {
 
 model tags {
   id            Int             @id @default(autoincrement())
-  name          String?         @unique(map: "idx_tags_name") @db.VarChar(30)
+  name          String          @unique(map: "idx_tags_name") @db.VarChar(30)
   created_at    DateTime?       @default(now()) @db.Timestamptz(6)
   posts_to_tags posts_to_tags[]
 }
@@ -271,6 +275,7 @@ model user_follows {
   users_user_follows_follower_idTousers  users     @relation("user_follows_follower_idTousers", fields: [follower_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_follows_follower_id")
   users_user_follows_following_idTousers users     @relation("user_follows_following_idTousers", fields: [following_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user_follows_following_id")
 
+  @@unique([follower_id, following_id], map: "idx_user_follows_unique", where: raw("(deleted_at IS NULL)"))
   @@index([created_at], map: "idx_user_follows_created_at")
   @@index([deleted_at], map: "idx_user_follows_deleted_at")
   @@index([follower_id], map: "idx_user_follows_follower_id")
@@ -278,7 +283,7 @@ model user_follows {
 }
 
 model users {
-  id                                            String                  @id @db.Uuid
+  id                                            String                  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   created_at                                    DateTime?               @default(now()) @db.Timestamptz(6)
   updated_at                                    DateTime?               @db.Timestamptz(6)
   deleted_at                                    DateTime?               @db.Timestamptz(6)
@@ -292,8 +297,11 @@ model users {
   github_id                                     BigInt?                 @unique(map: "users_github_id_unique")
   followers_count                               BigInt?                 @default(0)
   following_count                               BigInt?                 @default(0)
+  last_logged_at                                DateTime?               @db.Timestamptz(6)
+  auth_activity_logs                            auth_activity_logs[]
   chat_conversations                            chat_conversations[]
   chat_messages                                 chat_messages[]
+  files                                         files[]
   holdings                                      holdings[]
   notifications                                 notifications[]
   password_reset_tokens                         password_reset_tokens[]
@@ -308,4 +316,24 @@ model users {
   user_follows_user_follows_following_idTousers user_follows[]          @relation("user_follows_following_idTousers")
 
   @@index([deleted_at])
+  @@index([created_at], map: "idx_users_created_at")
+}
+
+model auth_activity_logs {
+  id            String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id       String?  @db.Uuid
+  activity_type String   @db.VarChar(50)
+  ip_address    String?  @db.VarChar(45)
+  user_agent    String?
+  status        String   @db.VarChar(20)
+  error_message String?
+  metadata      String?
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+  users         users?   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "auth_activity_logs_user_id_users_id_fk")
+
+  @@index([activity_type], map: "idx_auth_activity_logs_activity_type")
+  @@index([created_at], map: "idx_auth_activity_logs_created_at")
+  @@index([status], map: "idx_auth_activity_logs_status")
+  @@index([user_id, created_at], map: "idx_auth_activity_logs_user_created")
+  @@index([user_id], map: "idx_auth_activity_logs_user_id")
 }
