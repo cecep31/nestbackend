@@ -1103,6 +1103,11 @@ export type holding_typesFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` holding_types.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of holding_types.
+   */
   distinct?: Prisma.Holding_typesScalarFieldEnum | Prisma.Holding_typesScalarFieldEnum[]
 }
 

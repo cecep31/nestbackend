@@ -1207,6 +1207,11 @@ export type profilesFindManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Skip the first `n` profiles.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of profiles.
+   */
   distinct?: Prisma.ProfilesScalarFieldEnum | Prisma.ProfilesScalarFieldEnum[]
 }
 

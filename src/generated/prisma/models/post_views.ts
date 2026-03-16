@@ -1371,6 +1371,11 @@ export type post_viewsFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Skip the first `n` post_views.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of post_views.
+   */
   distinct?: Prisma.Post_viewsScalarFieldEnum | Prisma.Post_viewsScalarFieldEnum[]
 }
 

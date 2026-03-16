@@ -1289,6 +1289,11 @@ export type post_bookmarksFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Skip the first `n` post_bookmarks.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of post_bookmarks.
+   */
   distinct?: Prisma.Post_bookmarksScalarFieldEnum | Prisma.Post_bookmarksScalarFieldEnum[]
 }
 

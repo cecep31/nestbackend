@@ -1170,6 +1170,11 @@ export type posts_to_tagsFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` posts_to_tags.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of posts_to_tags.
+   */
   distinct?: Prisma.Posts_to_tagsScalarFieldEnum | Prisma.Posts_to_tagsScalarFieldEnum[]
 }
 

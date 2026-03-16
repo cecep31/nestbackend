@@ -1262,6 +1262,11 @@ export type auth_activity_logsFindManyArgs<ExtArgs extends runtime.Types.Extensi
    * Skip the first `n` auth_activity_logs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of auth_activity_logs.
+   */
   distinct?: Prisma.Auth_activity_logsScalarFieldEnum | Prisma.Auth_activity_logsScalarFieldEnum[]
 }
 

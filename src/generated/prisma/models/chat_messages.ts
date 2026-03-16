@@ -1556,6 +1556,11 @@ export type chat_messagesFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` chat_messages.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of chat_messages.
+   */
   distinct?: Prisma.Chat_messagesScalarFieldEnum | Prisma.Chat_messagesScalarFieldEnum[]
 }
 

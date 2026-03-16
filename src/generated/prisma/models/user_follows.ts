@@ -1289,6 +1289,11 @@ export type user_followsFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` user_follows.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of user_follows.
+   */
   distinct?: Prisma.User_followsScalarFieldEnum | Prisma.User_followsScalarFieldEnum[]
 }
 

@@ -1365,6 +1365,11 @@ export type post_commentsFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` post_comments.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of post_comments.
+   */
   distinct?: Prisma.Post_commentsScalarFieldEnum | Prisma.Post_commentsScalarFieldEnum[]
 }
 

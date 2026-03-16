@@ -1157,6 +1157,11 @@ export type password_reset_tokensFindManyArgs<ExtArgs extends runtime.Types.Exte
    * Skip the first `n` password_reset_tokens.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of password_reset_tokens.
+   */
   distinct?: Prisma.Password_reset_tokensScalarFieldEnum | Prisma.Password_reset_tokensScalarFieldEnum[]
 }
 

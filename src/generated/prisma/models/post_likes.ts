@@ -1201,6 +1201,11 @@ export type post_likesFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Skip the first `n` post_likes.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of post_likes.
+   */
   distinct?: Prisma.Post_likesScalarFieldEnum | Prisma.Post_likesScalarFieldEnum[]
 }
 

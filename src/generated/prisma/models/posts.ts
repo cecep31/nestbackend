@@ -2112,6 +2112,11 @@ export type postsFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Skip the first `n` posts.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of posts.
+   */
   distinct?: Prisma.PostsScalarFieldEnum | Prisma.PostsScalarFieldEnum[]
 }
 
