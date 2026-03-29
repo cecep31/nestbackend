@@ -179,7 +179,7 @@ export type Post_viewsGroupByOutputType = {
   _max: Post_viewsMaxAggregateOutputType | null
 }
 
-type GetPost_viewsGroupByPayload<T extends post_viewsGroupByArgs> = Prisma.PrismaPromise<
+export type GetPost_viewsGroupByPayload<T extends post_viewsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Post_viewsGroupByOutputType, T['by']> &
       {

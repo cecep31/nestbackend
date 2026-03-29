@@ -186,7 +186,7 @@ export type Auth_activity_logsGroupByOutputType = {
   _max: Auth_activity_logsMaxAggregateOutputType | null
 }
 
-type GetAuth_activity_logsGroupByPayload<T extends auth_activity_logsGroupByArgs> = Prisma.PrismaPromise<
+export type GetAuth_activity_logsGroupByPayload<T extends auth_activity_logsGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Auth_activity_logsGroupByOutputType, T['by']> &
       {

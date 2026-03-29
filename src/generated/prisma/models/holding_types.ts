@@ -185,7 +185,7 @@ export type Holding_typesGroupByOutputType = {
   _max: Holding_typesMaxAggregateOutputType | null
 }
 
-type GetHolding_typesGroupByPayload<T extends holding_typesGroupByArgs> = Prisma.PrismaPromise<
+export type GetHolding_typesGroupByPayload<T extends holding_typesGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Holding_typesGroupByOutputType, T['by']> &
       {
