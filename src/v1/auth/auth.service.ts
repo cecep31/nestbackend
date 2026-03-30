@@ -159,8 +159,39 @@ export class AuthService {
     });
   }
 
-  // refresh token
-  async refreshToken(payload: any) {
+  async refreshToken(refreshToken: string) {
+    const session = await this.prisma.sessions.findUnique({
+      where: {
+        refresh_token: refreshToken,
+      },
+      include: {
+        users: true,
+      },
+    });
+
+    if (!session?.users) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    if (!session.expires_at || session.expires_at.getTime() <= Date.now()) {
+      await this.prisma.sessions.delete({
+        where: {
+          refresh_token: refreshToken,
+        },
+      });
+      throw new UnauthorizedException('Refresh token expired');
+    }
+
+    if (session.users.deleted_at) {
+      throw new UnauthorizedException('User account is no longer available');
+    }
+
+    const payload = {
+      user_id: session.users.id,
+      email: session.users.email,
+      is_super_admin: session.users.is_super_admin,
+    };
+
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

@@ -17,6 +17,7 @@ import {
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { PostsService } from "../posts.service";
+import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import { SuperAdminGuard } from "../../auth/guards/superadmin.guard";
 import { ZodValidationPipe } from "../../../common/pipes/zod-validation.pipe";
 import {
@@ -34,7 +35,7 @@ import {
   version: "1",
   path: "admin/posts",
 })
-@UseGuards(SuperAdminGuard)
+@UseGuards(JwtAuthGuard, SuperAdminGuard)
 export class AdminPostsController {
   private readonly logger = new Logger(AdminPostsController.name);
 

@@ -23,6 +23,8 @@ import type { RegisterDto } from './dto/register-schema';
 import { registerSchema } from './dto/register-schema';
 import type { CheckUsernameDto } from './dto/check-username-schema';
 import { checkUsernameSchema } from './dto/check-username-schema';
+import type { RefreshTokenDto } from './dto/refresh-token-schema';
+import { refreshTokenSchema } from './dto/refresh-token-schema';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -133,10 +135,14 @@ export class AuthController {
     res.redirect('https://pilput.me');
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('refresh-token')
-  async refreshToken(@Request() req) {
-    const data = await this.authService.refreshToken(req.user)
+  async refreshToken(
+    @Body(new ZodValidationPipe(refreshTokenSchema))
+    refreshTokenDto: RefreshTokenDto,
+  ) {
+    const data = await this.authService.refreshToken(
+      refreshTokenDto.refresh_token,
+    );
     if (!data) {
       throw new UnauthorizedException({
         success: false,
