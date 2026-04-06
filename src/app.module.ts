@@ -10,7 +10,6 @@ import { WorkspacesModule } from "./v1/note/workspaces/workspaces.module";
 import configuration from "./config/configuration";
 import { PrismaService } from "./prisma.service";
 import { LoggerMiddleware } from "./common/logger/logger.middleware";
-import { EmailModule } from "./common/email/email.module";
 import { TagsModule } from "./v1/tags/tags.module";
 import { WriterModule } from "./v1/writer/writer.module";
 import { ChatModule } from "./v1/chat/chat.module";
@@ -43,7 +42,6 @@ import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
     PostsModule,
     PagesModule,
     WorkspacesModule,
-    EmailModule,
     TagsModule,
     WriterModule,
     ChatModule,
