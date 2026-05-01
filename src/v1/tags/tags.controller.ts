@@ -3,7 +3,7 @@ import { TagsService } from './tags.service';
 
 @Controller({
   path: 'tags',
-  version: '1',
+  version: 'api',
 })
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}

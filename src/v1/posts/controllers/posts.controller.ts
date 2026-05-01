@@ -27,7 +27,7 @@ import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import { ZodValidationPipe } from "../../../common/pipes/zod-validation.pipe";
 
 @Controller({
-  version: "1",
+  version: "api",
   path: "posts",
 })
 export class PostsController {

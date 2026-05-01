@@ -3,7 +3,7 @@ import { WriterService } from './writer.service';
 
 @Controller({
   path: 'writers',
-  version: '1',
+  version: 'api',
 })
 export class WriterController {
   constructor(private readonly writerService: WriterService) {}

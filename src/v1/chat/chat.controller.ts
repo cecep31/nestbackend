@@ -31,7 +31,7 @@ import { type SendMessageDto, sendMessageSchema } from "./dto/send-message.dto";
 import { ZodValidationPipe } from "../../common/pipes/zod-validation.pipe";
 @Controller({
   path: "chat",
-  version: "1",
+  version: "api",
 })
 @UseGuards(JwtAuthGuard)
 export class ChatController {

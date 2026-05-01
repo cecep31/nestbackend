@@ -31,7 +31,7 @@ import { SuperAdminGuard } from '../auth/guards/superadmin.guard';
 import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller({ path: 'users', version: '1' })
+@Controller({ path: 'users', version: 'api' })
 @UseGuards(JwtAuthGuard, SuperAdminGuard)
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {

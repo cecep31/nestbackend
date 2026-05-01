@@ -32,7 +32,7 @@ import {
 } from "../dto/admin-posts.dto";
 
 @Controller({
-  version: "1",
+  version: "api",
   path: "admin/posts",
 })
 @UseGuards(JwtAuthGuard, SuperAdminGuard)

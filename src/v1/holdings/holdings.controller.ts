@@ -27,7 +27,7 @@ import { ZodValidationPipe } from "../../common/pipes/zod-validation.pipe";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
 @Controller({
-  version: "1",
+  version: "api",
   path: "holdings",
 })
 @UseGuards(JwtAuthGuard)
