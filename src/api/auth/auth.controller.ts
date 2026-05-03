@@ -28,10 +28,7 @@ import { refreshTokenSchema } from './dto/refresh-token-schema';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller({
-  path: 'auth',
-  version: 'api',
-})
+@Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 

@@ -26,10 +26,7 @@ import {
 import { ZodValidationPipe } from "../../common/pipes/zod-validation.pipe";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 
-@Controller({
-  version: "api",
-  path: "holdings",
-})
+@Controller('holdings')
 @UseGuards(JwtAuthGuard)
 export class HoldingsController {
   constructor(private readonly holdingsService: HoldingsService) {}

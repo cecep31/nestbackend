@@ -26,10 +26,7 @@ import { type PatchPostDto, PatchPostSchema } from "../dto/patch-post.dto";
 import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import { ZodValidationPipe } from "../../../common/pipes/zod-validation.pipe";
 
-@Controller({
-  version: "api",
-  path: "posts",
-})
+@Controller('posts')
 export class PostsController {
   constructor(private postsService: PostsService) {}
 

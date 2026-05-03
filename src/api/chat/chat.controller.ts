@@ -29,10 +29,7 @@ import {
 } from "./dto/create-conversation.dto";
 import { type SendMessageDto, sendMessageSchema } from "./dto/send-message.dto";
 import { ZodValidationPipe } from "../../common/pipes/zod-validation.pipe";
-@Controller({
-  path: "chat",
-  version: "api",
-})
+@Controller('chat')
 @UseGuards(JwtAuthGuard)
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}

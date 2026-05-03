@@ -1,4 +1,4 @@
-import { ValidationPipe, VersioningType, Logger, INestApplication } from "@nestjs/common";
+import { ValidationPipe, Logger, INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
 import { AppModule } from "./app.module";
@@ -9,8 +9,8 @@ const DEFAULT_HOST = "0.0.0.0";
  * Configure global application settings
  */
 function configureApp(app: INestApplication) {
-  // Enable API versioning
-  app.enableVersioning({ type: VersioningType.URI });
+  // Set global prefix for all routes
+  app.setGlobalPrefix("api");
 
   // Enable CORS
   app.enableCors({

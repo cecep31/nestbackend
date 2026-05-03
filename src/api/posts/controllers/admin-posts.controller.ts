@@ -31,10 +31,7 @@ import {
   type AdminPostQueryDto,
 } from "../dto/admin-posts.dto";
 
-@Controller({
-  version: "api",
-  path: "admin/posts",
-})
+@Controller('admin/posts')
 @UseGuards(JwtAuthGuard, SuperAdminGuard)
 export class AdminPostsController {
   private readonly logger = new Logger(AdminPostsController.name);

@@ -1,10 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { WriterService } from './writer.service';
 
-@Controller({
-  path: 'writers',
-  version: 'api',
-})
+@Controller('writers')
 export class WriterController {
   constructor(private readonly writerService: WriterService) {}
 
