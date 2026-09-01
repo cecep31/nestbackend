@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const AdminCreatePostSchema = z.object({
   title: z.string().min(1).max(255),
@@ -28,7 +28,10 @@ export const AdminPostQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).optional().default(10),
   search: z.string().optional(),
   published: z.enum(['all', 'true', 'false']).optional().default('all'),
-  sort_by: z.enum(['created_at', 'updated_at', 'title', 'published']).optional().default('created_at'),
+  sort_by: z
+    .enum(['created_at', 'updated_at', 'title', 'published'])
+    .optional()
+    .default('created_at'),
   sort_order: z.enum(['asc', 'desc']).optional().default('desc'),
   creator_id: z.string().uuid().optional(),
   tags: z.array(z.string()).optional(),

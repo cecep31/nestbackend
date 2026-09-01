@@ -1,20 +1,20 @@
-import { ValidationPipe, Logger, INestApplication } from "@nestjs/common";
-import { NestFactory } from "@nestjs/core";
-import { ConfigService } from "@nestjs/config";
-import { AppModule, ObserveInstrument } from "./app.module";
+import { ValidationPipe, Logger, INestApplication } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
+import { AppModule, ObserveInstrument } from './app.module';
 
-const DEFAULT_HOST = "0.0.0.0";
+const DEFAULT_HOST = '0.0.0.0';
 
 /**
  * Configure global application settings
  */
 function configureApp(app: INestApplication) {
   // Set global prefix for all routes
-  app.setGlobalPrefix("api");
+  app.setGlobalPrefix('api');
 
   // Enable CORS
   app.enableCors({
-    origin: process.env.FRONTEND_URL || "*",
+    origin: process.env.FRONTEND_URL || '*',
     credentials: true,
   });
 
@@ -24,7 +24,7 @@ function configureApp(app: INestApplication) {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-    })
+    }),
   );
 }
 
@@ -32,13 +32,13 @@ function configureApp(app: INestApplication) {
  * Setup global error handlers
  */
 function setupErrorHandlers(logger: Logger) {
-  process.on("uncaughtException", (error) => {
-    logger.error("Uncaught Exception", error.stack);
+  process.on('uncaughtException', (error) => {
+    logger.error('Uncaught Exception', error.stack);
     process.exit(1);
   });
 
-  process.on("unhandledRejection", (reason) => {
-    logger.error("Unhandled Rejection", reason);
+  process.on('unhandledRejection', (reason) => {
+    logger.error('Unhandled Rejection', reason);
   });
 }
 
@@ -46,7 +46,7 @@ function setupErrorHandlers(logger: Logger) {
  * Bootstrap the NestJS application
  */
 async function bootstrap() {
-  const logger = new Logger("Bootstrap");
+  const logger = new Logger('Bootstrap');
 
   try {
     // Create the NestJS application
@@ -57,15 +57,15 @@ async function bootstrap() {
 
     // Configure application
     configureApp(app);
-    
+
     // Enable graceful shutdown hooks
     app.enableShutdownHooks();
 
     // Get configuration service
     const configService = app.get(ConfigService);
-    const nodeEnv = configService.get<string>("NODE_ENV") || "development";
-    const port = configService.get<number>("port") || 3001;
-    const host = configService.get<string>("host") || DEFAULT_HOST;
+    const nodeEnv = configService.get<string>('NODE_ENV') || 'development';
+    const port = configService.get<number>('port') || 3001;
+    const host = configService.get<string>('host') || DEFAULT_HOST;
 
     // Setup error handlers
     setupErrorHandlers(logger);
@@ -76,7 +76,7 @@ async function bootstrap() {
     logger.log(`Application is running on: http://${host}:${port}`);
     logger.log(`Environment: ${nodeEnv}`);
   } catch (error) {
-    logger.error("Failed to start application", error.stack);
+    logger.error('Failed to start application', error.stack);
     process.exit(1);
   }
 }

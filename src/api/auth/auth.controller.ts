@@ -48,7 +48,7 @@ export class AuthController {
         success: true,
         message: 'User registered successfully',
       };
-    } catch (error) {
+    } catch (error: any) {
       throw new BadRequestException({
         success: false,
         message: error.message || 'Registration failed',
@@ -96,20 +96,20 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('profile')
-  getProfile(@Request() req) {
+  getProfile(@Request() req: any) {
     return this.authService.profile(req.user);
   }
 
   // --- GitHub OAuth ---
   @Get('github')
   @UseGuards(AuthGuard('github'))
-  async githubLogin() {
+  githubLogin() {
     // Redirect handled by Passport
   }
 
   @Get('github/callback')
   @UseGuards(AuthGuard('github'))
-  async githubCallback(@Req() req, @Res() res) {
+  githubCallback(@Req() req: any, @Res() res: any) {
     // Successful authentication, issue JWT and return user info
     // req.user is set by GithubStrategy.validate()
     if (!req.user) {

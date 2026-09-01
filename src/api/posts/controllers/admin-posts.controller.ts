@@ -14,12 +14,12 @@ import {
   HttpCode,
   HttpStatus,
   Logger,
-} from "@nestjs/common";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { PostsService } from "../posts.service";
-import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
-import { SuperAdminGuard } from "../../auth/guards/superadmin.guard";
-import { ZodValidationPipe } from "../../../common/pipes/zod-validation.pipe";
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { PostsService } from '../posts.service';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { SuperAdminGuard } from '../../auth/guards/superadmin.guard';
+import { ZodValidationPipe } from '../../../common/pipes/zod-validation.pipe';
 import {
   AdminCreatePostSchema,
   AdminUpdatePostSchema,
@@ -29,7 +29,7 @@ import {
   type AdminUpdatePostDto,
   type AdminBulkOperationDto,
   type AdminPostQueryDto,
-} from "../dto/admin-posts.dto";
+} from '../dto/admin-posts.dto';
 
 @Controller('admin/posts')
 @UseGuards(JwtAuthGuard, SuperAdminGuard)
@@ -40,14 +40,15 @@ export class AdminPostsController {
 
   @Get()
   async findAll(
-    @Query(new ZodValidationPipe(AdminPostQuerySchema)) query: AdminPostQueryDto
+    @Query(new ZodValidationPipe(AdminPostQuerySchema))
+    query: AdminPostQueryDto,
   ) {
     try {
       const { posts, metadata } = await this.postsService.getAdminPosts(query);
 
       return {
         success: true,
-        message: "Successfully fetched posts",
+        message: 'Successfully fetched posts',
         data: posts,
         meta: metadata,
       };
@@ -57,14 +58,14 @@ export class AdminPostsController {
     }
   }
 
-  @Get("stats")
+  @Get('stats')
   async getPostStats() {
     try {
       const stats = await this.postsService.getAdminPostStats();
 
       return {
         success: true,
-        message: "Successfully fetched post statistics",
+        message: 'Successfully fetched post statistics',
         data: stats,
       };
     } catch (error) {
@@ -73,21 +74,21 @@ export class AdminPostsController {
     }
   }
 
-  @Get(":id")
-  async getPost(@Param("id") id: string) {
+  @Get(':id')
+  async getPost(@Param('id') id: string) {
     try {
       const post = await this.postsService.findById(id);
       if (!post) {
         return {
           success: false,
-          message: "Post not found",
+          message: 'Post not found',
           data: null,
         };
       }
 
       return {
         success: true,
-        message: "Successfully fetched post",
+        message: 'Successfully fetched post',
         data: post,
       };
     } catch (error) {
@@ -97,18 +98,18 @@ export class AdminPostsController {
   }
 
   @Post()
-  @UseInterceptors(FileInterceptor("image"))
+  @UseInterceptors(FileInterceptor('image'))
   async createPost(
     @Body(new ZodValidationPipe(AdminCreatePostSchema))
     createPostDto: AdminCreatePostDto,
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file: Express.Multer.File,
   ) {
     try {
       const post = await this.postsService.adminCreatePost(createPostDto, file);
 
       return {
         success: true,
-        message: "Successfully created post",
+        message: 'Successfully created post',
         data: post,
       };
     } catch (error) {
@@ -118,33 +119,33 @@ export class AdminPostsController {
   }
 
   @Put()
-  @UseInterceptors(FileInterceptor("image"))
+  @UseInterceptors(FileInterceptor('image'))
   async updatePost(
     @Body(new ZodValidationPipe(AdminUpdatePostSchema))
     updatePostDto: AdminUpdatePostDto,
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file: Express.Multer.File,
   ) {
     try {
       const post = await this.postsService.adminUpdatePost(updatePostDto, file);
 
       return {
         success: true,
-        message: "Successfully updated post",
+        message: 'Successfully updated post',
         data: post,
       };
     } catch (error) {
       this.logger.error(
-        `Failed to update post ${updatePostDto.id}: ${error.message}`
+        `Failed to update post ${updatePostDto.id}: ${error.message}`,
       );
       throw error;
     }
   }
 
-  @Patch("bulk")
+  @Patch('bulk')
   @HttpCode(HttpStatus.OK)
   async bulkOperation(
     @Body(new ZodValidationPipe(AdminBulkOperationSchema))
-    bulkOperationDto: AdminBulkOperationDto
+    bulkOperationDto: AdminBulkOperationDto,
   ) {
     try {
       const result =
@@ -161,35 +162,35 @@ export class AdminPostsController {
     }
   }
 
-  @Patch(":id/publish")
+  @Patch(':id/publish')
   async updatePublishPost(
-    @Param("id") id: string,
-    @Query("published") published: boolean = true
+    @Param('id') id: string,
+    @Query('published') published: boolean = true,
   ) {
     try {
       const post = await this.postsService.patchPost(id, { published });
 
       return {
         success: true,
-        message: "Successfully updated post publish status",
+        message: 'Successfully updated post publish status',
         data: post,
       };
     } catch (error) {
       this.logger.error(
-        `Failed to update publish status for post ${id}: ${error.message}`
+        `Failed to update publish status for post ${id}: ${error.message}`,
       );
       throw error;
     }
   }
 
-  @Delete(":id")
-  async deletePost(@Param("id") id: string) {
+  @Delete(':id')
+  async deletePost(@Param('id') id: string) {
     try {
       await this.postsService.deletePost(id);
 
       return {
         success: true,
-        message: "Successfully deleted post",
+        message: 'Successfully deleted post',
         data: null,
       };
     } catch (error) {

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const RecordViewSchema = z.object({
   post_id: z.string().uuid(),

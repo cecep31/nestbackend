@@ -2,7 +2,7 @@ export function stringifyBigInts(obj: any): any {
   if (obj === undefined || obj === null) {
     return obj;
   }
-  
+
   try {
     return JSON.parse(
       JSON.stringify(obj, (_, value) =>

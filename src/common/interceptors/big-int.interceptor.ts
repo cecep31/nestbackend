@@ -18,7 +18,7 @@ export class BigIntInterceptor implements NestInterceptor {
           return data;
         }
         return stringifyBigInts(data);
-      })
+      }),
     );
   }
 }

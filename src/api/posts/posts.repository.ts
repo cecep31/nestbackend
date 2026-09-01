@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../../prisma.service";
-import { Prisma, posts } from "../../generated/prisma/client";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../prisma.service';
+import { Prisma, posts } from '../../generated/prisma/client';
 
 @Injectable()
 export class PostsRepository {
@@ -36,7 +36,7 @@ export class PostsRepository {
 
   async findOne(
     where: Prisma.postsWhereUniqueInput,
-    include?: Prisma.postsInclude
+    include?: Prisma.postsInclude,
   ) {
     return this.prisma.posts.findUnique({
       where,
@@ -70,7 +70,7 @@ export class PostsRepository {
       skip: offset,
       take: limit,
       orderBy: {
-        created_at: "desc",
+        created_at: 'desc',
       },
     });
   }
@@ -106,7 +106,7 @@ export class PostsRepository {
 
   async findByUsernameAndSlug(
     username: string,
-    slug: string
+    slug: string,
   ): Promise<posts | null> {
     return this.prisma.posts.findFirst({
       where: { user: { username }, slug: slug },
@@ -268,7 +268,7 @@ export class PostsRepository {
         },
       },
       orderBy: {
-        created_at: "desc",
+        created_at: 'desc',
       },
       skip: offset,
       take: limit,
@@ -303,7 +303,7 @@ export class PostsRepository {
         },
       },
       orderBy: {
-        created_at: "desc",
+        created_at: 'desc',
       },
     });
   }
@@ -321,7 +321,7 @@ export class PostsRepository {
     postId: string,
     userId?: string,
     ipAddress?: string,
-    userAgent?: string
+    userAgent?: string,
   ) {
     return this.prisma.post_views.create({
       data: {
@@ -353,7 +353,7 @@ export class PostsRepository {
         },
       },
       orderBy: {
-        created_at: "desc",
+        created_at: 'desc',
       },
     });
   }

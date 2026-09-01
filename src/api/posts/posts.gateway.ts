@@ -57,7 +57,6 @@ export class PostsGateway
     return type === 'Bearer' ? token : undefined;
   }
 
-
   async handleConnection(client: Socket) {
     const connectionStart = Date.now();
     this.logger.log(`Client connected: ${client.id}`);
@@ -108,7 +107,7 @@ export class PostsGateway
         `Socket connected: ${client.id} for user ${user_id} in room ${postId} ` +
           `(${Date.now() - connectionStart}ms)`,
       );
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(
         `Connection error for ${client.id}: ${error.message}`,
         error.stack,
@@ -129,7 +128,7 @@ export class PostsGateway
     }
   }
 
-  async handleDisconnect(client: Socket) {
+  handleDisconnect(client: Socket) {
     try {
       const userId = this.userSocketMapService.getUserIdBySocket(client);
       const postId = String(client.handshake.query.post_id || '');
@@ -145,7 +144,7 @@ export class PostsGateway
 
       // Clean up any remaining listeners
       client.removeAllListeners();
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(
         `Error during socket disconnection: ${error.message}`,
         error.stack,
@@ -164,7 +163,7 @@ export class PostsGateway
         throw new WsException('Unauthorized');
       }
 
-      const postId = client.handshake.query.post_id + '';
+      const postId = String(client.handshake.query.post_id || '');
       const commentData = {
         ...payload,
         post_id: postId,
@@ -175,7 +174,7 @@ export class PostsGateway
 
       this.server.to(postId).emit('newComment', stringifyBigInts(comments));
       return { status: 'success', data: stringifyBigInts(comments) };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(
         `Error handling comment: ${error.message}`,
         error.stack,
@@ -201,7 +200,7 @@ export class PostsGateway
       });
 
       return { status: 'success' };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(
         `Error handling typing event: ${error.message}`,
         error.stack,
@@ -222,7 +221,7 @@ export class PostsGateway
       }
 
       // Get the post ID from the handshake
-      const postId = client.handshake.query.post_id + '';
+      const postId = String(client.handshake.query.post_id || '');
       if (!postId) {
         throw new WsException('Post ID is required');
       }
@@ -242,7 +241,7 @@ export class PostsGateway
       this.server.to(postId).emit('newComment', stringifyBigInts(comments));
 
       return { status: 'success' };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(
         `Error marking comment as read: ${error.message}`,
         error.stack,
@@ -253,7 +252,7 @@ export class PostsGateway
 
   @SubscribeMessage('getAllComments')
   async fetchComments(client: Socket) {
-    const postId = client.handshake.query.post_id + '';
+    const postId = String(client.handshake.query.post_id || '');
     this.logger.log(`Fetching all comments for post ${postId}`);
     const comments = await this.postService.getAllComments(postId);
     client.emit('newComment', stringifyBigInts(comments));

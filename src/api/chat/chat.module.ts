@@ -24,7 +24,7 @@ import { ChatService } from './services/chat.service';
     ]),
     HttpModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (_configService: ConfigService) => ({
         timeout: 30000, // 30 seconds
         maxRedirects: 5,
       }),

@@ -420,7 +420,9 @@ export class UsersService {
     });
 
     return {
-      mutual_follows: mutualFollows.map((f) => f.users_user_follows_following_idTousers),
+      mutual_follows: mutualFollows.map(
+        (f) => f.users_user_follows_following_idTousers,
+      ),
       metadata: {
         totalItems: mutualFollows.length,
         offset,

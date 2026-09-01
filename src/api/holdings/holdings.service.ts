@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../../prisma.service";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../prisma.service';
 import {
   CreateHoldingSchema,
   type CreateHoldingDto,
-} from "./dto/create-holding.dto";
+} from './dto/create-holding.dto';
 import {
   UpdateHoldingSchema,
   type UpdateHoldingDto,
-} from "./dto/update-holding.dto";
+} from './dto/update-holding.dto';
 
 @Injectable()
 export class HoldingsService {
@@ -46,7 +46,7 @@ export class HoldingsService {
   async update(
     user_id: string,
     id: bigint,
-    updateHoldingDto: UpdateHoldingDto
+    updateHoldingDto: UpdateHoldingDto,
   ) {
     const validatedData = UpdateHoldingSchema.parse(updateHoldingDto);
     return this.prisma.holdings.update({
@@ -79,7 +79,7 @@ export class HoldingsService {
       toMonth: number;
       toYear: number;
       overwrite: boolean;
-    }
+    },
   ) {
     const { fromMonth, fromYear, toMonth, toYear, overwrite } = body;
 
@@ -99,10 +99,10 @@ export class HoldingsService {
     const toNumber = (value: unknown) => {
       if (value === null || value === undefined) return null;
       if (
-        typeof value === "object" &&
+        typeof value === 'object' &&
         value !== null &&
-        "toNumber" in value &&
-        typeof (value as any).toNumber === "function"
+        'toNumber' in value &&
+        typeof (value as any).toNumber === 'function'
       ) {
         return (value as any).toNumber();
       }
