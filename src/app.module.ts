@@ -17,6 +17,9 @@ import { HoldingsModule } from "./api/holdings/holdings.module";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
 import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
+import { createObserveModule } from "@nestjs/observe";
+
+export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Global()
 @Module({
@@ -46,6 +49,11 @@ import { BigIntInterceptor } from "./common/interceptors/big-int.interceptor";
     WriterModule,
     ChatModule,
     HoldingsModule,
+    ObserveModule.forRoot({
+      appKey: process.env.OBSERVE_APP_KEY,
+      appSecret: process.env.OBSERVE_APP_SECRET,
+      serviceId: "nest-backend",
+    }),
   ],
   controllers: [AppController],
   providers: [

@@ -1,7 +1,7 @@
 import { ValidationPipe, Logger, INestApplication } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
-import { AppModule } from "./app.module";
+import { AppModule, ObserveInstrument } from "./app.module";
 
 const DEFAULT_HOST = "0.0.0.0";
 
@@ -52,6 +52,7 @@ async function bootstrap() {
     // Create the NestJS application
     const app = await NestFactory.create(AppModule, {
       abortOnError: false,
+      instrument: ObserveInstrument,
     });
 
     // Configure application
