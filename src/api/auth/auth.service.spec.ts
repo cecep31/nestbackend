@@ -4,15 +4,16 @@ import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../prisma.service';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 describe('AuthService', () => {
   let service: AuthService;
   const jwtService = {
-    signAsync: jest.fn(),
-    verifyAsync: jest.fn(),
+    signAsync: vi.fn(),
+    verifyAsync: vi.fn(),
   };
   const configService = {
-    get: jest.fn((key: string) => {
+    get: vi.fn((key: string) => {
       switch (key) {
         case 'jwt_secret':
           return 'test-secret';
@@ -23,18 +24,18 @@ describe('AuthService', () => {
   };
   const prismaService = {
     sessions: {
-      findUnique: jest.fn(),
-      delete: jest.fn(),
-      create: jest.fn(),
+      findUnique: vi.fn(),
+      delete: vi.fn(),
+      create: vi.fn(),
     },
     users: {
-      findUnique: jest.fn(),
-      create: jest.fn(),
+      findUnique: vi.fn(),
+      create: vi.fn(),
     },
   };
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
@@ -96,7 +97,9 @@ describe('AuthService', () => {
     prismaService.sessions.findUnique.mockResolvedValue(null);
 
     await expect(service.refreshToken('pl_missing')).rejects.toThrow(
-      new UnauthorizedException('Invalid refresh token'),
+      new UnauthorizedException('Invalid refresh token', {
+        errorCode: 'AUTH_INVALID_REFRESH_TOKEN',
+      }),
     );
   });
 
@@ -113,7 +116,9 @@ describe('AuthService', () => {
     });
 
     await expect(service.refreshToken('pl_expired')).rejects.toThrow(
-      new UnauthorizedException('Refresh token expired'),
+      new UnauthorizedException('Refresh token expired', {
+        errorCode: 'AUTH_REFRESH_TOKEN_EXPIRED',
+      }),
     );
     expect(prismaService.sessions.delete).toHaveBeenCalledWith({
       where: {

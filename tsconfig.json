@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -18,7 +19,6 @@
     "noFallthroughCasesInSwitch": false,
     "strictPropertyInitialization": false,
     "useUnknownInCatchVariables": false,
-    "ignoreDeprecations": "6.0",
-    "types": ["node", "multer", "jest"]
+    "types": ["node", "multer", "vitest/globals"]
   }
 }

@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../../prisma.service';
 import { PostsRepository } from './posts.repository';
 import { MinioService } from '../../common/s3/minio.service';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 describe('PostsGateway', () => {
   let gateway: PostsGateway;
@@ -24,22 +25,22 @@ describe('PostsGateway', () => {
           provide: JwtService,
           useValue: {
             // Mock JwtService methods as needed
-            sign: jest.fn().mockReturnValue('test-token'),
-            verify: jest.fn().mockReturnValue({ userId: 'test-user-id' }),
+            sign: vi.fn().mockReturnValue('test-token'),
+            verify: vi.fn().mockReturnValue({ userId: 'test-user-id' }),
           },
         },
         {
           provide: MinioService,
           useValue: {
             // Mock MinioService methods as needed
-            uploadFile: jest.fn().mockResolvedValue('test-file-path'),
+            uploadFile: vi.fn().mockResolvedValue('test-file-path'),
           },
         },
         {
           provide: ConfigService,
           useValue: {
             // Mock ConfigService methods as needed
-            get: jest.fn((key: string) => {
+            get: vi.fn((key: string) => {
               switch (key) {
                 case 'JWT_SECRET':
                   return 'test-secret';

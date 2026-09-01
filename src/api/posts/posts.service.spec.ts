@@ -4,6 +4,7 @@ import { PrismaService } from '../../prisma.service';
 import { PostsRepository } from './posts.repository';
 import { MinioService } from '../../common/s3/minio.service';
 import { ConfigService } from '@nestjs/config';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 describe('PostsService', () => {
   let service: PostsService;
@@ -25,14 +26,14 @@ describe('PostsService', () => {
           provide: MinioService,
           useValue: {
             // Mock MinioService methods as needed
-            uploadFile: jest.fn().mockResolvedValue('test-file-path'),
+            uploadFile: vi.fn().mockResolvedValue('test-file-path'),
           },
         },
         {
           provide: ConfigService,
           useValue: {
             // Mock ConfigService methods as needed
-            get: jest.fn((key: string) => {
+            get: vi.fn((key: string) => {
               switch (key) {
                 case 'resend.apiKey':
                   return 'test-api-key';
@@ -55,7 +56,7 @@ describe('PostsService', () => {
   });
 });
 
-describe('PostsService', () => {
+describe('PostsService with findById', () => {
   let service: PostsService;
 
   beforeEach(async () => {
@@ -70,7 +71,7 @@ describe('PostsService', () => {
           useValue: {
             // Mock PrismaService methods as needed
             posts: {
-              findUnique: jest
+              findUnique: vi
                 .fn()
                 .mockResolvedValue({ id: '123', title: 'Test Post' }),
             },
@@ -80,14 +81,14 @@ describe('PostsService', () => {
           provide: MinioService,
           useValue: {
             // Mock MinioService methods as needed
-            uploadFile: jest.fn().mockResolvedValue('test-file-path'),
+            uploadFile: vi.fn().mockResolvedValue('test-file-path'),
           },
         },
         {
           provide: ConfigService,
           useValue: {
             // Mock ConfigService methods as needed
-            get: jest.fn((key: string) => {
+            get: vi.fn((key: string) => {
               switch (key) {
                 case 'resend.apiKey':
                   return 'test-api-key';
