@@ -23,7 +23,6 @@ import {
   DuplicateHoldingSchema,
   type DuplicateHoldingDto,
 } from './dto/duplicate-holding.dto';
-import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('holdings')
@@ -33,7 +32,7 @@ export class HoldingsController {
 
   @Post()
   create(
-    @Body(new ZodValidationPipe(CreateHoldingSchema))
+    @Body({ schema: CreateHoldingSchema })
     createHoldingDto: CreateHoldingDto,
     @Request() req,
   ) {
@@ -47,7 +46,7 @@ export class HoldingsController {
   @Post('duplicate')
   async duplicateMonth(
     @Request() req,
-    @Body(new ZodValidationPipe(DuplicateHoldingSchema))
+    @Body({ schema: DuplicateHoldingSchema })
     body: DuplicateHoldingDto,
   ) {
     const result = await this.holdingsService.duplicateMonth(
@@ -147,7 +146,7 @@ export class HoldingsController {
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body(new ZodValidationPipe(UpdateHoldingSchema))
+    @Body({ schema: UpdateHoldingSchema })
     updateHoldingDto: UpdateHoldingDto,
     @Request() req,
   ) {

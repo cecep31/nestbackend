@@ -123,7 +123,9 @@ export class AuthService {
     const user = await this.validateUser(email, password);
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid email or password', {
+        errorCode: 'AUTH_INVALID_CREDENTIALS',
+      });
     }
 
     const payload = {
@@ -134,7 +136,7 @@ export class AuthService {
 
     const refreshToken = 'pl_' + randomBytes(64).toString('hex');
 
-    const session = await this.prisma.sessions.create({
+    await this.prisma.sessions.create({
       data: {
         user_id: user.id,
         refresh_token: refreshToken,
@@ -170,7 +172,9 @@ export class AuthService {
     });
 
     if (!session?.users) {
-      throw new UnauthorizedException('Invalid refresh token');
+      throw new UnauthorizedException('Invalid refresh token', {
+        errorCode: 'AUTH_INVALID_REFRESH_TOKEN',
+      });
     }
 
     if (!session.expires_at || session.expires_at.getTime() <= Date.now()) {
@@ -179,11 +183,15 @@ export class AuthService {
           refresh_token: refreshToken,
         },
       });
-      throw new UnauthorizedException('Refresh token expired');
+      throw new UnauthorizedException('Refresh token expired', {
+        errorCode: 'AUTH_REFRESH_TOKEN_EXPIRED',
+      });
     }
 
     if (session.users.deleted_at) {
-      throw new UnauthorizedException('User account is no longer available');
+      throw new UnauthorizedException('User account is no longer available', {
+        errorCode: 'AUTH_USER_DELETED',
+      });
     }
 
     const payload = {

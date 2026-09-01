@@ -24,7 +24,6 @@ import { BookmarkPostDto, BookmarkPostSchema } from '../dto/bookmark-post.dto';
 import { type RecordViewDto, RecordViewSchema } from '../dto/record-view.dto';
 import { type PatchPostDto, PatchPostSchema } from '../dto/patch-post.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { ZodValidationPipe } from '../../../common/pipes/zod-validation.pipe';
 
 @Controller('posts')
 export class PostsController {
@@ -67,6 +66,7 @@ export class PostsController {
       data: await this.postsService.getPostRandom(limit),
     };
   }
+
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async getPostsByCreator(
@@ -118,7 +118,7 @@ export class PostsController {
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   async createPost(
-    @Body(new ZodValidationPipe(CreatePostSchema))
+    @Body({ schema: CreatePostSchema })
     createPostDto: CreatePostDto,
     @UploadedFile() file: Express.Multer.File,
     @Request() req,
@@ -137,7 +137,7 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Patch()
   async updatePost(
-    @Body(new ZodValidationPipe(updatePostSchema)) updatePostDto: UpdatePostDto,
+    @Body({ schema: updatePostSchema }) updatePostDto: UpdatePostDto,
     @Request() req,
   ) {
     return {
@@ -151,7 +151,7 @@ export class PostsController {
   @Patch('/:id')
   async patchPost(
     @Param('id') id: string,
-    @Body(new ZodValidationPipe(PatchPostSchema))
+    @Body({ schema: PatchPostSchema })
     patchPostDto: PatchPostDto,
     @Request() req,
   ) {
@@ -169,7 +169,7 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Post('like')
   async likePost(
-    @Body(new ZodValidationPipe(LikePostSchema)) likePostDto: LikePostDto,
+    @Body({ schema: LikePostSchema }) likePostDto: LikePostDto,
     @Request() req,
   ) {
     return {
@@ -212,7 +212,7 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Post('bookmark')
   async bookmarkPost(
-    @Body(new ZodValidationPipe(BookmarkPostSchema))
+    @Body({ schema: BookmarkPostSchema })
     bookmarkPostDto: BookmarkPostDto,
     @Request() req,
   ) {
@@ -278,7 +278,7 @@ export class PostsController {
 
   @Post('view')
   async recordView(
-    @Body(new ZodValidationPipe(RecordViewSchema))
+    @Body({ schema: RecordViewSchema })
     recordViewDto: RecordViewDto,
     @Request() req,
   ) {
@@ -297,15 +297,6 @@ export class PostsController {
       success: true,
       message: 'Successfully recorded view',
       data: await this.postsService.recordView(enrichedDto, user_id),
-    };
-  }
-
-  @Get(':id/views')
-  async getPostViews(@Param('id') id: string) {
-    return {
-      success: true,
-      message: 'Successfully fetched post views',
-      data: await this.postsService.getPostViews(id),
     };
   }
 }

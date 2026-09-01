@@ -28,7 +28,6 @@ import {
 import type { FollowUserDto } from './dto/follow.schema';
 import { followUserSchema } from './dto/follow.schema';
 import { SuperAdminGuard } from '../auth/guards/superadmin.guard';
-import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('users')
@@ -38,16 +37,14 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(
-    @Body(new ZodValidationPipe(createUserSchema)) createUserDto: CreateUserDto,
-  ) {
+  create(@Body({ schema: createUserSchema }) createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Put(':id')
   update(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body(new ZodValidationPipe(updateUserSchema)) updateUserDto: UpdateUserDto,
+    @Body({ schema: updateUserSchema }) updateUserDto: UpdateUserDto,
   ) {
     return this.usersService.update(id, updateUserDto);
   }
@@ -55,7 +52,7 @@ export class UsersController {
   @Put(':id/reset-password')
   resetPassword(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body(new ZodValidationPipe(resetPasswordSchema))
+    @Body({ schema: resetPasswordSchema })
     resetPasswordDto: ResetPasswordDto,
   ) {
     return this.usersService.resetPassword(id, resetPasswordDto);
@@ -91,7 +88,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Post('follow')
   async followUser(
-    @Body(new ZodValidationPipe(followUserSchema)) followUserDto: FollowUserDto,
+    @Body({ schema: followUserSchema }) followUserDto: FollowUserDto,
     @Req() req: any,
   ) {
     await this.usersService.followUser(req.user.user_id, followUserDto.user_id);

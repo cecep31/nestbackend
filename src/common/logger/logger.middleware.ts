@@ -6,7 +6,7 @@ export class LoggerMiddleware implements NestMiddleware {
   private readonly logger = new Logger('HTTP');
 
   /**
-   * Middleware to log HTTP requests and responses with high-resolution timing.
+   * Middleware to log HTTP requests and responses with high-resolution timing and structured logging.
    * Logs method, URL, status, duration, IP, and user-agent. Handles both normal and aborted requests.
    * @param req Express Request
    * @param res Express Response
@@ -25,8 +25,19 @@ export class LoggerMiddleware implements NestMiddleware {
       const [seconds, nanoseconds] = process.hrtime(start);
       const durationMs = Math.round((seconds * 1e9 + nanoseconds) / 1e6); // ms
       const { statusCode } = res;
+
+      // NestJS 12 structured logging: message + metadata object
       this.logger.log(
-        `${method} ${originalUrl} [${event}] - ${statusCode} - ${durationMs}ms - ${ip} - ${userAgent}`,
+        `${method} ${originalUrl} [${event}] ${statusCode} ${durationMs}ms`,
+        {
+          method,
+          url: originalUrl,
+          event,
+          statusCode,
+          durationMs,
+          ip,
+          userAgent,
+        },
       );
     };
 

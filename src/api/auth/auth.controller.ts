@@ -16,7 +16,6 @@ import {
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
-import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import type { LoginDto } from './dto/loogin-schema';
 import { loginSchema } from './dto/loogin-schema';
 import type { RegisterDto } from './dto/register-schema';
@@ -34,9 +33,7 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
-  async register(
-    @Body(new ZodValidationPipe(registerSchema)) registerDto: RegisterDto,
-  ) {
+  async register(@Body({ schema: registerSchema }) registerDto: RegisterDto) {
     try {
       const data = await this.authService.register(
         registerDto.username,
@@ -49,26 +46,32 @@ export class AuthController {
         message: 'User registered successfully',
       };
     } catch (error: any) {
-      throw new BadRequestException({
-        success: false,
-        message: error.message || 'Registration failed',
-      });
+      throw new BadRequestException(
+        {
+          success: false,
+          message: error.message || 'Registration failed',
+        },
+        { errorCode: 'AUTH_REGISTRATION_FAILED' },
+      );
     }
   }
 
   @Post('login')
   @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 attempts per minute
   @HttpCode(HttpStatus.OK)
-  async signIn(@Body(new ZodValidationPipe(loginSchema)) loginDto: LoginDto) {
+  async signIn(@Body({ schema: loginSchema }) loginDto: LoginDto) {
     const data = await this.authService.signIn(
       loginDto.email,
       loginDto.password,
     );
     if (!data) {
-      throw new UnauthorizedException({
-        success: false,
-        message: 'Invalid credentials',
-      });
+      throw new UnauthorizedException(
+        {
+          success: false,
+          message: 'Invalid credentials',
+        },
+        { errorCode: 'AUTH_INVALID_CREDENTIALS' },
+      );
     }
     return {
       data,
@@ -80,7 +83,7 @@ export class AuthController {
   @Post('check-username')
   @HttpCode(HttpStatus.OK)
   async checkUsername(
-    @Body(new ZodValidationPipe(checkUsernameSchema))
+    @Body({ schema: checkUsernameSchema })
     checkUsernameDto: CheckUsernameDto,
   ) {
     const data = await this.authService.checkUsernameAvailability(
@@ -134,17 +137,20 @@ export class AuthController {
 
   @Post('refresh-token')
   async refreshToken(
-    @Body(new ZodValidationPipe(refreshTokenSchema))
+    @Body({ schema: refreshTokenSchema })
     refreshTokenDto: RefreshTokenDto,
   ) {
     const data = await this.authService.refreshToken(
       refreshTokenDto.refresh_token,
     );
     if (!data) {
-      throw new UnauthorizedException({
-        success: false,
-        message: 'Invalid credentials',
-      });
+      throw new UnauthorizedException(
+        {
+          success: false,
+          message: 'Invalid credentials',
+        },
+        { errorCode: 'AUTH_INVALID_REFRESH_TOKEN' },
+      );
     }
     return {
       data,

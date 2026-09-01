@@ -19,7 +19,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { PostsService } from '../posts.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { SuperAdminGuard } from '../../auth/guards/superadmin.guard';
-import { ZodValidationPipe } from '../../../common/pipes/zod-validation.pipe';
 import {
   AdminCreatePostSchema,
   AdminUpdatePostSchema,
@@ -40,7 +39,7 @@ export class AdminPostsController {
 
   @Get()
   async findAll(
-    @Query(new ZodValidationPipe(AdminPostQuerySchema))
+    @Query({ schema: AdminPostQuerySchema })
     query: AdminPostQueryDto,
   ) {
     try {
@@ -52,8 +51,10 @@ export class AdminPostsController {
         data: posts,
         meta: metadata,
       };
-    } catch (error) {
-      this.logger.error(`Failed to fetch admin posts: ${error.message}`);
+    } catch (error: any) {
+      this.logger.error('Failed to fetch admin posts', {
+        error: error.message,
+      });
       throw error;
     }
   }
@@ -68,8 +69,8 @@ export class AdminPostsController {
         message: 'Successfully fetched post statistics',
         data: stats,
       };
-    } catch (error) {
-      this.logger.error(`Failed to fetch post stats: ${error.message}`);
+    } catch (error: any) {
+      this.logger.error('Failed to fetch post stats', { error: error.message });
       throw error;
     }
   }
@@ -91,8 +92,8 @@ export class AdminPostsController {
         message: 'Successfully fetched post',
         data: post,
       };
-    } catch (error) {
-      this.logger.error(`Failed to fetch post ${id}: ${error.message}`);
+    } catch (error: any) {
+      this.logger.error('Failed to fetch post', { id, error: error.message });
       throw error;
     }
   }
@@ -100,7 +101,7 @@ export class AdminPostsController {
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   async createPost(
-    @Body(new ZodValidationPipe(AdminCreatePostSchema))
+    @Body({ schema: AdminCreatePostSchema })
     createPostDto: AdminCreatePostDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
@@ -112,8 +113,8 @@ export class AdminPostsController {
         message: 'Successfully created post',
         data: post,
       };
-    } catch (error) {
-      this.logger.error(`Failed to create post: ${error.message}`);
+    } catch (error: any) {
+      this.logger.error('Failed to create post', { error: error.message });
       throw error;
     }
   }
@@ -121,7 +122,7 @@ export class AdminPostsController {
   @Put()
   @UseInterceptors(FileInterceptor('image'))
   async updatePost(
-    @Body(new ZodValidationPipe(AdminUpdatePostSchema))
+    @Body({ schema: AdminUpdatePostSchema })
     updatePostDto: AdminUpdatePostDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
@@ -133,10 +134,11 @@ export class AdminPostsController {
         message: 'Successfully updated post',
         data: post,
       };
-    } catch (error) {
-      this.logger.error(
-        `Failed to update post ${updatePostDto.id}: ${error.message}`,
-      );
+    } catch (error: any) {
+      this.logger.error('Failed to update post', {
+        id: updatePostDto.id,
+        error: error.message,
+      });
       throw error;
     }
   }
@@ -144,7 +146,7 @@ export class AdminPostsController {
   @Patch('bulk')
   @HttpCode(HttpStatus.OK)
   async bulkOperation(
-    @Body(new ZodValidationPipe(AdminBulkOperationSchema))
+    @Body({ schema: AdminBulkOperationSchema })
     bulkOperationDto: AdminBulkOperationDto,
   ) {
     try {
@@ -156,8 +158,10 @@ export class AdminPostsController {
         message: `Successfully processed ${result.successful} posts`,
         data: result,
       };
-    } catch (error) {
-      this.logger.error(`Failed to process bulk operation: ${error.message}`);
+    } catch (error: any) {
+      this.logger.error('Failed to process bulk operation', {
+        error: error.message,
+      });
       throw error;
     }
   }
@@ -175,10 +179,11 @@ export class AdminPostsController {
         message: 'Successfully updated post publish status',
         data: post,
       };
-    } catch (error) {
-      this.logger.error(
-        `Failed to update publish status for post ${id}: ${error.message}`,
-      );
+    } catch (error: any) {
+      this.logger.error('Failed to update publish status for post', {
+        id,
+        error: error.message,
+      });
       throw error;
     }
   }
@@ -193,8 +198,11 @@ export class AdminPostsController {
         message: 'Successfully deleted post',
         data: null,
       };
-    } catch (error) {
-      this.logger.error(`Failed to delete post ${id}: ${error.message}`);
+    } catch (error: any) {
+      this.logger.error('Failed to delete post', {
+        id,
+        error: error.message,
+      });
       throw error;
     }
   }

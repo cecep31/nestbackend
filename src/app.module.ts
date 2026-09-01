@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PagesModule } from './api/note/pages/pages.module';
 import { WorkspacesModule } from './api/note/workspaces/workspaces.module';
 import configuration from './config/configuration';
+import { envSchema } from './config/env.schema';
 import { PrismaService } from './prisma.service';
 import { LoggerMiddleware } from './common/logger/logger.middleware';
 import { TagsModule } from './api/tags/tags.module';
@@ -26,6 +27,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
   imports: [
     ConfigModule.forRoot({
       load: [configuration],
+      validationSchema: envSchema,
       isGlobal: true,
     }),
     ThrottlerModule.forRootAsync({

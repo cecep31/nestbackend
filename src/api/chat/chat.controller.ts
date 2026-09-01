@@ -28,7 +28,7 @@ import {
   createConversationSchema,
 } from './dto/create-conversation.dto';
 import { type SendMessageDto, sendMessageSchema } from './dto/send-message.dto';
-import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
+
 @Controller('chat')
 @UseGuards(JwtAuthGuard)
 export class ChatController {
@@ -38,7 +38,7 @@ export class ChatController {
   @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 requests per minute for creating conversations
   async createConversation(
     @Req() req: RequestWithUser,
-    @Body(new ZodValidationPipe(createConversationSchema))
+    @Body({ schema: createConversationSchema })
     createConversationDto: CreateConversationDto,
   ) {
     return {
@@ -56,7 +56,7 @@ export class ChatController {
   sendMessage(
     @Req() req: RequestWithUser,
     @Param('id') conversationId: string,
-    @Body(new ZodValidationPipe(sendMessageSchema))
+    @Body({ schema: sendMessageSchema })
     sendMessageDto: SendMessageDto,
   ) {
     return {
@@ -121,7 +121,7 @@ export class ChatController {
     @Req() req: RequestWithUser,
     @Res() res: Response,
     @Param('id') conversationId: string,
-    @Body(new ZodValidationPipe(sendMessageSchema))
+    @Body({ schema: sendMessageSchema })
     sendMessageDto: SendMessageDto,
   ): void {
     // Set headers for SSE-like streaming response

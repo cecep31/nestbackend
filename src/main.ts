@@ -1,4 +1,9 @@
-import { ValidationPipe, Logger, INestApplication } from '@nestjs/common';
+import {
+  Logger,
+  ConsoleLogger,
+  INestApplication,
+  StandardSchemaValidationPipe,
+} from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { AppModule, ObserveInstrument } from './app.module';
@@ -18,11 +23,9 @@ function configureApp(app: INestApplication) {
     credentials: true,
   });
 
-  // Global validation pipe
+  // Global standard schema validation pipe (NestJS 12 native Standard Schema support)
   app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
+    new StandardSchemaValidationPipe({
       transform: true,
     }),
   );
@@ -38,7 +41,11 @@ function setupErrorHandlers(logger: Logger) {
   });
 
   process.on('unhandledRejection', (reason) => {
-    logger.error('Unhandled Rejection', reason);
+    const message =
+      reason instanceof Error
+        ? reason.stack || reason.message
+        : JSON.stringify(reason);
+    logger.error('Unhandled Rejection', message);
   });
 }
 
@@ -46,19 +53,33 @@ function setupErrorHandlers(logger: Logger) {
  * Bootstrap the NestJS application
  */
 async function bootstrap() {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const appLogger = new ConsoleLogger({
+    json: isProduction,
+    structuredParams: true,
+    flattenParams: true,
+  });
+
   const logger = new Logger('Bootstrap');
 
   try {
-    // Create the NestJS application
+    // Create the NestJS application with NestJS 12 features
     const app = await NestFactory.create(AppModule, {
+      logger: appLogger,
       abortOnError: false,
       instrument: ObserveInstrument,
+      routeConflictPolicy: {
+        duplicate: 'warn',
+        shadow: 'warn',
+      },
+      routeResolutionStrategy: 'specificity',
+      return503OnClosing: true,
     });
 
     // Configure application
     configureApp(app);
 
-    // Enable graceful shutdown hooks
+    // Enable graceful shutdown hooks with request draining
     app.enableShutdownHooks();
 
     // Get configuration service
@@ -73,12 +94,16 @@ async function bootstrap() {
     // Start the application
     await app.listen(port, host);
 
-    logger.log(`Application is running on: http://${host}:${port}`);
-    logger.log(`Environment: ${nodeEnv}`);
-  } catch (error) {
-    logger.error('Failed to start application', error.stack);
+    logger.log('Application is running', {
+      url: `http://${host}:${port}`,
+      environment: nodeEnv,
+      port,
+      host,
+    });
+  } catch (error: any) {
+    logger.error('Failed to start application', error?.stack || error);
     process.exit(1);
   }
 }
 
-bootstrap();
+void bootstrap();

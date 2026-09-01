@@ -8,15 +8,24 @@ import {
   Delete,
 } from '@nestjs/common';
 import { WorkspacesService } from './workspaces.service';
-import type { CreateWorkspaceDto } from './dto/create-workspace.dto';
-import type { UpdateWorkspaceDto } from './dto/update-workspace.dto';
+import {
+  CreateWorkspaceSchema,
+  type CreateWorkspaceDto,
+} from './dto/create-workspace.dto';
+import {
+  UpdateWorkspaceSchema,
+  type UpdateWorkspaceDto,
+} from './dto/update-workspace.dto';
 
 @Controller('workspaces')
 export class WorkspacesController {
   constructor(private readonly workspacesService: WorkspacesService) {}
 
   @Post()
-  create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
+  create(
+    @Body({ schema: CreateWorkspaceSchema })
+    createWorkspaceDto: CreateWorkspaceDto,
+  ) {
     return this.workspacesService.create(createWorkspaceDto);
   }
 
@@ -33,7 +42,8 @@ export class WorkspacesController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateWorkspaceDto: UpdateWorkspaceDto,
+    @Body({ schema: UpdateWorkspaceSchema })
+    updateWorkspaceDto: UpdateWorkspaceDto,
   ) {
     return this.workspacesService.update(+id, updateWorkspaceDto);
   }
